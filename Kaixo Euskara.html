@@ -1,0 +1,728 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kaixo Euskara</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+/* Layout: una columna tipo app móvil (máx. 600px): barra de estado arriba, camino de lecciones en zigzag; las lecciones abren a pantalla completa */
+:root{
+  --bg:#ffffff; --fg:#3c3c3c; --muted:#7a7f80; --line:#e5e5e5; --soft:#f7f7f7;
+  --green:#58cc02; --green-dk:#46a302;
+  --red:#e5483c; --red-dk:#b8362c;
+  --blue:#1cb0f6; --blue-dk:#1899d6;
+  --gold:#ffc800; --gold-dk:#e0a800;
+  --locked:#e5e5e5; --locked-dk:#c9c9c9; --locked-fg:#afafaf;
+  --sel-bg:#ddf4ff; --sel-line:#84d8ff; --sel-fg:#1899d6;
+  --ok-bg:#d7ffb8; --ok-fg:#58a700; --bad-bg:#ffdfe0; --bad-fg:#ea2b2b;
+  --flame:#ff9600; --heart:#ff4b4b;
+  --font:"Nunito","Varela Round","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131f24; --fg:#f1f7fb; --muted:#8a9ba5; --line:#37464f; --soft:#1b2a31;
+  --locked:#37464f; --locked-dk:#283840; --locked-fg:#5d6f78;
+  --sel-bg:#1a3a4a; --sel-line:#3f8fb5; --sel-fg:#49c0f8;
+  --ok-bg:#1f3318; --ok-fg:#79d634; --bad-bg:#3a1f22; --bad-fg:#ff6b6b;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131f24; --fg:#f1f7fb; --muted:#8a9ba5; --line:#37464f; --soft:#1b2a31;
+  --locked:#37464f; --locked-dk:#283840; --locked-fg:#5d6f78;
+  --sel-bg:#1a3a4a; --sel-line:#3f8fb5; --sel-fg:#49c0f8;
+  --ok-bg:#1f3318; --ok-fg:#79d634; --bad-bg:#3a1f22; --bad-fg:#ff6b6b;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;font-weight:700;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+
+/* ---------- barra superior ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--line)}
+.top-in{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wordmark{font-weight:900;font-size:26px;color:var(--green);letter-spacing:-.02em}
+.stats{display:flex;gap:14px;align-items:center}
+.stat{display:flex;align-items:center;gap:4px;font-weight:800;font-variant-numeric:tabular-nums}
+.stat svg{width:22px;height:22px}
+.icon-btn{background:none;border:2px solid var(--line);border-radius:12px;width:38px;height:38px;display:grid;place-items:center;color:var(--muted)}
+.icon-btn svg{width:20px;height:20px}
+
+/* ---------- home ---------- */
+.wrap{max-width:600px;margin:0 auto;padding-block:18px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+.hero{display:flex;gap:14px;align-items:center;border:2px solid var(--line);border-radius:20px;padding:16px}
+.hero svg.mascot{width:86px;height:86px;flex:none}
+.hero-txt{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1}
+.hero-txt h1{font-size:20px;font-weight:900}
+.hero-txt p{color:var(--muted);font-weight:700;line-height:1.4}
+.goal{display:flex;flex-direction:column;gap:5px}
+.goal-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:800}
+.bar{height:14px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--gold);border-radius:99px;transition:width .5s ease;position:relative}
+.bar>i::after{content:"";position:absolute;left:8px;right:8px;top:3px;height:3px;border-radius:9px;background:rgba(255,255,255,.4)}
+
+.unit{display:flex;flex-direction:column;gap:22px}
+.unit-head{background:var(--u);color:#fff;border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 0 var(--ud)}
+.unit-head .eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;font-weight:800}
+.unit-head h2{font-size:22px;font-weight:900}
+.unit-head p.sub{font-weight:700;opacity:.92;margin-top:2px}
+.tips-btn{flex:none;background:transparent;border:2px solid rgba(255,255,255,.45);color:#fff;border-radius:14px;padding:10px 12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:13px;display:flex;gap:6px;align-items:center}
+.tips-btn svg{width:18px;height:18px}
+.path{display:flex;flex-direction:column;align-items:center;gap:26px;padding-block:6px}
+.node-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
+.node{width:74px;height:68px;border-radius:50%;border:0;display:grid;place-items:center;background:var(--u);box-shadow:0 7px 0 var(--ud);color:#fff;transition:transform .08s,box-shadow .08s}
+.node svg{width:34px;height:34px}
+.node:active{transform:translateY(5px);box-shadow:0 2px 0 var(--ud)}
+.node.done{background:var(--gold);box-shadow:0 7px 0 var(--gold-dk)}
+.node.locked{background:var(--locked);box-shadow:0 7px 0 var(--locked-dk);color:var(--locked-fg)}
+.node-label{font-size:14px;color:var(--muted);font-weight:800;text-align:center;max-width:150px}
+.node-wrap.current .node{outline:5px solid color-mix(in srgb,var(--u) 25%,transparent);outline-offset:5px}
+.start-tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:var(--bg);color:var(--u);border:2px solid var(--line);border-radius:12px;padding:7px 12px;font-weight:900;font-size:14px;letter-spacing:.06em;white-space:nowrap;animation:bob 1.2s ease-in-out infinite}
+.start-tip::after{content:"";position:absolute;top:100%;left:50%;width:12px;height:12px;background:var(--bg);border-right:2px solid var(--line);border-bottom:2px solid var(--line);transform:translate(-50%,-6px) rotate(45deg)}
+@keyframes bob{50%{transform:translate(-50%,-5px)}}
+.foot-note{color:var(--muted);font-size:14px;text-align:center;line-height:1.5;display:flex;flex-direction:column;gap:10px;align-items:center}
+.link-btn{background:none;border:0;color:var(--blue-dk);font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:13px;padding:6px}
+
+/* ---------- botones ---------- */
+.btn{border:0;border-radius:16px;padding:14px 22px;font-weight:900;font-size:16px;letter-spacing:.06em;text-transform:uppercase;background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-dk);transition:transform .06s,box-shadow .06s;min-width:150px}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--green-dk)}
+.btn:disabled{background:var(--locked);color:var(--locked-fg);box-shadow:0 4px 0 var(--locked-dk);cursor:default;transform:none}
+.btn.red{background:var(--bad-fg);box-shadow:0 4px 0 #c42020}
+.btn.ghost{background:var(--bg);color:var(--muted);border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
+
+/* ---------- lección ---------- */
+.lesson{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.ls-top{max-width:640px;width:100%;margin:0 auto;display:flex;align-items:center;gap:14px;padding-block:16px 8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.ls-top .bar{flex:1;height:16px}
+.ls-top .bar>i{background:var(--green)}
+.close{background:none;border:0;color:var(--muted);padding:4px;display:grid;place-items:center}
+.close svg{width:26px;height:26px}
+.hearts{display:flex;align-items:center;gap:4px;color:var(--heart);font-weight:900;font-variant-numeric:tabular-nums}
+.hearts svg{width:26px;height:26px}
+.ls-body{flex:1;overflow-y:auto;overflow-x:hidden}
+.ls-inner{max-width:600px;margin:0 auto;padding-block:18px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.ex-label{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--u, var(--green));font-weight:900;display:flex;align-items:center;gap:6px}
+.ex-title{font-size:26px;font-weight:900;line-height:1.2}
+
+.foot{border-top:2px solid var(--line);background:var(--bg);padding-bottom:env(safe-area-inset-bottom,0px)}
+.foot.ok{background:var(--ok-bg);border-color:transparent}
+.foot.bad{background:var(--bad-bg);border-color:transparent}
+.foot-in{max-width:640px;margin:0 auto;padding-block:18px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.fb{display:flex;gap:12px;align-items:center;min-width:0;flex:1 1 260px}
+.fb-ic{width:52px;height:52px;border-radius:50%;background:var(--bg);display:grid;place-items:center;flex:none}
+.fb-ic svg{width:30px;height:30px}
+.foot.ok .fb, .foot.ok .fb-ic{color:var(--ok-fg)}
+.foot.bad .fb, .foot.bad .fb-ic{color:var(--bad-fg)}
+.fb h3{font-size:22px;font-weight:900}
+.fb p{font-size:16px;margin-top:3px;line-height:1.35}
+.fb .meaning{opacity:.8;font-weight:700}
+.foot.ok .btn{background:var(--green);box-shadow:0 4px 0 var(--green-dk)}
+.foot.bad .btn{background:var(--bad-fg);box-shadow:0 4px 0 #c42020}
+.foot-btns{display:flex;gap:10px;margin-left:auto}
+
+/* tarjeta nueva */
+.intro-card{border:2px solid var(--line);border-radius:20px;padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.intro-card .em{font-size:64px;line-height:1}
+.intro-card .eu{font-size:34px;font-weight:900;color:var(--fg);display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.intro-card .es{font-size:20px;color:var(--muted)}
+.tip{background:var(--soft);border-radius:14px;padding:12px 14px;font-weight:700;line-height:1.45;color:var(--fg);text-align:left;width:100%}
+.tip b{color:var(--u, var(--green))}
+.spk{border:0;background:var(--blue);color:#fff;width:46px;height:46px;border-radius:14px;display:inline-grid;place-items:center;box-shadow:0 4px 0 var(--blue-dk);flex:none}
+.spk:active{transform:translateY(4px);box-shadow:none}
+.spk svg{width:24px;height:24px}
+.spk.big{width:96px;height:84px;border-radius:20px}
+.spk.big svg{width:44px;height:44px}
+.spk.slow{width:64px;height:58px;border-radius:16px;font-size:13px;font-weight:900}
+
+/* opciones */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.card{border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;background:var(--bg);padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:18px;font-weight:800}
+.card .em{font-size:52px;line-height:1}
+.opt-list{display:flex;flex-direction:column;gap:12px}
+.opt{border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;background:var(--bg);padding:14px 16px;display:flex;align-items:center;gap:14px;font-size:18px;font-weight:700;text-align:left}
+.opt .k{width:30px;height:30px;border:2px solid var(--line);border-radius:9px;display:grid;place-items:center;font-size:14px;color:var(--muted);flex:none}
+.sel{border-color:var(--sel-line)!important;background:var(--sel-bg)!important;color:var(--sel-fg)!important}
+.sel .k{border-color:var(--sel-line);color:var(--sel-fg)}
+.card:active,.opt:active,.tile:active,.mt:active{transform:translateY(2px)}
+
+/* frase fuente */
+.source{display:flex;align-items:flex-end;gap:10px}
+.source svg.mascot{width:78px;height:78px;flex:none}
+.bubble{border:2px solid var(--line);border-radius:16px;padding:12px 14px;font-size:19px;position:relative;display:flex;gap:10px;align-items:center;min-width:0}
+.bubble::before{content:"";position:absolute;left:-8px;bottom:18px;width:12px;height:12px;background:var(--bg);border-left:2px solid var(--line);border-bottom:2px solid var(--line);transform:rotate(45deg)}
+.bubble .spk{width:38px;height:38px;border-radius:11px}
+.bubble .spk svg{width:20px;height:20px}
+
+/* constructor */
+.answer{min-height:122px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:4px 0;background:repeating-linear-gradient(to bottom,transparent 0 56px,var(--line) 56px 58px,transparent 58px 61px)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tile{border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;background:var(--bg);padding:9px 14px;font-size:18px;font-weight:700}
+.tile.used{background:var(--line);color:transparent;border-color:var(--line);pointer-events:none}
+
+/* parejas */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match .col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.mt{border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:var(--bg);padding:14px 8px;font-size:17px;font-weight:700;min-height:58px}
+.mt.done{opacity:.35;pointer-events:none;border-color:var(--line);background:var(--bg);color:var(--muted)}
+.mt.wrong{border-color:var(--bad-fg);background:var(--bad-bg);color:var(--bad-fg);animation:shake .3s}
+.mt.right{border-color:var(--ok-fg);background:var(--ok-bg);color:var(--ok-fg)}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* completar */
+.fill-line{font-size:24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.blank{min-width:90px;border-bottom:3px solid var(--line);text-align:center;padding:2px 8px;color:var(--sel-fg)}
+.meaning-line{color:var(--muted);font-size:17px}
+
+/* escribir */
+.type-in{width:100%;border:2px solid var(--line);border-radius:16px;background:var(--soft);color:var(--fg);font:inherit;font-size:20px;padding:16px;min-height:110px;resize:none}
+
+/* diálogo */
+.chat{display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;gap:10px;align-items:flex-end;max-width:88%}
+.msg.ane{align-self:flex-end;flex-direction:row-reverse}
+.ava{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;flex:none}
+.msg.mikel .ava{background:var(--blue)}
+.msg.ane .ava{background:var(--red)}
+.mb{border:2px solid var(--line);border-radius:16px;padding:10px 13px;min-width:0}
+.mb .t{font-size:18px}
+.mb .s{font-size:14px;color:var(--muted);margin-top:3px}
+.msg.ane .mb{background:var(--soft)}
+.msg.q .mb{border-color:var(--blue)}
+
+/* resultados */
+.result{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+.result svg.mascot{width:140px;height:140px}
+.result h2{font-size:30px;font-weight:900;color:var(--gold-dk)}
+.result.fail h2{color:var(--bad-fg)}
+.result .lead{color:var(--muted);font-size:18px}
+.chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.chip{border:2px solid var(--c);border-radius:16px;overflow:hidden;min-width:104px}
+.chip .h{background:var(--c);color:#fff;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;font-weight:900}
+.chip .v{padding:12px 8px;font-size:22px;font-weight:900;color:var(--c);font-variant-numeric:tabular-nums}
+
+/* modal consejos */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:600px;max-height:88%;overflow-y:auto;border-radius:22px 22px 0 0;padding:22px max(18px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px}
+.sheet h2{font-size:24px;font-weight:900;color:var(--u)}
+.sheet h3{font-size:18px;font-weight:900;margin-top:4px}
+.sheet p,.sheet li{line-height:1.55;font-weight:600;max-width:65ch}
+.sheet ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.sheet table{border-collapse:collapse;width:100%;font-weight:700}
+.sheet td{border-bottom:2px solid var(--line);padding:8px 6px}
+.sheet td:first-child{color:var(--u);font-weight:900;width:38%}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:800;z-index:70;max-width:calc(100% - 32px);text-align:center}
+
+@media (max-width:420px){.ex-title{font-size:22px}.intro-card .eu{font-size:28px}.cards{grid-template-columns:repeat(2,1fr)}.card .em{font-size:42px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark">kaixo</div>
+    <div class="stats">
+      <span class="stat" title="Racha de días"><svg viewBox="0 0 24 24"><path fill="var(--flame)" d="M12.2 2c.9 3.3 5.3 5.6 5.3 10.7A5.6 5.6 0 0 1 6.4 13c0-2.2 1-3.9 2.3-5 .1 2 1 3.2 2.2 3.4-.4-3.2.1-6.5 1.3-9.4z"/></svg><span id="sStreak">0</span></span>
+      <span class="stat" title="Experiencia total"><svg viewBox="0 0 24 24"><path fill="var(--gold)" d="M13.5 2 4.5 13.5h6l-1 8.5 9-11.5h-6z"/></svg><span id="sXp">0</span></span>
+      <button class="icon-btn" id="soundBtn" aria-label="Sonido activado"></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="home"></main>
+
+<div class="lesson" id="lesson" hidden></div>
+<div class="modal" id="modal" hidden></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ================== CONTENIDO ================== */
+const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓'};
+const I=(eu,es,tip)=>({t:'intro',eu,es,tip});
+const P=(es,eu,wrong)=>({t:'pick',es,eu,opts:[eu,...wrong]});
+const C=(prompt,speak,opts,ans,meaning)=>({t:'choice',prompt,speak,opts,ans,meaning});
+const B=(dir,src,answers,extra)=>({t:'build',dir,src,answers,extra});
+const M=(pairs)=>({t:'match',pairs});
+const L=(eu,extra,es)=>({t:'listen',eu,extra,es});
+const T=(es,answers)=>({t:'type',es,answers});
+const F=(es,before,after,opts,ans)=>({t:'fill',es,before,after,opts,ans});
+const D=(hist,opts,ans,aes)=>({t:'dialog',hist,opts,ans,aes});
+
+const CONV=[
+ {m:'Kaixo! Zer moduz?',es:'¡Hola! ¿Qué tal?',a:'Oso ondo, eta zu?',aes:'Muy bien, ¿y tú?',wrong:['Bihar arte!','Ez horregatik.']},
+ {m:'Ondo. Nor zara zu?',es:'Bien. ¿Quién eres tú?',a:'Ni Ane naiz.',aes:'Yo soy Ane.',wrong:['Zu Ane zara.','Nongoa zara?']},
+ {m:'Pozten naiz zu ezagutzeaz! Nongoa zara?',es:'¡Encantado de conocerte! ¿De dónde eres?',a:'Bilbokoa naiz.',aes:'Soy de Bilbao.',wrong:['Bai, mesedez.','Bilbokoa zara.']},
+ {m:'Ni Donostiakoa naiz. Ikaslea zara?',es:'Yo soy de San Sebastián. ¿Eres estudiante?',a:'Bai, ikaslea naiz.',aes:'Sí, soy estudiante.',wrong:['Ez, gaizki.','Bai, ikaslea zara.']},
+ {m:'Ni ere bai! Gero arte, Ane!',es:'¡Yo también! ¡Hasta luego, Ane!',a:'Agur, Mikel!',aes:'¡Adiós, Mikel!',wrong:['Egun on, Mikel!','Nire izena Mikel da.']},
+];
+function convo(n){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:CONV[i].m,es:CONV[i].es});h.push({who:'Ane',eu:CONV[i].a,es:CONV[i].aes});}
+  const c=CONV[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
+
+const UNITS=[
+{ id:'u1', n:1, title:'Saludos', sub:'Hola, adiós, gracias y qué tal', color:'#58cc02', dark:'#46a302',
+  tips:`<h3>Se lee casi como el español</h3>
+  <p>El euskera se escribe tal como suena y no lleva tildes. Casi todas las letras suenan como en español, salvo estas:</p>
+  <table><tbody>
+  <tr><td>z</td><td>como la «s» española: <i>zu</i> = «su»</td></tr>
+  <tr><td>s</td><td>una «s» más silbante, con la punta de la lengua</td></tr>
+  <tr><td>tx</td><td>como «ch»: <i>Kaixo</i> se acerca a «kaisho», <i>txapela</i> = «chapela»</td></tr>
+  <tr><td>x</td><td>como «sh» suave: <i>Kaixo</i> ≈ «kái-sho»</td></tr>
+  <tr><td>tz</td><td>como «ts»: <i>Gasteiz</i></td></tr>
+  <tr><td>h</td><td>muda en la mayoría de zonas</td></tr>
+  <tr><td>j</td><td>«j» o «y» según la zona</td></tr>
+  </tbody></table>
+  <h3>«On» significa «bueno»</h3>
+  <p>El adjetivo va detrás del nombre: <i>egun on</i> es literalmente «día bueno», y <i>arratsalde on</i>, «tarde buena».</p>
+  <h3>Dos palabras comodín</h3>
+  <ul><li><b>asko</b> = mucho → <i>eskerrik asko</i>, muchas gracias</li><li><b>arte</b> = hasta → <i>gero arte</i>, hasta luego; <i>bihar arte</i>, hasta mañana</li></ul>
+  <p style="color:var(--muted)">El audio usa una voz en euskera si tu dispositivo la tiene. Si no, usa una voz en español, que se acerca pero no pronuncia bien tx, tz ni x.</p>`,
+  lessons:[
+  { id:'l1', title:'Hola y adiós', ex:[
+    I('Kaixo','Hola','Se usa a cualquier hora, como «hola».'),
+    I('Agur','Adiós','También puede ser un saludo algo formal.'),
+    P('Hola','Kaixo',['Agur']),
+    I('Egun on','Buenos días','Literalmente «día bueno»: <b>on</b> significa «bueno».'),
+    P('Buenos días','Egun on',['Kaixo','Agur']),
+    I('Arratsalde on','Buenas tardes','<b>arratsalde</b> = tarde'),
+    I('Gabon','Buenas noches','Curiosidad: <b>Gabonak</b> es la Navidad.'),
+    C('¿Qué significa «Arratsalde on»?','Arratsalde on',['Buenas tardes','Buenas noches','Buenos días'],'Buenas tardes'),
+    M([['Kaixo','Hola'],['Agur','Adiós'],['Egun on','Buenos días'],['Gabon','Buenas noches'],['Arratsalde on','Buenas tardes']]),
+    B('eu2es','Kaixo, egun on!',['Hola, buenos días'],['tardes','adiós','noches']),
+    L('Agur, gabon!',['kaixo','on'],'¡Adiós, buenas noches!'),
+    T('Hola',['kaixo']),
+  ]},
+  { id:'l2', title:'Gracias y por favor', ex:[
+    I('Eskerrik asko','Muchas gracias','<b>asko</b> = mucho. Es la forma habitual de dar las gracias.'),
+    I('Ez horregatik','De nada','Literalmente «no por eso».'),
+    P('Muchas gracias','Eskerrik asko',['Ez horregatik','Kaixo']),
+    I('Mesedez','Por favor'),
+    I('Bai','Sí'),
+    I('Ez','No','Ya la conoces: aparece en <b>ez</b> horregatik.'),
+    C('¿Qué significa «Mesedez»?','Mesedez',['Por favor','De nada','Gracias'],'Por favor'),
+    P('No','Ez',['Bai','Agur']),
+    M([['Bai','Sí'],['Ez','No'],['Mesedez','Por favor'],['Eskerrik asko','Muchas gracias'],['Ez horregatik','De nada']]),
+    B('es2eu','Sí, por favor',['Bai, mesedez'],['ez','asko','agur']),
+    B('eu2es','Eskerrik asko! Ez horregatik.',['Muchas gracias. De nada.'],['por','favor','sí']),
+    L('Bai, eskerrik asko',['ez','mesedez'],'Sí, muchas gracias'),
+    T('Por favor',['mesedez']),
+  ]},
+  { id:'l3', title:'¿Qué tal?', ex:[
+    I('Zer moduz?','¿Qué tal?','La pregunta más común después de saludar.'),
+    I('Ondo','Bien'),
+    I('Oso ondo','Muy bien','<b>oso</b> = muy. Va delante, como en español.'),
+    I('Gaizki','Mal'),
+    C('¿Qué significa «Oso ondo»?','Oso ondo',['Muy bien','Bien','Mal'],'Muy bien'),
+    I('Eta zu?','¿Y tú?','<b>eta</b> = y · <b>zu</b> = tú (y también usted)'),
+    B('es2eu','Bien, ¿y tú?',['Ondo, eta zu?'],['oso','gaizki','bai']),
+    I('Gero arte','Hasta luego','<b>arte</b> = hasta'),
+    I('Bihar arte','Hasta mañana','<b>bihar</b> = mañana'),
+    P('Hasta luego','Gero arte',['Bihar arte','Gabon']),
+    M([['Zer moduz?','¿Qué tal?'],['Ondo','Bien'],['Gaizki','Mal'],['Gero arte','Hasta luego'],['Bihar arte','Hasta mañana']]),
+    D([{who:'Mikel',eu:'Kaixo! Zer moduz?',es:'¡Hola! ¿Qué tal?'}],['Oso ondo, eta zu?','Bihar arte!','Mesedez.'],'Oso ondo, eta zu?','Muy bien, ¿y tú?'),
+    L('Oso ondo, eta zu?',['gaizki','bai'],'Muy bien, ¿y tú?'),
+    T('Hasta mañana',['bihar arte']),
+  ]},
+]},
+{ id:'u2', n:2, title:'Presentarse', sub:'Quién eres, cómo te llamas, de dónde eres', color:'#e5483c', dark:'#b8362c',
+  tips:`<h3>El verbo va al final</h3>
+  <p>En euskera el verbo suele ir al final de la frase. <i>Ni Ane naiz</i> es, palabra por palabra, «Yo Ane soy».</p>
+  <h3>El verbo «ser» (izan)</h3>
+  <table><tbody>
+  <tr><td>ni naiz</td><td>yo soy</td></tr>
+  <tr><td>zu zara</td><td>tú eres / usted es</td></tr>
+  <tr><td>hura da</td><td>él / ella es</td></tr>
+  </tbody></table>
+  <p>Como en español, el «yo» se puede omitir: <i>Ane naiz</i> = «Soy Ane».</p>
+  <h3>«Zu» vale para tú y para usted</h3>
+  <p>No hace falta elegir entre tú y usted: <i>zu</i> sirve para ambos. Existe otra forma, <i>hi</i>, muy coloquial, que de momento no necesitas.</p>
+  <h3>De dónde eres: -koa / -goa</h3>
+  <p>Para decir de dónde eres, añade <b>-koa</b> al lugar: <i>Bilbo → Bilbokoa</i>, <i>Gasteiz → Gasteizkoa</i>. Si el nombre acaba en <b>n</b> o <b>l</b>, se convierte en <b>-goa</b>: <i>Madril → Madrilgoa</i>.</p>
+  <h3>La -a del final</h3>
+  <p>El artículo «el / la» va pegado al final de la palabra: <i>izen</i> (nombre) → <i>izena</i> (el nombre); <i>ikasle</i> (estudiante) → <i>ikaslea</i>.</p>`,
+  lessons:[
+  { id:'l4', title:'Yo soy…', ex:[
+    I('Ni','Yo'),
+    I('Naiz','Soy','En euskera el verbo suele ir <b>al final</b>.'),
+    I('Ni Ane naiz','Yo soy Ane','Palabra por palabra: «Yo Ane soy».'),
+    B('es2eu','Yo soy Mikel',['Ni Mikel naiz','Mikel naiz'],['zara','zu','da']),
+    I('Zara','Eres','<b>zu zara</b> = tú eres'),
+    F('Tú eres Ane','Zu Ane','',['zara','naiz','da'],'zara'),
+    F('Yo soy Mikel','Ni Mikel','',['naiz','zara','eta'],'naiz'),
+    I('Nor zara zu?','¿Quién eres tú?','<b>nor</b> = quién'),
+    C('¿Qué significa «Nor zara zu?»','Nor zara zu?',['¿Quién eres tú?','¿Qué tal?','¿Y tú?'],'¿Quién eres tú?'),
+    B('eu2es','Ni Ane naiz, eta zu?',['Yo soy Ane, ¿y tú?','Soy Ane, ¿y tú?'],['eres','quién','bien']),
+    M([['Ni','Yo'],['Zu','Tú'],['Naiz','Soy'],['Zara','Eres'],['Nor','Quién']]),
+    L('Nor zara zu?',['ni','naiz'],'¿Quién eres tú?'),
+    T('Yo soy Ane',['ni ane naiz','ane naiz']),
+  ]},
+  { id:'l5', title:'Mi nombre es…', ex:[
+    I('Izena','El nombre','<b>izen</b> = nombre. La <b>-a</b> final hace de artículo: izena = «el nombre».'),
+    I('Nire izena Ane da','Mi nombre es Ane','<b>nire</b> = mi · <b>da</b> = es. El verbo, otra vez, al final.'),
+    I('Zure','Tu','Viene de <b>zu</b> (tú).'),
+    I('Zein da zure izena?','¿Cuál es tu nombre?','<b>zein</b> = cuál'),
+    C('¿Qué significa «Zein da zure izena?»','Zein da zure izena?',['¿Cuál es tu nombre?','¿Quién eres tú?','¿Qué tal?'],'¿Cuál es tu nombre?'),
+    F('Mi nombre es Mikel','Nire izena Mikel','',['da','naiz','zara'],'da'),
+    B('es2eu','Mi nombre es Ane',['Nire izena Ane da'],['zure','naiz','zein']),
+    I('Pozten naiz zu ezagutzeaz','Encantado/a de conocerte','Literalmente «me alegro de conocerte». No cambia si eres hombre o mujer.'),
+    C('¿Cómo se dice «Encantada de conocerte»?',null,['Pozten naiz zu ezagutzeaz','Zein da zure izena?','Eskerrik asko'],'Pozten naiz zu ezagutzeaz'),
+    M([['Nire','Mi'],['Zure','Tu'],['Izena','El nombre'],['Zein','Cuál'],['Da','Es']]),
+    B('eu2es','Kaixo! Zein da zure izena?',['Hola, ¿cuál es tu nombre?'],['mi','soy','quién']),
+    L('Nire izena Mikel da',['zure','naiz'],'Mi nombre es Mikel'),
+    T('¿Cuál es tu nombre?',['zein da zure izena']),
+  ]},
+  { id:'l6', title:'¿De dónde eres?', ex:[
+    I('Nongoa zara?','¿De dónde eres?'),
+    I('Bilbokoa naiz','Soy de Bilbao','<b>Bilbo</b> (Bilbao) + <b>-koa</b> = de Bilbao'),
+    I('Madrilgoa naiz','Soy de Madrid','Tras <b>n</b> o <b>l</b>, -koa pasa a <b>-goa</b>: Madril → Madrilgoa.'),
+    C('¿Cómo se dice «Soy de Vitoria»? (Vitoria = Gasteiz)',null,['Gasteizkoa naiz','Gasteiz naiz','Gasteizkoa zara'],'Gasteizkoa naiz'),
+    C('¿Cómo se dice «Soy de Barcelona»? (Barcelona = Bartzelona)',null,['Bartzelonakoa naiz','Bartzelonagoa naiz','Bartzelonakoa da'],'Bartzelonakoa naiz'),
+    I('Ikaslea naiz','Soy estudiante','<b>ikasle</b> = estudiante'),
+    I('Euskara ikasten ari naiz','Estoy aprendiendo euskera','<b>ikasi</b> = aprender · <b>ari naiz</b> = estoy (haciendo algo). Fíjate: <b>ikas</b>le e <b>ikas</b>ten comparten raíz.'),
+    B('es2eu','Soy estudiante, ¿y tú?',['Ikaslea naiz, eta zu?','Ni ikaslea naiz, eta zu?'],['zara','nire','bai']),
+    B('eu2es','Euskara ikasten ari naiz',['Estoy aprendiendo euskera'],['soy','de','eres']),
+    M([['Nongoa','De dónde'],['Ikaslea','Estudiante'],['Euskara','Euskera'],['Bilbo','Bilbao'],['Gasteiz','Vitoria']]),
+    D([{who:'Mikel',eu:'Kaixo! Nongoa zara?',es:'¡Hola! ¿De dónde eres?'}],['Madrilgoa naiz.','Madrilgoa zara.','Bihar arte.'],'Madrilgoa naiz.','Soy de Madrid.'),
+    L('Nongoa zara?',['naiz','zu'],'¿De dónde eres?'),
+    T('Soy de Bilbao',['bilbokoa naiz','ni bilbokoa naiz']),
+  ]},
+]},
+{ id:'u3', n:3, title:'Primera conversación', sub:'Junta todo lo aprendido con Ane y Mikel', color:'#1cb0f6', dark:'#1899d6',
+  tips:`<h3>La conversación completa</h3>
+  <p>En esta lección Ane conoce a Mikel. Tú eliges lo que responde Ane. Este es el diálogo entero:</p>
+  <table><tbody>${CONV.map(c=>`<tr><td>${c.m}</td><td>${c.es}</td></tr><tr><td>${c.a}</td><td>${c.aes}</td></tr>`).join('')}</tbody></table>
+  <h3>Una expresión nueva</h3>
+  <p><b>Ni ere bai</b> = yo también (literalmente «yo también sí»).</p>`,
+  lessons:[
+  { id:'l7', title:'Ane conoce a Mikel', final:true, ex:[
+    I('Ni ere bai','Yo también','<b>ere</b> = también'),
+    convo(0),
+    B('es2eu','Hola, ¿qué tal?',['Kaixo, zer moduz?'],['ondo','agur','zu']),
+    convo(1),
+    convo(2),
+    L('Pozten naiz zu ezagutzeaz',['zara','nire'],'Encantado/a de conocerte'),
+    convo(3),
+    B('eu2es','Ni Donostiakoa naiz',['Yo soy de San Sebastián','Soy de San Sebastián'],['eres','Bilbao','estudiante']),
+    convo(4),
+    M([['Egun on','Buenos días'],['Eskerrik asko','Muchas gracias'],['Nongoa zara?','¿De dónde eres?'],['Ni ere bai','Yo también'],['Gero arte','Hasta luego']]),
+    T('Yo también',['ni ere bai']),
+  ]},
+]},
+];
+const ALL=UNITS.flatMap(u=>u.lessons.map(l=>({...l,unit:u})));
+
+/* ================== UTILIDADES ================== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[¿?¡!.,;:«»"]/g,' ').replace(/\s+/g,' ').trim();
+const tokens=s=>String(s).replace(/[¿?¡!.,]/g,'').split(/\s+/).filter(Boolean);
+function lev(a,b){const m=a.length,n=b.length;const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n];}
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const yesterday=()=>{const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+
+const ICON={
+ star:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>',
+ check:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ lock:'<svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" stroke="currentColor" stroke-width="2.6" fill="none"/></svg>',
+ trophy:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v3H8v-3h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3zm0 4H6v1a2 2 0 0 0 1 1.7zm10 0v2.7A2 2 0 0 0 18 8V7z"/></svg>',
+ speaker:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.5 9h4l5-4.2v14.4l-5-4.2h-4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>',
+ mute:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.5 9h4l5-4.2v14.4l-5-4.2h-4z"/><path d="M16 9l5 6m0-6l-5 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+ close:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>',
+ heart:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.6-4.6-9.6-9.4C1.1 8.4 3.3 5 6.8 5c2.1 0 3.5 1.1 4.2 2.3h2C13.7 6.1 15.1 5 17.2 5c3.5 0 5.7 3.4 4.4 6.6C19.6 16.4 12 21 12 21z"/></svg>',
+ book:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5a1.5 1.5 0 0 0 0 3H20v1H6.5A3.5 3.5 0 0 1 3 18.5v-14zM7 6v2h9V6z"/></svg>',
+ x:'<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></svg>',
+};
+/* Mascota original: Latxa, una oveja con txapela */
+function mascot(mood){
+  const mouth=mood==='sad'?'<path d="M53 83q7-5 14 0" stroke="#f3b4b4" stroke-width="3" fill="none" stroke-linecap="round"/>'
+    :'<path d="M52 79q8 8 16 0" stroke="#f3b4b4" stroke-width="3.2" fill="none" stroke-linecap="round"/>';
+  return `<svg class="mascot" viewBox="0 0 120 120" aria-hidden="true">
+  <g fill="#fff" stroke="#d9dde0" stroke-width="2.5">
+   <circle cx="34" cy="62" r="17"/><circle cx="86" cy="62" r="17"/><circle cx="40" cy="88" r="17"/><circle cx="80" cy="88" r="17"/><circle cx="60" cy="96" r="18"/><circle cx="38" cy="42" r="14"/><circle cx="82" cy="42" r="14"/>
+  </g>
+  <ellipse cx="34" cy="62" rx="12" ry="6" fill="#4a3a33" transform="rotate(-25 34 62)"/>
+  <ellipse cx="86" cy="62" rx="12" ry="6" fill="#4a3a33" transform="rotate(25 86 62)"/>
+  <ellipse cx="60" cy="68" rx="22" ry="25" fill="#4a3a33"/>
+  <circle cx="51" cy="64" r="7" fill="#fff"/><circle cx="69" cy="64" r="7" fill="#fff"/>
+  <circle cx="52.5" cy="65" r="3.6" fill="#1d1d1d"/><circle cx="70.5" cy="65" r="3.6" fill="#1d1d1d"/>
+  ${mouth}
+  <ellipse cx="60" cy="40" rx="29" ry="10" fill="#1f2a33"/>
+  <ellipse cx="58" cy="37" rx="22" ry="5" fill="#2e3c47"/>
+  <rect x="58.5" y="26" width="3" height="6" rx="1.5" fill="#1f2a33"/>
+ </svg>`;
+}
+
+/* ================== ESTADO ================== */
+const KEY='kaixo-euskara-v1';
+let S={xp:0,done:{},streak:0,lastDay:null,dayXp:0,dayKey:null,sound:true};
+try{const raw=localStorage.getItem(KEY);if(raw)S={...S,...JSON.parse(raw)};}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+if(S.dayKey!==today()){S.dayXp=0;S.dayKey=today();}
+if(S.lastDay&&S.lastDay!==today()&&S.lastDay!==yesterday())S.streak=0;
+const GOAL=20;
+
+/* ================== SONIDO ================== */
+let actx=null;
+function tone(seq){if(!S.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const t0=actx.currentTime;
+  seq.forEach(([f,st,du,type])=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(0.0001,t0+st);g.gain.exponentialRampToValueAtTime(0.18,t0+st+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t0+st+du);
+  o.connect(g);g.connect(actx.destination);o.start(t0+st);o.stop(t0+st+du+0.05);});}catch(e){}}
+const sfxOk=()=>tone([[660,0,.14],[880,.1,.22]]);
+const sfxBad=()=>tone([[220,0,.22,'square'],[180,.12,.25,'square']]);
+const sfxTap=()=>tone([[520,0,.06]]);
+const sfxWin=()=>tone([[523,0,.15],[659,.12,.15],[784,.24,.15],[1047,.36,.35]]);
+const hasTTS='speechSynthesis' in window;
+let voice=null;
+function pickVoice(){if(!hasTTS)return;const v=speechSynthesis.getVoices();voice=v.find(x=>/^eu/i.test(x.lang))||v.find(x=>/^es-ES/i.test(x.lang))||v.find(x=>/^es/i.test(x.lang))||null;}
+if(hasTTS){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function speak(text,slow){if(!S.sound||!hasTTS||!text)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);
+  if(voice){u.voice=voice;u.lang=voice.lang;}else u.lang='es-ES';u.rate=slow?0.6:0.88;speechSynthesis.speak(u);}catch(e){}}
+function renderSoundBtn(){const b=$('#soundBtn');b.innerHTML=S.sound?ICON.speaker:ICON.mute;b.setAttribute('aria-label',S.sound?'Sonido activado':'Sonido desactivado');}
+$('#soundBtn').onclick=()=>{S.sound=!S.sound;save();renderSoundBtn();toast(S.sound?'Sonido activado':'Sonido desactivado');};
+
+let toastT;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2200);}
+
+/* ================== HOME ================== */
+function renderHome(){
+  $('#sStreak').textContent=S.streak;$('#sXp').textContent=S.xp;renderSoundBtn();
+  const doneCount=ALL.filter(l=>S.done[l.id]).length;
+  let firstOpen=ALL.findIndex(l=>!S.done[l.id]);
+  let h=`<section class="hero">${mascot()}<div class="hero-txt">
+    <h1>${doneCount===0?'Kaixo! Soy Latxa.':doneCount===ALL.length?'Bikain! ¡Lo has completado todo!':'Ondo! Vas por buen camino.'}</h1>
+    <p>${doneCount===0?'Vamos a aprender a saludar y presentarte en euskera, desde cero.':doneCount===ALL.length?'Ya sabes saludar, presentarte y mantener tu primera conversación. Puedes repetir cualquier lección.':`Llevas ${doneCount} de ${ALL.length} lecciones.`}</p>
+    <div class="goal"><div class="goal-row"><span>Meta diaria</span><span>${Math.min(S.dayXp,GOAL)}/${GOAL} XP</span></div><div class="bar"><i style="width:${Math.min(100,S.dayXp/GOAL*100)}%"></i></div></div>
+  </div></section>`;
+  const offs=[0,48,70,48,0,-48,-70,-48];
+  let gi=0;
+  UNITS.forEach(u=>{
+    h+=`<section class="unit" style="--u:${u.color};--ud:${u.dark}"><header class="unit-head"><div><p class="eyebrow">Unidad ${u.n}</p><h2>${u.title}</h2><p class="sub">${u.sub}</p></div>
+      <button class="tips-btn" data-tips="${u.id}">${ICON.book}Consejos</button></header><div class="path">`;
+    u.lessons.forEach((l,li)=>{
+      const idx=ALL.findIndex(x=>x.id===l.id);
+      const done=!!S.done[l.id];const unlocked=idx===0||!!S.done[ALL[idx-1].id];
+      const current=idx===firstOpen;
+      const cls=done?'done':unlocked?'':'locked';
+      const ic=done?ICON.check:!unlocked?ICON.lock:l.final?ICON.trophy:ICON.star;
+      h+=`<div class="node-wrap${current?' current':''}" style="transform:translateX(${offs[gi%offs.length]}px)">
+        ${current?'<span class="start-tip">EMPEZAR</span>':''}
+        <button class="node ${cls}" data-lesson="${l.id}" aria-label="Lección: ${esc(l.title)}${done?' (completada)':!unlocked?' (bloqueada)':''}">${ic}</button>
+        <span class="node-label">${esc(l.title)}</span></div>`;
+      gi++;
+    });
+    h+=`</div></section>`;
+  });
+  h+=`<div class="foot-note"><p>Prototipo · ${UNITS.length} unidades · ${ALL.length} lecciones · unas ${ALL.reduce((a,l)=>a+l.ex.length,0)} actividades</p>
+     <button class="link-btn" id="resetBtn">Borrar mi progreso</button></div>`;
+  $('#home').innerHTML=h;
+  document.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{
+    const idx=ALL.findIndex(x=>x.id===b.dataset.lesson);
+    if(idx>0&&!S.done[ALL[idx-1].id]){toast('Completa la lección anterior para desbloquear esta.');return;}
+    startLesson(ALL[idx]);});
+  document.querySelectorAll('[data-tips]').forEach(b=>b.onclick=()=>openTips(UNITS.find(u=>u.id===b.dataset.tips)));
+  let armed=false;$('#resetBtn').onclick=e=>{if(!armed){armed=true;e.target.textContent='¿Seguro? Pulsa otra vez para borrar';setTimeout(()=>{armed=false;if(e.target.isConnected)e.target.textContent='Borrar mi progreso';},3000);return;}
+    S={xp:0,done:{},streak:0,lastDay:null,dayXp:0,dayKey:today(),sound:S.sound};save();renderHome();toast('Progreso borrado');};
+}
+function openTips(u){const m=$('#modal');m.style.setProperty('--u',u.color);
+  m.innerHTML=`<div class="sheet" role="dialog" aria-label="Consejos: ${esc(u.title)}"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h2>Consejos · ${u.title}</h2><button class="close" id="tipsClose" aria-label="Cerrar">${ICON.close}</button></div>${u.tips}</div>`;
+  m.hidden=false;$('#tipsClose').onclick=()=>m.hidden=true;m.onclick=e=>{if(e.target===m)m.hidden=true;};}
+
+/* ================== LECCIÓN ================== */
+let LS=null, ctrl=null, phase='check';
+function startLesson(def){
+  const ex=def.ex.filter(e=>e.t!=='listen'||hasTTS);
+  LS={def,unit:def.unit,queue:ex.map(e=>({...e})),i:0,hearts:5,total:ex.length,solved:0,mistakes:0,t0:Date.now()};
+  const el=$('#lesson');el.style.setProperty('--u',def.unit.color);
+  el.innerHTML=`<div class="ls-top"><button class="close" id="quit" aria-label="Salir de la lección">${ICON.close}</button>
+     <div class="bar" role="progressbar" aria-label="Progreso"><i id="prog"></i></div>
+     <span class="hearts" aria-label="Vidas">${ICON.heart}<span id="hearts">5</span></span></div>
+   <div class="ls-body" id="lsBody"></div>
+   <footer class="foot" id="foot"><div class="foot-in"><div class="fb" id="fb"></div><div class="foot-btns"><button class="btn ghost" id="skipBtn" hidden>Saltar</button><button class="btn" id="mainBtn" disabled>Comprobar</button></div></div></footer>`;
+  el.hidden=false;document.body.style.overflow='hidden';
+  $('#quit').onclick=closeLesson;
+  $('#mainBtn').onclick=onMain;
+  $('#skipBtn').onclick=()=>{LS.solved++;LS.i++;next();};
+  next();
+}
+function closeLesson(){if(hasTTS)speechSynthesis.cancel();$('#lesson').hidden=true;document.body.style.overflow='';LS=null;renderHome();}
+function setProg(){$('#prog').style.width=(LS.solved/LS.total*100)+'%';$('#hearts').textContent=LS.hearts;}
+function setCheck(enabled){$('#mainBtn').disabled=!enabled;}
+function next(){
+  setProg();
+  if(LS.i>=LS.queue.length)return finish();
+  const ex=LS.queue[LS.i];
+  phase='check';
+  $('#foot').className='foot';$('#fb').innerHTML='';
+  const mb=$('#mainBtn');mb.textContent=ex.t==='intro'?'Continuar':'Comprobar';mb.disabled=ex.t!=='intro';
+  $('#skipBtn').hidden=ex.t!=='listen';
+  const body=$('#lsBody');body.scrollTop=0;
+  body.innerHTML='<div class="ls-inner" id="exBox"></div>';
+  RENDER[ex.t](ex,$('#exBox'));
+}
+function onMain(){
+  const ex=LS.queue[LS.i];
+  if(phase==='check'){
+    if(ex.t==='intro'){LS.solved++;LS.i++;next();return;}
+    const r=ctrl.check();showFeedback(r,ex);
+  }else{ // continuar
+    if(LS.lastOk){LS.solved++;}else{LS.queue.push({...ex});if(LS.hearts<=0)return fail();}
+    LS.i++;next();
+  }
+}
+const PRAISE=[['Oso ondo!','muy bien'],['Bikain!','¡excelente!'],['Ederki!','¡estupendo!'],['Zorionak!','¡enhorabuena!'],['Primeran!','¡genial!']];
+function showFeedback(r,ex){
+  phase='cont';LS.lastOk=r.ok;
+  document.querySelectorAll('#exBox button, #exBox input, #exBox textarea').forEach(b=>{if(!b.classList.contains('spk'))b.disabled=true;});
+  const foot=$('#foot'),fb=$('#fb');
+  if(r.ok){
+    const p=PRAISE[Math.random()*PRAISE.length|0];
+    foot.className='foot ok';sfxOk();
+    fb.innerHTML=`<div class="fb-ic">${ICON.check}</div><div><h3>${p[0]} <span class="meaning" style="font-size:16px">(${p[1]})</span></h3>${r.note?`<p>${r.note}</p>`:''}${r.meaning?`<p class="meaning">Significa: ${esc(r.meaning)}</p>`:''}</div>`;
+    if(r.say)setTimeout(()=>speak(r.say),250);
+  }else{
+    LS.hearts--;LS.mistakes++;setProg();
+    foot.className='foot bad';sfxBad();
+    fb.innerHTML=`<div class="fb-ic">${ICON.x}</div><div><h3>Solución correcta:</h3><p>${esc(r.solution)}</p>${r.meaning?`<p class="meaning">Significa: ${esc(r.meaning)}</p>`:''}</div>`;
+  }
+  $('#skipBtn').hidden=true;
+  const mb=$('#mainBtn');mb.textContent='Continuar';mb.disabled=false;mb.focus({preventScroll:true});
+}
+function finish(){
+  const perfect=LS.mistakes===0;const gained=10+(perfect?5:0);
+  const secs=Math.round((Date.now()-LS.t0)/1000);
+  const acc=Math.round(LS.total/(LS.total+LS.mistakes)*100);
+  S.xp+=gained;S.dayXp+=gained;S.dayKey=today();S.done[LS.def.id]=true;
+  const t=today();if(S.lastDay!==t){S.streak=(S.lastDay===yesterday())?S.streak+1:1;S.lastDay=t;}
+  save();sfxWin();
+  const el=$('#lesson');
+  el.innerHTML=`<div class="result">${mascot()}<h2>¡Lección completada!</h2>
+    <p class="lead">${perfect?'Sin ni un fallo. Bikain!':'Zorionak! Los fallos se repasan solos: así se aprende.'}</p>
+    <div class="chips">
+     <div class="chip" style="--c:var(--gold-dk)"><div class="h">XP ganada</div><div class="v">+${gained}</div></div>
+     <div class="chip" style="--c:var(--green)"><div class="h">Precisión</div><div class="v">${acc}%</div></div>
+     <div class="chip" style="--c:var(--blue)"><div class="h">Tiempo</div><div class="v">${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}</div></div>
+    </div>
+    <p class="lead">Racha: ${S.streak} ${S.streak===1?'día':'días'}</p>
+    <button class="btn" id="doneBtn">Continuar</button></div>`;
+  $('#doneBtn').onclick=closeLesson;$('#doneBtn').focus();
+}
+function fail(){
+  sfxBad();const def=LS.def;
+  $('#lesson').innerHTML=`<div class="result fail">${mascot('sad')}<h2>Te has quedado sin vidas</h2>
+   <p class="lead">No pasa nada: repite la lección y verás que ya te suena todo.</p>
+   <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><button class="btn ghost" id="outBtn">Salir</button><button class="btn" id="retryBtn">Reintentar</button></div></div>`;
+  $('#retryBtn').onclick=()=>startLesson(def);$('#outBtn').onclick=closeLesson;
+}
+document.addEventListener('keydown',e=>{
+  if(!LS||$('#lesson').hidden)return;
+  if(e.key==='Enter'){const b=$('#mainBtn')||$('#doneBtn');if(b&&!b.disabled){e.preventDefault();b.click();}}
+  else if(/^[1-5]$/.test(e.key)&&phase==='check'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){
+    const opts=document.querySelectorAll('#exBox [data-opt]');const o=opts[+e.key-1];if(o)o.click();}
+});
+
+/* ================== TIPOS DE EJERCICIO ================== */
+const spkBtn=(text,cls='')=>`<button class="spk ${cls}" data-say="${esc(text)}" aria-label="Escuchar">${ICON.speaker}</button>`;
+function wireSpk(box){box.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>speak(b.dataset.say,b.dataset.slow==='1'));}
+function label(t){return `<p class="ex-label">${t}</p>`;}
+function selectable(box,sel,onPick){const items=[...box.querySelectorAll(sel)];items.forEach(it=>it.onclick=()=>{items.forEach(x=>x.classList.remove('sel'));it.classList.add('sel');sfxTap();onPick(it);});}
+
+const RENDER={
+ intro(ex,box){
+  const phrase=ex.eu.includes(' ');
+  box.innerHTML=`${label(phrase?'Frase nueva':'Palabra nueva')}
+   <div class="intro-card">${EM[ex.eu]?`<div class="em">${EM[ex.eu]}</div>`:''}
+    <div class="eu">${esc(ex.eu)} ${spkBtn(ex.eu)}</div><div class="es">${esc(ex.es)}</div>
+    ${ex.tip?`<div class="tip">${ex.tip}</div>`:''}</div>`;
+  wireSpk(box);setTimeout(()=>speak(ex.eu),200);
+ },
+ pick(ex,box){
+  let picked=null;
+  box.innerHTML=`<h1 class="ex-title">¿Cuál significa «${esc(ex.es)}»?</h1><div class="cards">${shuffle(ex.opts).map(o=>`<button class="card" data-opt data-v="${esc(o)}"><span class="em">${EM[o]||'💬'}</span>${esc(o)}</button>`).join('')}</div>`;
+  selectable(box,'.card',it=>{picked=it.dataset.v;speak(picked);setCheck(true);});
+  ctrl={check:()=>({ok:picked===ex.eu,solution:ex.eu,meaning:picked===ex.eu?null:ex.es})};
+ },
+ choice(ex,box){
+  let picked=null;
+  box.innerHTML=`<h1 class="ex-title">${esc(ex.prompt)}</h1>${ex.speak?`<div>${spkBtn(ex.speak)}</div>`:''}
+   <div class="opt-list">${shuffle(ex.opts).map((o,i)=>`<button class="opt" data-opt data-v="${esc(o)}"><span class="k">${i+1}</span>${esc(o)}</button>`).join('')}</div>`;
+  wireSpk(box);if(ex.speak)setTimeout(()=>speak(ex.speak),200);
+  selectable(box,'.opt',it=>{picked=it.dataset.v;setCheck(true);});
+  ctrl={check:()=>({ok:picked===ex.ans,solution:ex.ans,say:ex.speak?null:ex.ans})};
+ },
+ build(ex,box){
+  const listen=ex.t==='listen';
+  const target=listen?ex.eu:ex.answers[0];
+  const bank=shuffle([...tokens(target),...(ex.extra||[])]).map((w,i)=>({w,i}));
+  let ans=[];
+  let head;
+  if(listen) head=`${label('Ejercicio de escucha')}<h1 class="ex-title">Toca lo que oyes</h1><div style="display:flex;gap:14px;justify-content:center">${spkBtn(ex.eu,'big')}<button class="spk slow" data-say="${esc(ex.eu)}" data-slow="1" aria-label="Escuchar despacio">LENTO</button></div>`;
+  else if(ex.dir==='es2eu') head=`<h1 class="ex-title">Traduce al euskera</h1><div class="source">${mascot()}<div class="bubble">${esc(ex.src)}</div></div>`;
+  else head=`<h1 class="ex-title">Traduce al español</h1><div class="source">${mascot()}<div class="bubble">${spkBtn(ex.src)}<span>${esc(ex.src)}</span></div></div>`;
+  box.innerHTML=`${head}<div class="answer" id="ansZone" aria-label="Tu respuesta"></div><div class="bank" id="bankZone"></div>`;
+  wireSpk(box);
+  if(listen||ex.dir==='eu2es')setTimeout(()=>speak(listen?ex.eu:ex.src),250);
+  const draw=()=>{
+    $('#ansZone').innerHTML=ans.map(i=>`<button class="tile" data-a="${i}">${esc(bank[i].w)}</button>`).join('');
+    $('#bankZone').innerHTML=bank.map(b=>`<button class="tile${ans.includes(b.i)?' used':''}" data-b="${b.i}" ${ans.includes(b.i)?'tabindex="-1" aria-hidden="true"':''}>${esc(b.w)}</button>`).join('');
+    box.querySelectorAll('[data-b]').forEach(t=>t.onclick=()=>{const i=+t.dataset.b;ans.push(i);sfxTap();if(ex.dir==='es2eu'||listen)speak(bank[i].w);draw();});
+    box.querySelectorAll('[data-a]').forEach(t=>t.onclick=()=>{ans=ans.filter(x=>x!==+t.dataset.a);sfxTap();draw();});
+    setCheck(ans.length>0);
+  };
+  draw();
+  const accepted=(listen?[ex.eu]:ex.answers).map(norm);
+  ctrl={check:()=>{const got=norm(ans.map(i=>bank[i].w).join(' '));const ok=accepted.includes(got);
+    return {ok,solution:target,meaning:listen?ex.es:(ex.dir==='es2eu'?null:null),say:(ok&&ex.dir==='es2eu')?target:null};}};
+ },
+ listen(ex,box){RENDER.build(ex,box);},
+ match(ex,box){
+  const left=shuffle(ex.pairs.map((p,k)=>({k,t:p[0]}))),right=shuffle(ex.pairs.map((p,k)=>({k,t:p[1]})));
+  box.innerHTML=`<h1 class="ex-title">Une las parejas</h1><div class="match"><div class="col">${left.map(x=>`<button class="mt" data-side="l" data-k="${x.k}">${esc(x.t)}</button>`).join('')}</div>
+   <div class="col">${right.map(x=>`<button class="mt" data-side="r" data-k="${x.k}">${esc(x.t)}</button>`).join('')}</div></div>`;
+  let selL=null,selR=null,matched=0,errs=0;
+  const test=()=>{if(!selL||!selR)return;const a=selL,b=selR;selL=selR=null;
+    if(a.dataset.k===b.dataset.k){[a,b].forEach(x=>{x.classList.remove('sel');x.classList.add('right');});sfxTap();
+      setTimeout(()=>{[a,b].forEach(x=>{x.classList.remove('right');x.classList.add('done');});},350);
+      if(++matched===ex.pairs.length)setTimeout(()=>showFeedback({ok:true,note:errs?`Te equivocaste ${errs} ${errs===1?'vez':'veces'} por el camino, pero lo has conseguido.`:null},ex),500);}
+    else{errs++;[a,b].forEach(x=>{x.classList.remove('sel');x.classList.add('wrong');});sfxBad();setTimeout(()=>[a,b].forEach(x=>x.classList.remove('wrong')),450);}};
+  box.querySelectorAll('.mt').forEach(btn=>btn.onclick=()=>{
+    if(btn.dataset.side==='l'){box.querySelectorAll('[data-side=l]').forEach(x=>x.classList.remove('sel'));btn.classList.add('sel');selL=btn;speak(btn.textContent);}
+    else{box.querySelectorAll('[data-side=r]').forEach(x=>x.classList.remove('sel'));btn.classList.add('sel');selR=btn;}
+    test();});
+  ctrl={check:()=>({ok:true})};
+ },
+ fill(ex,box){
+  let picked=null;
+  box.innerHTML=`<h1 class="ex-title">Completa la frase</h1>
+   <div class="fill-line"><span>${esc(ex.before)}</span><span class="blank" id="blank">&nbsp;</span><span>${esc(ex.after)}</span></div>
+   <p class="meaning-line">${esc(ex.es)}</p>
+   <div class="bank">${shuffle(ex.opts).map(o=>`<button class="tile" data-opt data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+  selectable(box,'.tile',it=>{picked=it.dataset.v;$('#blank').textContent=picked;setCheck(true);});
+  const full=`${ex.before} ${ex.ans}${ex.after?' '+ex.after:''}`.trim();
+  ctrl={check:()=>({ok:picked===ex.ans,solution:full,meaning:ex.es,say:full})};
+ },
+ type(ex,box){
+  box.innerHTML=`<h1 class="ex-title">Escribe en euskera</h1><div class="source">${mascot()}<div class="bubble">${esc(ex.es)}</div></div>
+   <textarea class="type-in" id="typeIn" placeholder="Escribe aquí en euskera" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tu respuesta en euskera"></textarea>`;
+  const ta=$('#typeIn');ta.oninput=()=>setCheck(ta.value.trim().length>0);setTimeout(()=>ta.focus({preventScroll:true}),100);
+  ctrl={check:()=>{const got=norm(ta.value);const acc=ex.answers.map(norm);const disp=ex.answers[0].charAt(0).toUpperCase()+ex.answers[0].slice(1);
+    if(acc.includes(got))return {ok:true,say:ex.answers[0]};
+    const near=acc.find(a=>a.length>4&&lev(a,got)<=1);
+    if(near)return {ok:true,note:`Casi perfecto. Ojo con la ortografía: <b>${esc(near)}</b>`,say:near};
+    return {ok:false,solution:disp,meaning:ex.es};}};
+ },
+ dialog(ex,box){
+  let picked=null;
+  const hist=ex.hist.slice(-5);
+  box.innerHTML=`${label('Conversación')}<h1 class="ex-title">¿Qué responde Ane?</h1>
+   <div class="chat">${hist.map((m,i)=>`<div class="msg ${m.who.toLowerCase()}${i===hist.length-1?' q':''}"><div class="ava">${m.who[0]}</div><div class="mb"><div class="t">${esc(m.eu)}</div><div class="s">${esc(m.es)}</div></div></div>`).join('')}</div>
+   <div class="opt-list">${shuffle(ex.opts).map((o,i)=>`<button class="opt" data-opt data-v="${esc(o)}"><span class="k">${i+1}</span>${esc(o)}</button>`).join('')}</div>`;
+  setTimeout(()=>speak(hist[hist.length-1].eu),200);
+  selectable(box,'.opt',it=>{picked=it.dataset.v;setCheck(true);});
+  ctrl={check:()=>({ok:picked===ex.ans,solution:ex.ans,meaning:ex.aes,say:ex.ans})};
+ },
+};
+
+renderHome();
+</script>
+
+</body></html>
