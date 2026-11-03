@@ -1,4 +1,5 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Kaixo Euskara</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +32,9 @@
   --ok-bg:#1f3318; --ok-fg:#79d634; --bad-bg:#3a1f22; --bad-fg:#ff6b6b;
   color-scheme:dark}
 *{box-sizing:border-box}
-html,body{height:100%}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+img{max-width:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;font-weight:700;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
@@ -211,7 +214,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .sheet table{border-collapse:collapse;width:100%;font-weight:700}
 .sheet td{border-bottom:2px solid var(--line);padding:8px 6px}
 .sheet td:first-child{color:var(--u);font-weight:900;width:38%}
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:800;z-index:70;max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:800;z-index:70;max-width:calc(100% - 32px);text-align:center}
 
 @media (max-width:420px){.ex-title{font-size:22px}.intro-card .eu{font-size:28px}.cards{grid-template-columns:repeat(2,1fr)}.card .em{font-size:42px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -463,7 +466,7 @@ const GOAL=20;
 
 /* ================== SONIDO ================== */
 let actx=null;
-function tone(seq){if(!S.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const t0=actx.currentTime;
+function tone(seq){if(!S.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();const t0=actx.currentTime;
   seq.forEach(([f,st,du,type])=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type||'sine';o.frequency.value=f;
   g.gain.setValueAtTime(0.0001,t0+st);g.gain.exponentialRampToValueAtTime(0.18,t0+st+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t0+st+du);
   o.connect(g);g.connect(actx.destination);o.start(t0+st);o.stop(t0+st+du+0.05);});}catch(e){}}
@@ -472,11 +475,43 @@ const sfxBad=()=>tone([[220,0,.22,'square'],[180,.12,.25,'square']]);
 const sfxTap=()=>tone([[520,0,.06]]);
 const sfxWin=()=>tone([[523,0,.15],[659,.12,.15],[784,.24,.15],[1047,.36,.35]]);
 const hasTTS='speechSynthesis' in window;
-let voice=null;
-function pickVoice(){if(!hasTTS)return;const v=speechSynthesis.getVoices();voice=v.find(x=>/^eu/i.test(x.lang))||v.find(x=>/^es-ES/i.test(x.lang))||v.find(x=>/^es/i.test(x.lang))||null;}
-if(hasTTS){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
-function speak(text,slow){if(!S.sound||!hasTTS||!text)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);
-  if(voice){u.voice=voice;u.lang=voice.lang;}else u.lang='es-ES';u.rate=slow?0.6:0.88;speechSynthesis.speak(u);}catch(e){}}
+let voices=[],badVoices=new Set(S.bad||[]),speakT=null,warned=false;
+function loadVoices(){if(!hasTTS)return;try{voices=speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
+/* Solo voces instaladas en el dispositivo (arrancan al instante): euskera local, español de España local, otro español local.
+   Las voces online solo se usan si no hay ninguna local. */
+function pickVoice(){loadVoices();const ok=v=>!badVoices.has(v.voiceURI);const c=voices.filter(ok);
+  return c.find(x=>/^eu/i.test(x.lang)&&x.localService)
+    ||c.find(x=>/^es-ES/i.test(x.lang)&&x.localService)||c.find(x=>/^es/i.test(x.lang)&&x.localService)
+    ||c.find(x=>/^eu/i.test(x.lang))||c.find(x=>/^es/i.test(x.lang))||null;}
+if(hasTTS){loadVoices();try{speechSynthesis.addEventListener('voiceschanged',loadVoices);}catch(e){speechSynthesis.onvoiceschanged=loadVoices;}}
+let watchT=null;
+function speak(text,slow,retry){if(!S.sound||!hasTTS||!text)return;
+  try{
+    clearTimeout(speakT);clearTimeout(watchT);
+    if(speechSynthesis.speaking||speechSynthesis.pending)speechSynthesis.cancel();
+    speechSynthesis.resume();
+    /* pequeña pausa tras cancel(): Chrome y Edge a veces descartan el speak() inmediato */
+    speakT=setTimeout(()=>{
+      const u=new SpeechSynthesisUtterance(text);const v=pickVoice();
+      if(v){u.voice=v;u.lang=v.lang;}else u.lang='es-ES';
+      u.rate=slow?0.6:0.9;u.volume=1;
+      let started=false;
+      u.onstart=()=>{started=true;clearTimeout(watchT);};
+      /* algunas voces online (p. ej. euskera en Edge) se quedan colgadas: si no arranca en 1,5 s, probamos otra */
+      watchT=setTimeout(()=>{if(!started&&v&&!retry){badVoices.add(v.voiceURI);S.bad=[...badVoices];save();try{speechSynthesis.cancel();}catch(e){}speak(text,slow,true);}},1500);
+      u.onerror=e=>{if(e.error==='interrupted'||e.error==='canceled')return;
+        if(started===false&&retry===undefined&&v&&badVoices.has(v.voiceURI))return;
+        if(v&&!retry){badVoices.add(v.voiceURI);S.bad=[...badVoices];save();speak(text,slow,true);}
+        else if(!warned){warned=true;toast('Tu navegador no consigue reproducir la voz. Prueba con Chrome o Edge.');}};
+      speechSynthesis.speak(u);
+      /* Chrome puede quedarse en pausa con textos en segundo plano */
+      setTimeout(()=>{try{if(speechSynthesis.paused)speechSynthesis.resume();}catch(e){}},300);
+    },40);
+  }catch(e){}}
+/* desbloquea audio y voz con el primer toque */
+document.addEventListener('pointerdown',function unlock(){
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();}catch(e){}
+  loadVoices();document.removeEventListener('pointerdown',unlock);},{once:true});
 function renderSoundBtn(){const b=$('#soundBtn');b.innerHTML=S.sound?ICON.speaker:ICON.mute;b.setAttribute('aria-label',S.sound?'Sonido activado':'Sonido desactivado');}
 $('#soundBtn').onclick=()=>{S.sound=!S.sound;save();renderSoundBtn();toast(S.sound?'Sonido activado':'Sonido desactivado');};
 
@@ -725,4 +760,4 @@ const RENDER={
 renderHome();
 </script>
 
-</body></html>
+</html>
