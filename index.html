@@ -242,7 +242,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <script>
 /* ================== CONTENIDO ================== */
-const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕'};
+const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️'};
 const I=(eu,es,tip)=>({t:'intro',eu,es,tip});
 const P=(es,eu,wrong)=>({t:'pick',es,eu,opts:[eu,...wrong]});
 const C=(prompt,speak,opts,ans,meaning)=>({t:'choice',prompt,speak,opts,ans,meaning});
@@ -267,12 +267,19 @@ const CONV2=[
  {m:'Igandean kafe bat?',es:'¿Un café el domingo?',a:'Bai, ados!',aes:'¡Sí, de acuerdo!',wrong:['Kafe naiz.','Atzo igandea zen.']},
  {m:'Ondo! Igande arte!',es:'¡Bien! ¡Hasta el domingo!',a:'Agur, igande arte!',aes:'¡Adiós, hasta el domingo!',wrong:['Egun on, igandea!','Igandean naiz.']},
 ];
+const CONV3=[
+ {m:'Kaixo Ane! Ze hotz!',es:'¡Hola, Ane! ¡Qué frío!',a:'Bai, gaur hotz egiten du.',aes:'Sí, hoy hace frío.',wrong:['Bai, gaur hotz naiz.','Hotz arte!']},
+ {m:'Eta bihar? Zer eguraldi egingo du?',es:'¿Y mañana? ¿Qué tiempo hará?',a:'Bihar euria egingo du.',aes:'Mañana lloverá.',wrong:['Bihar euria zen.','Euria naiz.']},
+ {m:'Aterkia daukazu?',es:'¿Tienes paraguas?',a:'Bai, aterki bat daukat.',aes:'Sí, tengo un paraguas.',wrong:['Bai, aterkia zara.','Ez, eguzkia naiz.']},
+ {m:'Zein da zure urtaro gogokoena?',es:'¿Cuál es tu estación favorita?',a:'Nire urtaro gogokoena uda da.',aes:'Mi estación favorita es el verano.',wrong:['Nire urtaro gogokoena uda naiz.','Udan hotz egiten du.']},
+ {m:'Nirea negua da! Elurra gustatzen zait.',es:'¡La mía es el invierno! Me gusta la nieve.',a:'Baina neguan hotz egiten du!',aes:'¡Pero en invierno hace frío!',wrong:['Baina neguan hotz naiz!','Baina negua zen!']},
+];
 function convo(n,L=CONV){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:L[i].m,es:L[i].es});h.push({who:'Ane',eu:L[i].a,es:L[i].aes});}
   const c=L[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
 
 /* IMPORTANTE para ampliar la app:
    - NO cambiar los id de unidades (u1, u2...) ni de lecciones (l1, l2...): el progreso de cada persona se guarda con ellos.
-   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l18, u6).
+   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l23, u7).
      El orden del camino lo marca su posición en la lista, no el número del id.
    - Una lección ya hecha siempre queda abierta, así que se pueden insertar lecciones entre otras sin bloquear a nadie.
    - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
@@ -616,6 +623,103 @@ const UNITS=[
     convo(4,CONV2),
     L('Bai, ados! Igande arte!',['bihar','gaur'],'¡Sí, de acuerdo! ¡Hasta el domingo!'),
     T('¡De acuerdo!',['ados']),
+  ]},
+]},
+{ id:'u6', n:6, title:'El tiempo', sub:'Estaciones, lluvia, sol, calor y frío', color:'#1fb39a', dark:'#178a76',
+  tips:`<h3>Las cuatro estaciones (urtaroak)</h3>
+  <table><tbody>
+  <tr><td>udaberria</td><td>primavera</td></tr><tr><td>uda</td><td>verano</td></tr><tr><td>udazkena</td><td>otoño</td></tr><tr><td>negua</td><td>invierno</td></tr>
+  </tbody></table>
+  <p>Truco: todo gira alrededor de <b>uda</b> (verano). <i>Uda + berri</i> (nuevo) = primavera, «el verano nuevo». <i>Uda + azken</i> (último) = otoño, «el final del verano». ¡El mismo <b>azken</b> que en <i>asteazkena</i>!</p>
+  <h3>¿Qué tiempo hace?</h3>
+  <table><tbody>
+  <tr><td>Eguzkia dago</td><td>Hace sol</td></tr><tr><td>Euria ari du</td><td>Está lloviendo</td></tr><tr><td>Elurra ari du</td><td>Está nevando</td></tr>
+  <tr><td>Bero egiten du</td><td>Hace calor</td></tr><tr><td>Hotz egiten du</td><td>Hace frío</td></tr><tr><td>Haizea dabil</td><td>Hace viento</td></tr>
+  <tr><td>Hodeitsu dago</td><td>Está nublado</td></tr><tr><td>Lainoa dago</td><td>Hay niebla</td></tr><tr><td>Txirimiri</td><td>Llovizna («sirimiri»)</td></tr>
+  </tbody></table>
+  <h3>Ahora o siempre</h3>
+  <p><i>Euria <b>ari du</b></i> = está lloviendo (ahora). <i>Euria <b>egiten du</b></i> = llueve (habitualmente): <i>Udazkenean euri asko egiten du</i>, en otoño llueve mucho.</p>
+  <h3>En cada estación: -an / -n</h3>
+  <p>Igual que con los días: <i>udan</i> (en verano), <i>neguan</i> (en invierno), <i>udaberrian</i> (en primavera), <i>udazkenean</i> (en otoño).</p>
+  <h3>El futuro</h3>
+  <p><i>egiten du</i> (hace) → <i><b>egingo</b> du</i> (hará): <i>Bihar euria egingo du</i> = mañana lloverá.</p>`,
+  lessons:[
+  { id:'l18', title:'Las estaciones', ex:[
+    I('Urtaroa','La estación (del año)','Hay cuatro <b>urtaro</b>.'),
+    I('Uda','Verano'),
+    I('Negua','Invierno'),
+    P('Invierno','Negua',['Uda']),
+    I('Udaberria','Primavera','<b>uda</b> + <b>berri</b> (nuevo): el «verano nuevo».'),
+    I('Udazkena','Otoño','<b>uda</b> + <b>azken</b> (último): el «final del verano». ¡Como en ast<b>eazken</b>a!'),
+    P('Otoño','Udazkena',['Udaberria','Negua']),
+    M([['Udaberria','Primavera'],['Uda','Verano'],['Udazkena','Otoño'],['Negua','Invierno'],['Urtaroa','Estación']]),
+    I('Lau urtaro','Cuatro estaciones','Recuerda: después del número, sin plural.'),
+    B('es2eu','La primavera y el verano',['Udaberria eta uda'],['negua','udazkena','da']),
+    B('eu2es','Negua eta udazkena',['El invierno y el otoño'],['verano','primavera','es']),
+    L('Udaberria, uda, udazkena, negua',['lau','urtaroa'],'Primavera, verano, otoño, invierno'),
+    T('Invierno',['negua']),
+  ]},
+  { id:'l19', title:'Sol, lluvia y nieve', ex:[
+    I('Eguraldia','El tiempo (meteorológico)'),
+    I('Zer eguraldi egiten du?','¿Qué tiempo hace?','<b>zer</b> = qué · <b>egiten du</b> = hace.'),
+    I('Eguzkia dago','Hace sol','<b>eguzkia</b> = el sol · <b>dago</b> = está / hay.'),
+    I('Euria ari du','Está lloviendo','<b>euria</b> = la lluvia.'),
+    P('Está lloviendo','Euria ari du',['Eguzkia dago']),
+    I('Elurra ari du','Está nevando','<b>elurra</b> = la nieve.'),
+    P('Está nevando','Elurra ari du',['Euria ari du','Eguzkia dago']),
+    I('Txirimiri','Llovizna','La lluvia fina tan típica del País Vasco. En español también se dice «sirimiri».'),
+    I('Aterkia','El paraguas'),
+    M([['Eguzkia','El sol'],['Euria','La lluvia'],['Elurra','La nieve'],['Aterkia','El paraguas'],['Eguraldia','El tiempo']]),
+    B('es2eu','Hoy está lloviendo',['Gaur euria ari du'],['eguzkia','dago','bihar']),
+    D([{who:'Mikel',eu:'Zer eguraldi egiten du?',es:'¿Qué tiempo hace?'}],['Eguzkia dago.','Eguzkia naiz.','Euria zara.'],'Eguzkia dago.','Hace sol.'),
+    L('Elurra ari du',['euria','dago'],'Está nevando'),
+    T('Hace sol',['eguzkia dago']),
+  ]},
+  { id:'l20', title:'Calor, frío y nubes', ex:[
+    I('Bero egiten du','Hace calor','<b>bero</b> = calor · <b>egiten du</b> = hace. ¡Casi como en español!'),
+    I('Hotz egiten du','Hace frío','<b>hotz</b> = frío (la h no suena).'),
+    P('Hace frío','Hotz egiten du',['Bero egiten du']),
+    I('Ze bero!','¡Qué calor!','<b>ze</b> = qué, en exclamaciones.'),
+    I('Ze hotz!','¡Qué frío!'),
+    I('Haizea dabil','Hace viento','<b>haizea</b> = el viento · <b>dabil</b> = anda: «el viento anda».'),
+    I('Hodeitsu dago','Está nublado','<b>hodei</b> = nube · <b>-tsu</b> = lleno de: «lleno de nubes».'),
+    I('Lainoa dago','Hay niebla'),
+    P('Está nublado','Hodeitsu dago',['Haizea dabil','Lainoa dago']),
+    M([['Bero','Calor'],['Hotz','Frío'],['Haizea','El viento'],['Hodei','Nube'],['Lainoa','La niebla']]),
+    B('es2eu','Hoy hace frío',['Gaur hotz egiten du'],['bero','dago','zen']),
+    F('Hace calor','Bero','du',['egiten','dago','ari'],'egiten'),
+    L('Ze bero! Eguzkia dago',['hotz','haizea'],'¡Qué calor! Hace sol'),
+    T('Hace frío',['hotz egiten du','hotza egiten du']),
+  ]},
+  { id:'l21', title:'En invierno hace frío', ex:[
+    I('Neguan','En invierno','Para decir <b>cuándo</b>: negua → negu<b>an</b>, como con los días (astelehen<b>ean</b>).'),
+    I('Neguan hotz egiten du','En invierno hace frío'),
+    I('Udan','En verano','uda → uda<b>n</b>'),
+    I('Udan bero egiten du','En verano hace calor'),
+    C('¿Qué significa «Udan»?','Udan',['En verano','Verano','Hasta el verano'],'En verano'),
+    I('Udazkenean euri asko egiten du','En otoño llueve mucho','<b>euri asko</b> = mucha lluvia. Para lo habitual se dice <b>euria egiten du</b>; <b>euria ari du</b> es «está lloviendo» ahora.'),
+    I('Eguraldi ona','Buen tiempo','<b>on</b> = bueno, como en egun <b>on</b>.'),
+    I('Udaberrian eguraldi ona egiten du','En primavera hace buen tiempo','udaberria → udaberri<b>an</b>'),
+    I('Eguraldi txarra','Mal tiempo','<b>txar</b> = malo.'),
+    C('¿Cómo se dice «en otoño»?','',['Udazkenean','Udazkena','Udazken arte'],'Udazkenean'),
+    B('es2eu','En invierno hace frío',['Neguan hotz egiten du'],['negua','bero','dago']),
+    B('eu2es','Udan bero egiten du',['En verano hace calor'],['invierno','frío','está']),
+    L('Udaberrian eguraldi ona egiten du',['txarra','neguan'],'En primavera hace buen tiempo'),
+    T('En verano',['udan']),
+  ]},
+  { id:'l22', title:'¿Qué tiempo hará?', final:true, ex:[
+    I('Bihar euria egingo du','Mañana lloverá','<b>egingo du</b> = hará. Es el futuro de <b>egiten du</b>.'),
+    I('Aterkia daukazu?','¿Tienes paraguas?','<b>daukazu</b> = tienes · <b>daukat</b> = tengo.'),
+    I('Nire urtaro gogokoena uda da','Mi estación favorita es el verano','<b>gogokoena</b> = favorito/a.'),
+    convo(0,CONV3),
+    B('es2eu','Mañana lloverá',['Bihar euria egingo du'],['egiten','gaur','dago']),
+    convo(1,CONV3),
+    convo(2,CONV3),
+    M([['Egingo du','Hará'],['Egiten du','Hace'],['Daukat','Tengo'],['Gogokoena','Favorito'],['Ze hotz!','¡Qué frío!']]),
+    convo(3,CONV3),
+    convo(4,CONV3),
+    L('Nire urtaro gogokoena negua da',['uda','zen'],'Mi estación favorita es el invierno'),
+    T('Mañana lloverá',['bihar euria egingo du']),
   ]},
 ]},
 ];
