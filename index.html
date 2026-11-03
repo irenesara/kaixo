@@ -242,7 +242,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <script>
 /* ================== CONTENIDO ================== */
-const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️'};
+const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️','Animalia':'🐾','Txakurra':'🐶','Katua':'🐱','Txoria':'🐦','Arraina':'🐟','Untxia':'🐰','Sagua':'🐭','Behia':'🐄','Ardia':'🐑','Zaldia':'🐴','Txerria':'🐷','Oiloa':'🐔','Baserria':'🏡','Handia':'🐘','Txikia':'🐜'};
 const I=(eu,es,tip)=>({t:'intro',eu,es,tip});
 const P=(es,eu,wrong)=>({t:'pick',es,eu,opts:[eu,...wrong]});
 const C=(prompt,speak,opts,ans,meaning)=>({t:'choice',prompt,speak,opts,ans,meaning});
@@ -274,12 +274,19 @@ const CONV3=[
  {m:'Zein da zure urtaro gogokoena?',es:'¿Cuál es tu estación favorita?',a:'Nire urtaro gogokoena uda da.',aes:'Mi estación favorita es el verano.',wrong:['Nire urtaro gogokoena uda naiz.','Udan hotz egiten du.']},
  {m:'Nirea negua da! Elurra gustatzen zait.',es:'¡La mía es el invierno! Me gusta la nieve.',a:'Baina neguan hotz egiten du!',aes:'¡Pero en invierno hace frío!',wrong:['Baina neguan hotz naiz!','Baina negua zen!']},
 ];
+const CONV4=[
+ {m:'Kaixo Ane! Zer egingo duzu igandean?',es:'¡Hola, Ane! ¿Qué harás el domingo?',a:'Igandean baserrira noa.',aes:'El domingo voy al caserío.',wrong:['Igandean baserria naiz.','Bihar arte, baserria!']},
+ {m:'Zer animalia daude baserrian?',es:'¿Qué animales hay en el caserío?',a:'Behiak, ardiak eta oiloak daude.',aes:'Hay vacas, ovejas y gallinas.',wrong:['Behiak naiz.','Hiru urte ditut.']},
+ {m:'Zenbat ardi daude?',es:'¿Cuántas ovejas hay?',a:'Hogei ardi daude.',aes:'Hay veinte ovejas.',wrong:['Hogei ardiak daude.','Ardi bat naiz.']},
+ {m:'Eta zer eguraldi egingo du?',es:'¿Y qué tiempo hará?',a:'Eguzkia egongo da!',aes:'¡Hará sol!',wrong:['Eguzkia naiz!','Eguzkia dauzkat!']},
+ {m:'Primeran! Zure txakurra ere joango da?',es:'¡Genial! ¿Tu perro también irá?',a:'Bai, txakurra ere bai!',aes:'¡Sí, el perro también!',wrong:['Bai, txakurra naiz!','Ez, txakurra handia zara.']},
+];
 function convo(n,L=CONV){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:L[i].m,es:L[i].es});h.push({who:'Ane',eu:L[i].a,es:L[i].aes});}
   const c=L[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
 
 /* IMPORTANTE para ampliar la app:
    - NO cambiar los id de unidades (u1, u2...) ni de lecciones (l1, l2...): el progreso de cada persona se guarda con ellos.
-   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l23, u7).
+   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l28, u8).
      El orden del camino lo marca su posición en la lista, no el número del id.
    - Una lección ya hecha siempre queda abierta, así que se pueden insertar lecciones entre otras sin bloquear a nadie.
    - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
@@ -720,6 +727,106 @@ const UNITS=[
     convo(4,CONV3),
     L('Nire urtaro gogokoena negua da',['uda','zen'],'Mi estación favorita es el invierno'),
     T('Mañana lloverá',['bihar euria egingo du']),
+  ]},
+]},
+{ id:'u7', n:7, title:'Animales', sub:'Mascotas, el caserío y hablar de tus animales', color:'#f0609e', dark:'#c4457c',
+  tips:`<h3>Mascotas</h3>
+  <table><tbody>
+  <tr><td>txakurra</td><td>el perro</td></tr><tr><td>katua</td><td>el gato</td></tr><tr><td>txoria</td><td>el pájaro</td></tr><tr><td>arraina</td><td>el pez</td></tr><tr><td>untxia</td><td>el conejo</td></tr><tr><td>sagua</td><td>el ratón</td></tr>
+  </tbody></table>
+  <h3>En el caserío (baserria)</h3>
+  <table><tbody>
+  <tr><td>behia</td><td>la vaca</td></tr><tr><td>ardia</td><td>la oveja</td></tr><tr><td>zaldia</td><td>el caballo</td></tr><tr><td>txerria</td><td>el cerdo</td></tr><tr><td>oiloa</td><td>la gallina</td></tr>
+  </tbody></table>
+  <p>El <b>baserri</b> es la casa de campo tradicional vasca. Y la <b>latxa</b>, como nuestra mascota, es una raza de oveja vasca.</p>
+  <h3>«El», «un» y «los»</h3>
+  <table><tbody>
+  <tr><td>txakurra</td><td>el perro (la -a es «el»)</td></tr><tr><td>txakur bat</td><td>un perro (se quita la -a)</td></tr><tr><td>txakurrak</td><td>los perros (-ak = plural)</td></tr><tr><td>hiru txakur</td><td>tres perros (sin plural tras el número)</td></tr>
+  </tbody></table>
+  <h3>Colores y tamaños van detrás</h3>
+  <p><i>katu zuri bat</i> = un gato blanco (literalmente «gato blanco uno»). <i>Zaldia handia da</i> = el caballo es grande.</p>
+  <table><tbody><tr><td>handia</td><td>grande</td></tr><tr><td>txikia</td><td>pequeño</td></tr><tr><td>zuria</td><td>blanco</td></tr><tr><td>beltza</td><td>negro</td></tr></tbody></table>
+  <h3>Tener uno o varios</h3>
+  <p><i>Txakur bat <b>daukat</b></i> = tengo un perro. <i>Bi katu <b>dauzkat</b></i> = tengo dos gatos. <i>Baserrian behiak <b>daude</b></i> = en el caserío hay vacas.</p>
+  <h3>«De» y «tiene»</h3>
+  <p><b>-ren</b> = de: <i>txakurraren izena</i> = el nombre del perro. Cuando el animal «tiene» algo, lleva <b>-k</b>: <i>Txakurra<b>k</b> bost urte ditu</i> = el perro tiene cinco años.</p>`,
+  lessons:[
+  { id:'l23', title:'Mascotas', ex:[
+    I('Animalia','Animal'),
+    I('Txakurra','El perro','La <b>-a</b> final es «el»: txakur + a.'),
+    I('Katua','El gato'),
+    P('El gato','Katua',['Txakurra']),
+    I('Txoria','El pájaro'),
+    I('Arraina','El pez'),
+    I('Untxia','El conejo','<b>tx</b> suena «ch»: «unchia».'),
+    P('El conejo','Untxia',['Txoria','Arraina']),
+    M([['Txakurra','El perro'],['Katua','El gato'],['Txoria','El pájaro'],['Arraina','El pez'],['Untxia','El conejo']]),
+    I('Txakur bat daukat','Tengo un perro','Con <b>bat</b> se quita la <b>-a</b>: txakurra → txakur bat. <b>daukat</b> = tengo, como en «aterki bat daukat».'),
+    B('es2eu','Tengo un gato',['Katu bat daukat'],['katua','daukazu','bi']),
+    D([{who:'Mikel',eu:'Kaixo Ane! Zer animalia daukazu?',es:'¡Hola, Ane! ¿Qué animal tienes?'}],['Txakur bat daukat.','Txakurra bat daukat.','Txakur bat naiz.'],'Txakur bat daukat.','Tengo un perro.'),
+    L('Katu bat daukat',['txakur','daukazu'],'Tengo un gato'),
+    T('El perro',['txakurra']),
+  ]},
+  { id:'l24', title:'En el caserío', ex:[
+    I('Baserria','El caserío','La casa de campo tradicional vasca, con sus animales y su huerta.'),
+    I('Behia','La vaca'),
+    I('Ardia','La oveja','¡Como Latxa! La <b>latxa</b> es una raza de oveja vasca.'),
+    I('Latxa ardi bat da','Latxa es una oveja','<b>ardi bat</b> = una oveja · <b>da</b> = es'),
+    P('La vaca','Behia',['Ardia']),
+    I('Zaldia','El caballo'),
+    I('Txerria','El cerdo'),
+    I('Oiloa','La gallina'),
+    P('El caballo','Zaldia',['Txerria','Oiloa']),
+    M([['Behia','La vaca'],['Ardia','La oveja'],['Zaldia','El caballo'],['Txerria','El cerdo'],['Oiloa','La gallina']]),
+    I('Baserrian behiak daude','En el caserío hay vacas','<b>-ak</b> = plural · <b>daude</b> = hay (varios). baserria → baserri<b>an</b>, como udan o neguan.'),
+    F('En el caserío hay diez ovejas','Baserrian hamar ardi','',['daude','dago','naiz'],'daude'),
+    B('es2eu','Hay tres caballos',['Hiru zaldi daude'],['zaldiak','dago','bat']),
+    L('Baserrian ardiak eta behiak daude',['zaldi','dago'],'En el caserío hay ovejas y vacas'),
+    T('La oveja',['ardia']),
+  ]},
+  { id:'l25', title:'Grande y pequeño', ex:[
+    I('Handia','Grande'),
+    I('Txikia','Pequeño','Seguro que te suena: <b>txiki</b> se usa mucho también en castellano en el País Vasco.'),
+    I('Zaldia handia da','El caballo es grande','El verbo <b>da</b>, como siempre, al final.'),
+    I('Sagua','El ratón'),
+    I('Sagua txikia da','El ratón es pequeño'),
+    C('¿Qué significa «Behia handia da»?','Behia handia da',['La vaca es grande','La vaca es pequeña','Hay una vaca'],'La vaca es grande'),
+    I('Zuria','Blanco'),
+    I('Beltza','Negro'),
+    I('Katu zuri bat','Un gato blanco','Orden: animal + color + <b>bat</b>. Al revés que en español: «gato blanco uno».'),
+    C('¿Cómo se dice «un perro negro»?','',['Txakur beltz bat','Bat txakur beltz','Txakur bat beltza'],'Txakur beltz bat'),
+    M([['Handia','Grande'],['Txikia','Pequeño'],['Zuria','Blanco'],['Beltza','Negro'],['Sagua','El ratón']]),
+    B('es2eu','Mi gato es pequeño',['Nire katua txikia da'],['zure','handia','naiz']),
+    B('eu2es','Ardi zuri bat daukat',['Tengo una oveja blanca'],['negra','vaca','es']),
+    L('Zaldia handia da eta sagua txikia da',['beltza','zuria'],'El caballo es grande y el ratón es pequeño'),
+    T('Pequeño',['txikia']),
+  ]},
+  { id:'l26', title:'Mi perro se llama…', ex:[
+    I('Bi katu dauzkat','Tengo dos gatos','Si tienes varios, <b>daukat</b> pasa a <b>dauzkat</b>.'),
+    F('Tengo tres perros','Hiru txakur','',['dauzkat','daukat','daude'],'dauzkat'),
+    I('Txakurraren izena Beltz da','El nombre del perro es Beltz','<b>-ren</b> = de: txakurra<b>ren</b> izena = el nombre del perro. ¡Y <b>beltz</b> significa «negro»!'),
+    B('es2eu','El nombre del gato es Txuri',['Katuaren izena Txuri da'],['katua','nire','naiz']),
+    I('Txakurrak bost urte ditu','El perro tiene cinco años','Como en <b>hogei urte ditut</b>, pero <b>ditu</b> = tiene. El que «tiene» lleva <b>-k</b>: txakurra<b>k</b>.'),
+    C('¿Qué significa «Katuak bi urte ditu»?','Katuak bi urte ditu',['El gato tiene dos años','Tengo dos gatos','Los gatos tienen dos años'],'El gato tiene dos años'),
+    I('Nire animalia gogokoena katua da','Mi animal favorito es el gato','Como con las estaciones: <b>gogokoena</b> = favorito.'),
+    D([{who:'Mikel',eu:'Zein da zure animalia gogokoena?',es:'¿Cuál es tu animal favorito?'}],['Nire animalia gogokoena zaldia da.','Nire animalia gogokoena zaldia naiz.','Zaldi bat dauzkat.'],'Nire animalia gogokoena zaldia da.','Mi animal favorito es el caballo.'),
+    M([['Daukat','Tengo (uno)'],['Dauzkat','Tengo (varios)'],['Ditu','Tiene (varios)'],['Izena','El nombre'],['Gogokoena','Favorito']]),
+    B('eu2es','Bi txakur eta katu bat dauzkat',['Tengo dos perros y un gato'],['tres','vacas','tiene']),
+    L('Txakurraren izena Txiki da',['katua','zuri'],'El nombre del perro es Txiki'),
+    T('Tengo dos gatos',['bi katu dauzkat']),
+  ]},
+  { id:'l27', title:'Un domingo en el caserío', final:true, ex:[
+    I('Igandean baserrira noa','El domingo voy al caserío','<b>noa</b> = voy · <b>baserrira</b> = al caserío (<b>-ra</b> = a, hacia).'),
+    I('Eguzkia egongo da','Hará sol','<b>dago</b> (está) → <b>egongo da</b> (estará), como <b>egiten du</b> → <b>egingo du</b>.'),
+    convo(0,CONV4),
+    B('es2eu','El domingo voy al caserío',['Igandean baserrira noa'],['igandea','baserrian','naiz']),
+    convo(1,CONV4),
+    convo(2,CONV4),
+    M([['Noa','Voy'],['Baserrira','Al caserío'],['Baserrian','En el caserío'],['Egongo da','Estará'],['Ere bai','También']]),
+    convo(3,CONV4),
+    convo(4,CONV4),
+    L('Hogei ardi eta bi zaldi daude',['behiak','dago'],'Hay veinte ovejas y dos caballos'),
+    T('Hay diez ovejas',['hamar ardi daude']),
   ]},
 ]},
 ];
