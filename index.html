@@ -260,12 +260,21 @@ const CONV=[
  {m:'Ni Donostiakoa naiz. Ikaslea zara?',es:'Yo soy de San Sebastián. ¿Eres estudiante?',a:'Bai, ikaslea naiz.',aes:'Sí, soy estudiante.',wrong:['Ez, gaizki.','Bai, ikaslea zara.']},
  {m:'Ni ere bai! Gero arte, Ane!',es:'¡Yo también! ¡Hasta luego, Ane!',a:'Agur, Mikel!',aes:'¡Adiós, Mikel!',wrong:['Egun on, Mikel!','Nire izena Mikel da.']},
 ];
-function convo(n){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:CONV[i].m,es:CONV[i].es});h.push({who:'Ane',eu:CONV[i].a,es:CONV[i].aes});}
-  const c=CONV[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
+const CONV2=[
+ {m:'Kaixo Ane! Zer egun da gaur?',es:'¡Hola, Ane! ¿Qué día es hoy?',a:'Gaur asteartea da.',aes:'Hoy es martes.',wrong:['Asteartea naiz.','Bihar arte.']},
+ {m:'Gaur euskara ikasten duzu?',es:'¿Hoy estudias euskera?',a:'Ez, ostegunean ikasten dut.',aes:'No, lo estudio el jueves.',wrong:['Ez, osteguna ikasten dut.','Bai, zenbat da?']},
+ {m:'Eta asteburuan?',es:'¿Y el fin de semana?',a:'Larunbatean lan egiten dut.',aes:'El sábado trabajo.',wrong:['Larunbata lan egiten duzu.','Hogei urte ditut.']},
+ {m:'Igandean kafe bat?',es:'¿Un café el domingo?',a:'Bai, ados!',aes:'¡Sí, de acuerdo!',wrong:['Kafe naiz.','Atzo igandea zen.']},
+ {m:'Ondo! Igande arte!',es:'¡Bien! ¡Hasta el domingo!',a:'Agur, igande arte!',aes:'¡Adiós, hasta el domingo!',wrong:['Egun on, igandea!','Igandean naiz.']},
+];
+function convo(n,L=CONV){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:L[i].m,es:L[i].es});h.push({who:'Ane',eu:L[i].a,es:L[i].aes});}
+  const c=L[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
 
 /* IMPORTANTE para ampliar la app:
    - NO cambiar los id de unidades (u1, u2...) ni de lecciones (l1, l2...): el progreso de cada persona se guarda con ellos.
-   - Añadir unidades y lecciones nuevas SIEMPRE al final, con id nuevos (u4, l8, l9...).
+   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l18, u6).
+     El orden del camino lo marca su posición en la lista, no el número del id.
+   - Una lección ya hecha siempre queda abierta, así que se pueden insertar lecciones entre otras sin bloquear a nadie.
    - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
 const UNITS=[
 { id:'u1', n:1, title:'Saludos', sub:'Hola, adiós, gracias y qué tal', color:'#58cc02', dark:'#46a302',
@@ -416,38 +425,197 @@ const UNITS=[
     T('Yo también',['ni ere bai']),
   ]},
 ]},
-{ id:'u4', n:4, title:'Números', sub:'Del 1 al 10 y pedir un café', color:'#a560e8', dark:'#7d42b8',
+{ id:'u4', n:4, title:'Números', sub:'Contar, pedir en el bar y decir tu edad', color:'#a560e8', dark:'#7d42b8',
   tips:`<h3>Del 1 al 10</h3>
   <table><tbody>
   <tr><td>bat</td><td>1</td></tr><tr><td>bi</td><td>2</td></tr><tr><td>hiru</td><td>3</td></tr><tr><td>lau</td><td>4</td></tr><tr><td>bost</td><td>5</td></tr>
   <tr><td>sei</td><td>6</td></tr><tr><td>zazpi</td><td>7 (suena «saspi»)</td></tr><tr><td>zortzi</td><td>8 (suena «sortsi»)</td></tr><tr><td>bederatzi</td><td>9</td></tr><tr><td>hamar</td><td>10 (la h no suena)</td></tr>
   </tbody></table>
+  <h3>Del 11 al 20</h3>
+  <table><tbody>
+  <tr><td>hamaika</td><td>11</td></tr><tr><td>hamabi … hamazazpi</td><td>12 … 17 (hama + número)</td></tr><tr><td>hemezortzi</td><td>18 (ojo: heme-)</td></tr><tr><td>hemeretzi</td><td>19 (ojo: heme-)</td></tr><tr><td>hogei</td><td>20</td></tr>
+  </tbody></table>
+  <h3>Se cuenta de veinte en veinte</h3>
+  <p><b>hogeita</b> = «veinte y»: <i>hogeita bat</i> (21), <i>hogeita bi</i> (22)… y <i>hogeita hamar</i> (30) es «veinte y diez».</p>
   <h3>«Bat» va detrás, los demás delante</h3>
   <p><b>Bat</b> (uno) funciona como «un/una» y va <b>detrás</b> del nombre: <i>kafe bat</i> = un café. El resto de números van <b>delante</b>: <i>bi kafe</i> = dos cafés.</p>
   <h3>Sin plural detrás del número</h3>
-  <p>Con un número no hace falta poner el nombre en plural: <i>hiru kafe</i> = tres cafés (literalmente «tres café»).</p>`,
+  <p>Con un número, el nombre no va en plural: <i>hiru kafe</i> (tres cafés), <i>bost euro</i> (cinco euros), <i>hogei urte</i> (veinte años).</p>
+  <h3>Frases útiles</h3>
+  <table><tbody>
+  <tr><td>Zenbat da?</td><td>¿Cuánto es?</td></tr><tr><td>Zer nahi duzu?</td><td>¿Qué quieres?</td></tr><tr><td>Beste ezer?</td><td>¿Algo más?</td></tr>
+  <tr><td>Zenbat urte dituzu?</td><td>¿Cuántos años tienes?</td></tr><tr><td>Hogei urte ditut</td><td>Tengo veinte años</td></tr>
+  </tbody></table>`,
   lessons:[
-  { id:'l8', title:'Del 1 al 10', ex:[
+  { id:'l8', title:'Del 1 al 5', ex:[
     I('Bat','Uno','También significa «un / una» y va detrás: <b>kafe bat</b> = un café.'),
     I('Bi','Dos'),
+    P('Uno','Bat',['Bi']),
     I('Hiru','Tres'),
-    P('Dos','Bi',['Bat','Hiru']),
+    C('¿Qué número es «Hiru»?','Hiru',['3','2','1'],'3'),
     I('Lau','Cuatro'),
     I('Bost','Cinco'),
-    C('¿Qué número es «Lau»?','Lau',['4','5','3'],'4'),
+    P('Cuatro','Lau',['Bost','Hiru']),
+    M([['Bat','1'],['Bi','2'],['Hiru','3'],['Lau','4'],['Bost','5']]),
+    I('Kafe bat, mesedez','Un café, por favor','<b>bat</b> va <b>detrás</b> del nombre.'),
+    C('¿Cómo se dice «Un café, por favor»?','',['Kafe bat, mesedez','Bat kafe, mesedez','Kafe bi, mesedez'],'Kafe bat, mesedez'),
+    L('Bat, bi, hiru',['lau','bost'],'Uno, dos, tres'),
+    T('Cinco',['bost']),
+  ]},
+  { id:'l10', title:'Del 6 al 10', ex:[
     I('Sei','Seis','Casi igual que en español.'),
     I('Zazpi','Siete','La <b>z</b> suena como la «s» española: «saspi».'),
     I('Zortzi','Ocho','<b>tz</b> suena «ts»: «sortsi».'),
     P('Siete','Zazpi',['Zortzi','Sei']),
     I('Bederatzi','Nueve'),
     I('Hamar','Diez','La <b>h</b> no suena: «amar».'),
-    M([['Bat','1'],['Hiru','3'],['Bost','5'],['Zortzi','8'],['Hamar','10']]),
+    C('¿Qué número es «Zortzi»?','Zortzi',['8','7','9'],'8'),
+    M([['Sei','6'],['Zazpi','7'],['Zortzi','8'],['Bederatzi','9'],['Hamar','10']]),
     C('¿Cómo se dice «nueve»?','',['Bederatzi','Zortzi','Hamar'],'Bederatzi'),
-    I('Kafe bat, mesedez','Un café, por favor','<b>bat</b> va detrás del nombre, pero los demás números van delante: <b>bi kafe</b> = dos cafés.'),
-    B('es2eu','Dos cafés, por favor',['Bi kafe, mesedez'],['bat','hiru','kafea']),
-    C('¿Cómo se dice «Un café, por favor»?','',['Kafe bat, mesedez','Bat kafe, mesedez','Kafe bi, mesedez'],'Kafe bat, mesedez'),
-    L('Hiru, lau, bost',['bi','sei'],'Tres, cuatro, cinco'),
+    M([['Bi','2'],['Lau','4'],['Bost','5'],['Sei','6'],['Hamar','10']]),
+    L('Sei, zazpi, zortzi',['bost','hamar'],'Seis, siete, ocho'),
+    B('eu2es','Bat, bi, hiru, lau, bost',['Uno, dos, tres, cuatro, cinco'],['seis','diez']),
     T('Diez',['hamar']),
+  ]},
+  { id:'l11', title:'En el bar', ex:[
+    I('Bi kafe, mesedez','Dos cafés, por favor','<b>bat</b> va detrás, pero los demás números van <b>delante</b>. Y el nombre no va en plural: «bi kafe».'),
+    B('es2eu','Dos cafés, por favor',['Bi kafe, mesedez'],['bat','hiru','kafea']),
+    I('Garagardo bat','Una cerveza','<b>garagardo</b> = cerveza'),
+    I('Ur botila bat','Una botella de agua','<b>ur</b> = agua · <b>botila</b> = botella'),
+    C('¿Qué significa «Hiru garagardo»?','Hiru garagardo',['Tres cervezas','Una cerveza','Tres cafés'],'Tres cervezas'),
+    I('Zenbat da?','¿Cuánto es?','Para preguntar el precio. <b>zenbat</b> = cuánto · <b>da</b> = es.'),
+    I('Bost euro','Cinco euros','Tampoco hay plural después del número: «bost euro».'),
+    M([['Kafe','Café'],['Garagardo','Cerveza'],['Ur','Agua'],['Botila','Botella'],['Zenbat?','¿Cuánto?']]),
+    B('eu2es','Zenbat da? Lau euro.',['¿Cuánto es? Cuatro euros.'],['cinco','café','dos']),
+    D([{who:'Mikel',eu:'Kaixo! Zer nahi duzu?',es:'¡Hola! ¿Qué quieres?'}],['Kafe bat, mesedez.','Bat kafe, mesedez.','Zenbat zara?'],'Kafe bat, mesedez.','Un café, por favor.'),
+    D([{who:'Mikel',eu:'Kaixo! Zer nahi duzu?',es:'¡Hola! ¿Qué quieres?'},{who:'Ane',eu:'Kafe bat, mesedez.',es:'Un café, por favor.'},{who:'Mikel',eu:'Beste ezer?',es:'¿Algo más?'}],['Ez, eskerrik asko. Zenbat da?','Bai, zenbat zara?','Bost kafe naiz.'],'Ez, eskerrik asko. Zenbat da?','No, gracias. ¿Cuánto es?'),
+    L('Bi garagardo, mesedez',['kafe','bat'],'Dos cervezas, por favor'),
+    T('¿Cuánto es?',['zenbat da']),
+  ]},
+  { id:'l12', title:'Del 11 al 20', ex:[
+    I('Hamaika','Once','Es especial. Curiosidad: también se usa para decir «muchísimos».'),
+    I('Hamabi','Doce','<b>hama</b> + <b>bi</b>: «diez-dos».'),
+    I('Hamahiru','Trece','Del 12 al 17 es fácil: <b>hama</b> + el número.'),
+    I('Hamalau','Catorce'),
+    I('Hamabost','Quince'),
+    C('¿Qué número es «Hamabost»?','Hamabost',['15','14','5'],'15'),
+    I('Hamasei','Dieciséis'),
+    I('Hamazazpi','Diecisiete'),
+    I('Hemezortzi','Dieciocho','Ojo: empieza por <b>heme</b>, no por «hama».'),
+    I('Hemeretzi','Diecinueve','También con <b>heme</b>.'),
+    I('Hogei','Veinte'),
+    M([['Hamaika','11'],['Hamabi','12'],['Hamalau','14'],['Hemezortzi','18'],['Hogei','20']]),
+    C('¿Cómo se dice «trece»?','',['Hamahiru','Hamaika','Hemeretzi'],'Hamahiru'),
+    L('Hamasei, hamazazpi',['hogei','hamabi'],'Dieciséis, diecisiete'),
+    T('Veinte',['hogei']),
+  ]},
+  { id:'l13', title:'¿Cuántos años tienes?', final:true, ex:[
+    I('Urte','Año','Como con los euros, no hay plural tras el número: «hogei urte».'),
+    I('Zenbat urte dituzu?','¿Cuántos años tienes?','<b>dituzu</b> = tienes (cuando lo que tienes es plural, como los años).'),
+    I('Hogei urte ditut','Tengo veinte años','<b>ditut</b> = tengo.'),
+    C('¿Qué significa «Hamazazpi urte ditut»?','Hamazazpi urte ditut',['Tengo diecisiete años','Tengo siete años','Tengo diecisiete euros'],'Tengo diecisiete años'),
+    F('Tengo quince años','Hamabost urte','',['ditut','dituzu','naiz'],'ditut'),
+    I('Hogeita bat','Veintiuno','<b>hogeita</b> = «veinte y»: hogeita bat, hogeita bi…'),
+    I('Hogeita hamar','Treinta','¡Se cuenta de veinte en veinte! Treinta es «veinte y diez».'),
+    C('¿Cómo se dice «veintidós»?','',['Hogeita bi','Hogei bi','Bi hogei'],'Hogeita bi'),
+    B('es2eu','Tengo veintiún años',['Hogeita bat urte ditut'],['dituzu','hamar','naiz']),
+    B('eu2es','Zenbat urte dituzu?',['¿Cuántos años tienes?'],['tengo','cuánto','veinte']),
+    D([{who:'Mikel',eu:'Zenbat urte dituzu?',es:'¿Cuántos años tienes?'}],['Hemeretzi urte ditut.','Hemeretzi urte naiz.','Hemeretzi urte dituzu.'],'Hemeretzi urte ditut.','Tengo diecinueve años.'),
+    L('Hogeita hamar urte ditut',['hogei','dituzu'],'Tengo treinta años'),
+    T('¿Cuántos años tienes?',['zenbat urte dituzu']),
+  ]},
+]},
+{ id:'u5', n:5, title:'Los días', sub:'La semana, hoy, ayer, mañana y quedar', color:'#ff9600', dark:'#cc7800',
+  tips:`<h3>Los días de la semana</h3>
+  <table><tbody>
+  <tr><td>astelehena</td><td>lunes</td></tr><tr><td>asteartea</td><td>martes</td></tr><tr><td>asteazkena</td><td>miércoles</td></tr>
+  <tr><td>osteguna</td><td>jueves</td></tr><tr><td>ostirala</td><td>viernes</td></tr><tr><td>larunbata</td><td>sábado</td></tr><tr><td>igandea</td><td>domingo</td></tr>
+  </tbody></table>
+  <h3>Los tres primeros tienen truco</h3>
+  <p>Todos empiezan por <b>aste</b> (semana):</p>
+  <ul><li><b>aste + lehen</b> (primero) → astelehena, el lunes</li><li><b>aste + arte</b> (entre) → asteartea, el martes</li><li><b>aste + azken</b> (último) → asteazkena, el miércoles</li></ul>
+  <p>Se suele explicar que antiguamente la semana vasca tenía solo tres días, y por eso hay un «primero», un «de en medio» y un «último».</p>
+  <h3>Hoy, ayer y mañana</h3>
+  <table><tbody><tr><td>atzo</td><td>ayer</td></tr><tr><td>gaur</td><td>hoy</td></tr><tr><td>bihar</td><td>mañana</td></tr></tbody></table>
+  <p><i>Gaur ostirala da</i> = hoy es viernes. Para el pasado se usa <b>zen</b> (era): <i>Atzo osteguna zen</i> = ayer era jueves.</p>
+  <h3>Decir cuándo: -ean / -n</h3>
+  <p>Para decir que algo pasa un día, se quita la <b>-a</b> del final y se añade <b>-ean</b> (o <b>-an</b>):</p>
+  <table><tbody>
+  <tr><td>astelehenean</td><td>el lunes</td></tr><tr><td>ostiralean</td><td>el viernes</td></tr><tr><td>larunbatean</td><td>el sábado</td></tr><tr><td>igandean</td><td>el domingo</td></tr><tr><td>asteburuan</td><td>el fin de semana</td></tr>
+  </tbody></table>
+  <h3>Para quedar</h3>
+  <table><tbody><tr><td>Ados!</td><td>¡De acuerdo!</td></tr><tr><td>Igande arte!</td><td>¡Hasta el domingo!</td></tr><tr><td>Zer egiten duzu…?</td><td>¿Qué haces…?</td></tr></tbody></table>`,
+  lessons:[
+  { id:'l9', title:'Lunes, martes y miércoles', ex:[
+    I('Aste','Semana','Los tres primeros días empiezan por <b>aste</b>.'),
+    I('Astelehena','Lunes','<b>lehen</b> = primero: el «primero de la semana».'),
+    I('Asteartea','Martes','<b>arte</b> = entre: el día «de en medio».'),
+    C('¿Qué día es «Astelehena»?','Astelehena',['Lunes','Martes','Miércoles'],'Lunes'),
+    I('Asteazkena','Miércoles','<b>azken</b> = último. Mira los Consejos de la unidad: tiene su historia.'),
+    C('¿Qué día es «Asteartea»?','Asteartea',['Martes','Lunes','Miércoles'],'Martes'),
+    M([['Aste','Semana'],['Lehen','Primero'],['Arte','Entre'],['Azken','Último'],['Asteazkena','Miércoles']]),
+    I('Gaur astelehena da','Hoy es lunes','<b>gaur</b> = hoy · <b>da</b> = es, al final.'),
+    B('es2eu','Hoy es martes',['Gaur asteartea da'],['astelehena','naiz','bihar']),
+    L('Astelehena, asteartea, asteazkena',['aste','gaur'],'Lunes, martes, miércoles'),
+    T('Lunes',['astelehena']),
+  ]},
+  { id:'l14', title:'De jueves a domingo', ex:[
+    I('Osteguna','Jueves'),
+    I('Ostirala','Viernes'),
+    C('¿Qué día es «Ostirala»?','Ostirala',['Viernes','Jueves','Sábado'],'Viernes'),
+    I('Larunbata','Sábado'),
+    I('Igandea','Domingo'),
+    C('¿Cómo se dice «domingo»?','',['Igandea','Larunbata','Osteguna'],'Igandea'),
+    I('Asteburua','El fin de semana','<b>aste</b> (semana) + <b>buru</b> (cabeza, final).'),
+    M([['Osteguna','Jueves'],['Ostirala','Viernes'],['Larunbata','Sábado'],['Igandea','Domingo'],['Asteburua','Fin de semana']]),
+    M([['Astelehena','Lunes'],['Asteartea','Martes'],['Asteazkena','Miércoles'],['Osteguna','Jueves'],['Igandea','Domingo']]),
+    B('es2eu','Hoy es sábado',['Gaur larunbata da'],['igandea','naiz','ostirala']),
+    L('Ostirala, larunbata, igandea',['osteguna','asteburua'],'Viernes, sábado, domingo'),
+    T('Domingo',['igandea']),
+  ]},
+  { id:'l15', title:'Hoy, ayer y mañana', ex:[
+    I('Gaur','Hoy'),
+    I('Atzo','Ayer'),
+    I('Bihar','Mañana','Ya la conoces de <b>bihar arte</b> (hasta mañana).'),
+    M([['Gaur','Hoy'],['Atzo','Ayer'],['Bihar','Mañana'],['Aste','Semana'],['Egun','Día']]),
+    I('Zer egun da gaur?','¿Qué día es hoy?','<b>zer</b> = qué · <b>egun</b> = día, como en <b>egun</b> on.'),
+    I('Gaur ostirala da','Hoy es viernes'),
+    I('Bihar larunbata da','Mañana es sábado'),
+    F('Mañana es domingo','Bihar igandea','',['da','naiz','zara'],'da'),
+    I('Atzo osteguna zen','Ayer era jueves','<b>zen</b> = era. Es el pasado de <b>da</b>.'),
+    C('¿Qué significa «Atzo asteazkena zen»?','Atzo asteazkena zen',['Ayer era miércoles','Hoy es miércoles','Mañana es miércoles'],'Ayer era miércoles'),
+    B('eu2es','Zer egun da gaur?',['¿Qué día es hoy?'],['mañana','ayer','semana']),
+    D([{who:'Mikel',eu:'Zer egun da gaur?',es:'¿Qué día es hoy?'}],['Gaur osteguna da.','Bihar arte.','Osteguna naiz.'],'Gaur osteguna da.','Hoy es jueves.'),
+    L('Bihar larunbata da',['gaur','zen'],'Mañana es sábado'),
+    T('Ayer',['atzo']),
+  ]},
+  { id:'l16', title:'El lunes trabajo', ex:[
+    I('Astelehenean','El lunes','Para decir <b>cuándo</b>: astelehena → astelehen<b>ean</b>.'),
+    I('Astelehenean lan egiten dut','El lunes trabajo','<b>lan egiten dut</b> = trabajo.'),
+    I('Ostiralean','El viernes','ostirala → ostiral<b>ean</b>'),
+    I('Ostiralean euskara ikasten dut','El viernes estudio euskera','<b>ikasten dut</b> = estudio / aprendo.'),
+    C('¿Qué significa «Igandean»?','Igandean',['El domingo','Domingo','Hasta el domingo'],'El domingo'),
+    I('Asteburuan','El fin de semana','asteburua → asteburu<b>an</b>'),
+    C('¿Cómo se dice «el sábado» (para decir cuándo)?','',['Larunbatean','Larunbata','Larunbat arte'],'Larunbatean'),
+    I('Zer egiten duzu larunbatean?','¿Qué haces el sábado?','<b>egiten duzu</b> = haces.'),
+    B('es2eu','El lunes trabajo',['Astelehenean lan egiten dut'],['astelehena','duzu','ikasten']),
+    B('eu2es','Asteburuan euskara ikasten dut',['El fin de semana estudio euskera'],['trabajo','lunes','haces']),
+    D([{who:'Mikel',eu:'Zer egiten duzu larunbatean?',es:'¿Qué haces el sábado?'}],['Larunbatean lan egiten dut.','Larunbata lan egiten dut.','Larunbatean lan egiten duzu.'],'Larunbatean lan egiten dut.','El sábado trabajo.'),
+    L('Igandean euskara ikasten dut',['lan','asteburuan'],'El domingo estudio euskera'),
+    T('El viernes',['ostiralean']),
+  ]},
+  { id:'l17', title:'¿Quedamos el domingo?', final:true, ex:[
+    I('Ados!','¡De acuerdo!','Muy útil para quedar.'),
+    I('Igande arte!','¡Hasta el domingo!','Como <b>bihar arte</b>: día + <b>arte</b>.'),
+    convo(0,CONV2),
+    B('es2eu','Hoy es martes',['Gaur asteartea da'],['bihar','zen','naiz']),
+    convo(1,CONV2),
+    convo(2,CONV2),
+    M([['Gaur','Hoy'],['Ados','De acuerdo'],['Larunbatean','El sábado'],['Asteburuan','El fin de semana'],['Igande arte','Hasta el domingo']]),
+    convo(3,CONV2),
+    convo(4,CONV2),
+    L('Bai, ados! Igande arte!',['bihar','gaur'],'¡Sí, de acuerdo! ¡Hasta el domingo!'),
+    T('¡De acuerdo!',['ados']),
   ]},
 ]},
 ];
@@ -583,7 +751,7 @@ function renderHome(){
       <button class="tips-btn" data-tips="${u.id}">${ICON.book}Consejos</button></header><div class="path">`;
     u.lessons.forEach((l,li)=>{
       const idx=ALL.findIndex(x=>x.id===l.id);
-      const done=!!S.done[l.id];const unlocked=idx===0||!!S.done[ALL[idx-1].id];
+      const done=!!S.done[l.id];const unlocked=done||idx===0||!!S.done[ALL[idx-1].id];
       const current=idx===firstOpen;
       const cls=done?'done':unlocked?'':'locked';
       const ic=done?ICON.check:!unlocked?ICON.lock:l.final?ICON.trophy:ICON.star;
@@ -600,7 +768,7 @@ function renderHome(){
   $('#home').innerHTML=h;
   document.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{
     const idx=ALL.findIndex(x=>x.id===b.dataset.lesson);
-    if(idx>0&&!S.done[ALL[idx-1].id]){toast('Completa la lección anterior para desbloquear esta.');return;}
+    if(idx>0&&!S.done[ALL[idx].id]&&!S.done[ALL[idx-1].id]){toast('Completa la lección anterior para desbloquear esta.');return;}
     startLesson(ALL[idx]);});
   document.querySelectorAll('[data-tips]').forEach(b=>b.onclick=()=>openTips(UNITS.find(u=>u.id===b.dataset.tips)));
   let armed=false;$('#resetBtn').onclick=e=>{if(!armed){armed=true;e.target.textContent='¿Seguro? Pulsa otra vez para borrar';setTimeout(()=>{armed=false;if(e.target.isConnected)e.target.textContent='Borrar mi progreso';},3000);return;}
