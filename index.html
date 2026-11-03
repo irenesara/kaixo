@@ -120,6 +120,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .fb h3{font-size:22px;font-weight:900}
 .fb p{font-size:16px;margin-top:3px;line-height:1.35}
 .fb .meaning{opacity:.8;font-weight:700}
+.fb .tiny{display:block;font-size:13px;font-weight:700;opacity:.8;letter-spacing:.02em}
+.fb .fixed{display:block;font-size:19px;font-weight:800;margin-top:2px}
+.fb .fix{text-decoration:underline 3px;text-underline-offset:4px;font-weight:900}
 .foot.ok .btn{background:var(--green);box-shadow:0 4px 0 var(--green-dk)}
 .foot.bad .btn{background:var(--bad-fg);box-shadow:0 4px 0 #c42020}
 .foot-btns{display:flex;gap:10px;margin-left:auto}
@@ -239,7 +242,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <script>
 /* ================== CONTENIDO ================== */
-const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓'};
+const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕'};
 const I=(eu,es,tip)=>({t:'intro',eu,es,tip});
 const P=(es,eu,wrong)=>({t:'pick',es,eu,opts:[eu,...wrong]});
 const C=(prompt,speak,opts,ans,meaning)=>({t:'choice',prompt,speak,opts,ans,meaning});
@@ -260,6 +263,10 @@ const CONV=[
 function convo(n){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:CONV[i].m,es:CONV[i].es});h.push({who:'Ane',eu:CONV[i].a,es:CONV[i].aes});}
   const c=CONV[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
 
+/* IMPORTANTE para ampliar la app:
+   - NO cambiar los id de unidades (u1, u2...) ni de lecciones (l1, l2...): el progreso de cada persona se guarda con ellos.
+   - Añadir unidades y lecciones nuevas SIEMPRE al final, con id nuevos (u4, l8, l9...).
+   - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
 const UNITS=[
 { id:'u1', n:1, title:'Saludos', sub:'Hola, adiós, gracias y qué tal', color:'#58cc02', dark:'#46a302',
   tips:`<h3>Se lee casi como el español</h3>
@@ -409,6 +416,40 @@ const UNITS=[
     T('Yo también',['ni ere bai']),
   ]},
 ]},
+{ id:'u4', n:4, title:'Números', sub:'Del 1 al 10 y pedir un café', color:'#a560e8', dark:'#7d42b8',
+  tips:`<h3>Del 1 al 10</h3>
+  <table><tbody>
+  <tr><td>bat</td><td>1</td></tr><tr><td>bi</td><td>2</td></tr><tr><td>hiru</td><td>3</td></tr><tr><td>lau</td><td>4</td></tr><tr><td>bost</td><td>5</td></tr>
+  <tr><td>sei</td><td>6</td></tr><tr><td>zazpi</td><td>7 (suena «saspi»)</td></tr><tr><td>zortzi</td><td>8 (suena «sortsi»)</td></tr><tr><td>bederatzi</td><td>9</td></tr><tr><td>hamar</td><td>10 (la h no suena)</td></tr>
+  </tbody></table>
+  <h3>«Bat» va detrás, los demás delante</h3>
+  <p><b>Bat</b> (uno) funciona como «un/una» y va <b>detrás</b> del nombre: <i>kafe bat</i> = un café. El resto de números van <b>delante</b>: <i>bi kafe</i> = dos cafés.</p>
+  <h3>Sin plural detrás del número</h3>
+  <p>Con un número no hace falta poner el nombre en plural: <i>hiru kafe</i> = tres cafés (literalmente «tres café»).</p>`,
+  lessons:[
+  { id:'l8', title:'Del 1 al 10', ex:[
+    I('Bat','Uno','También significa «un / una» y va detrás: <b>kafe bat</b> = un café.'),
+    I('Bi','Dos'),
+    I('Hiru','Tres'),
+    P('Dos','Bi',['Bat','Hiru']),
+    I('Lau','Cuatro'),
+    I('Bost','Cinco'),
+    C('¿Qué número es «Lau»?','Lau',['4','5','3'],'4'),
+    I('Sei','Seis','Casi igual que en español.'),
+    I('Zazpi','Siete','La <b>z</b> suena como la «s» española: «saspi».'),
+    I('Zortzi','Ocho','<b>tz</b> suena «ts»: «sortsi».'),
+    P('Siete','Zazpi',['Zortzi','Sei']),
+    I('Bederatzi','Nueve'),
+    I('Hamar','Diez','La <b>h</b> no suena: «amar».'),
+    M([['Bat','1'],['Hiru','3'],['Bost','5'],['Zortzi','8'],['Hamar','10']]),
+    C('¿Cómo se dice «nueve»?','',['Bederatzi','Zortzi','Hamar'],'Bederatzi'),
+    I('Kafe bat, mesedez','Un café, por favor','<b>bat</b> va detrás del nombre, pero los demás números van delante: <b>bi kafe</b> = dos cafés.'),
+    B('es2eu','Dos cafés, por favor',['Bi kafe, mesedez'],['bat','hiru','kafea']),
+    C('¿Cómo se dice «Un café, por favor»?','',['Kafe bat, mesedez','Bat kafe, mesedez','Kafe bi, mesedez'],'Kafe bat, mesedez'),
+    L('Hiru, lau, bost',['bi','sei'],'Tres, cuatro, cinco'),
+    T('Diez',['hamar']),
+  ]},
+]},
 ];
 const ALL=UNITS.flatMap(u=>u.lessons.map(l=>({...l,unit:u})));
 
@@ -420,6 +461,13 @@ const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').re
 const tokens=s=>String(s).replace(/[¿?¡!.,]/g,'').split(/\s+/).filter(Boolean);
 function lev(a,b){const m=a.length,n=b.length;const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;
   for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n];}
+/* Devuelve la respuesta correcta con la letra corregida subrayada (para fallos de una letra) */
+function markFix(t,g){let p=0;while(p<t.length&&p<g.length&&t[p]===g[p])p++;
+  let s=0;while(s<t.length-p&&s<g.length-p&&t[t.length-1-s]===g[g.length-1-s])s++;
+  let a=p,b=t.length-s;
+  if(a>=b){a=Math.max(0,p-1);b=a+1;} /* sobraba una letra: subrayamos dónde estaba */
+  if(t[a]===' '&&b-a===1){if(a>0){a--;b--;}else{a++;b++;}}
+  return esc(t.slice(0,a))+'<u class="fix">'+esc(t.slice(a,b))+'</u>'+esc(t.slice(b));}
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const yesterday=()=>{const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 
@@ -741,8 +789,8 @@ const RENDER={
   const ta=$('#typeIn');ta.oninput=()=>setCheck(ta.value.trim().length>0);setTimeout(()=>ta.focus({preventScroll:true}),100);
   ctrl={check:()=>{const got=norm(ta.value);const acc=ex.answers.map(norm);const disp=ex.answers[0].charAt(0).toUpperCase()+ex.answers[0].slice(1);
     if(acc.includes(got))return {ok:true,say:ex.answers[0]};
-    const near=acc.find(a=>a.length>4&&lev(a,got)<=1);
-    if(near)return {ok:true,note:`Casi perfecto. Ojo con la ortografía: <b>${esc(near)}</b>`,say:near};
+    const near=acc.find(a=>a.length>3&&lev(a,got)<=1);
+    if(near)return {ok:true,note:`<span class="tiny">Tienes un pequeño fallo</span><span class="fixed">${markFix(near,got)}</span>`,say:near};
     return {ok:false,solution:disp,meaning:ex.es};}};
  },
  dialog(ex,box){
