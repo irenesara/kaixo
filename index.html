@@ -160,6 +160,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .bubble .spk{width:38px;height:38px;border-radius:11px}
 .bubble .spk svg{width:20px;height:20px}
 
+.hw{position:relative;border-bottom:2px dashed var(--muted);cursor:help;outline:none}
+.hw:focus-visible{border-bottom-color:var(--blue)}
+.hwt{display:none;position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:14px;line-height:1.3;font-weight:800;padding:6px 10px;border-radius:10px;white-space:nowrap;z-index:5;pointer-events:none}
+.hwt::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--fg)}
+.hw:hover .hwt,.hw.on .hwt{display:block}
+.hint-note{font-size:13px;color:var(--muted);margin-top:-12px}
 /* constructor */
 .answer{min-height:122px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:4px 0;background:repeating-linear-gradient(to bottom,transparent 0 56px,var(--line) 56px 58px,transparent 58px 61px)}
 .bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
@@ -1082,6 +1088,36 @@ document.addEventListener('keydown',e=>{
     const opts=document.querySelectorAll('#exBox [data-opt]');const o=opts[+e.key-1];if(o)o.click();}
 });
 
+/* ===== AYUDA: traducción de cada palabra al pasar el ratón o tocarla =====
+   Claves en minúscula y sin tildes. Al añadir lecciones, añadir aquí las palabras nuevas de las frases a traducir. */
+const GL_EU={
+ 'kaixo':'hola','agur':'adiós','egun':'día','on':'bueno/a','gabon':'buenas noches','eskerrik':'gracias','asko':'mucho/a','horregatik':'por eso','ez':'no','bai':'sí','mesedez':'por favor',
+ 'zer':'qué','moduz':'tal','ondo':'bien','oso':'muy','eta':'y','zu':'tú','ni':'yo','naiz':'soy','zara':'eres','da':'es','nor':'quién','nire':'mi','zure':'tu','izena':'el nombre','zein':'cuál',
+ 'nongoa':'de dónde','bilbokoa':'de Bilbao','donostiakoa':'de San Sebastián','ikaslea':'estudiante','euskara':'euskera','ikasten':'aprendiendo / estudiando','ari':'estar …-ando (ari naiz = estoy)',
+ 'bat':'uno / un','bi':'dos','hiru':'tres','lau':'cuatro','bost':'cinco','zenbat':'cuánto/s','euro':'euro(s)','kafe':'café','urte':'año(s)','dituzu':'tienes','ditut':'tengo',
+ 'gaur':'hoy','atzo':'ayer','bihar':'mañana','asteburuan':'el fin de semana (cuándo)','egiten':'haciendo (egiten du = hace)','du':'(auxiliar: lo hace él/ella)','dut':'(auxiliar: lo hago yo)',
+ 'bero':'calor','hotz':'frío','udan':'en verano','negua':'el invierno','udazkena':'el otoño','daukat':'tengo','dauzkat':'tengo (varios)','katu':'gato','txakur':'perro','ardi':'oveja','zuri':'blanco/a'
+};
+const GL_ES={
+ 'hola':'kaixo','buenos':'on (va detrás)','dias':'egun','muchas':'asko (va detrás)','gracias':'eskerrik','nada':'(de nada = ez horregatik)','por':'(por favor = mesedez)','favor':'(por favor = mesedez)','si':'bai','no':'ez',
+ 'que':'zer','tal':'(¿qué tal? = zer moduz?)','bien':'ondo','y':'eta','tu':'zu (tú) · zure (tu)','yo':'ni','soy':'naiz','eres':'zara','es':'da','mi':'nire','nombre':'izena','cual':'zein',
+ 'de':'-koa (de dónde) · -ren (de quién)','del':'-ren (de quién)','estudiante':'ikasle','bilbao':'Bilbo','hasta':'arte','manana':'bihar','hoy':'gaur','ayer':'atzo',
+ 'un':'bat (va detrás)','dos':'bi','tres':'hiru','cinco':'bost','diez':'hamar','veinte':'hogei','veintiun':'hogeita bat','cuanto':'zenbat','cuantos':'zenbat','cafes':'kafe','anos':'urte','tengo':'daukat · ditut (años)','tienes':'dituzu (años) · daukazu',
+ 'lunes':'astelehena','martes':'asteartea','viernes':'ostirala','sabado':'larunbata','domingo':'igandea','el':'-a (va al final)','la':'-a (va al final)','en':'-n / -an (va al final)','trabajo':'lan egiten dut',
+ 'hace':'egiten du','sol':'eguzkia','frio':'hotz','esta':'ari du (está …-ando)','lloviendo':'euria ari du','llovera':'euria egingo du','verano':'uda','invierno':'negu','primavera':'udaberri',
+ 'perro':'txakur','gato':'katu','gatos':'katu (sin plural tras número)','oveja':'ardi','ovejas':'ardi','caballos':'zaldi','pequeno':'txiki','hay':'dago (uno) · daude (varios)','caserio':'baserri','al':'-ra (al caserío = baserrira)','voy':'noa',
+ 'acuerdo':'(de acuerdo = ados)','tambien':'ere bai'
+};
+function hintify(text,lang){const G=lang==='eu'?GL_EU:GL_ES;
+  return String(text).split(/(\s+)/).map(tok=>{const m=tok.match(/^([¿¡«"]*)(.*?)([?!.,»"]*)$/);if(!m||!m[2])return esc(tok);
+    const h=G[norm(m[2])];if(!h)return esc(tok);
+    return esc(m[1])+`<span class="hw" tabindex="0" data-w="${esc(m[2])}" data-l="${lang}">${esc(m[2])}<span class="hwt" role="tooltip">${esc(h)}</span></span>`+esc(m[3]);}).join('');}
+function wireHints(box){const ws=[...box.querySelectorAll('.hw')];
+  ws.forEach(w=>{w.onclick=e=>{e.stopPropagation();const was=w.classList.contains('on');ws.forEach(x=>x.classList.remove('on'));if(!was){w.classList.add('on');if(w.dataset.l==='eu')speak(w.dataset.w);}};
+    w.onmouseenter=()=>{ws.forEach(x=>{if(x!==w)x.classList.remove('on')});};});
+  box.addEventListener('click',()=>ws.forEach(x=>x.classList.remove('on')));}
+const HINT_NOTE='<p class="hint-note">Pasa el ratón o toca una palabra subrayada para ver qué significa.</p>';
+
 /* ================== TIPOS DE EJERCICIO ================== */
 const spkBtn=(text,cls='')=>`<button class="spk ${cls}" data-say="${esc(text)}" aria-label="Escuchar">${ICON.speaker}</button>`;
 function wireSpk(box){box.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>speak(b.dataset.say,b.dataset.slow==='1'));}
@@ -1118,10 +1154,10 @@ const RENDER={
   let ans=[];
   let head;
   if(listen) head=`${label('Ejercicio de escucha')}<h1 class="ex-title">Toca lo que oyes</h1><div style="display:flex;gap:14px;justify-content:center">${spkBtn(ex.eu,'big')}<button class="spk slow" data-say="${esc(ex.eu)}" data-slow="1" aria-label="Escuchar despacio">LENTO</button></div>`;
-  else if(ex.dir==='es2eu') head=`<h1 class="ex-title">Traduce al euskera</h1><div class="source">${mascot()}<div class="bubble">${esc(ex.src)}</div></div>`;
-  else head=`<h1 class="ex-title">Traduce al español</h1><div class="source">${mascot()}<div class="bubble">${spkBtn(ex.src)}<span>${esc(ex.src)}</span></div></div>`;
+  else if(ex.dir==='es2eu') head=`<h1 class="ex-title">Traduce al euskera</h1><div class="source">${mascot()}<div class="bubble"><span>${hintify(ex.src,'es')}</span></div></div>${HINT_NOTE}`;
+  else head=`<h1 class="ex-title">Traduce al español</h1><div class="source">${mascot()}<div class="bubble">${spkBtn(ex.src)}<span>${hintify(ex.src,'eu')}</span></div></div>${HINT_NOTE}`;
   box.innerHTML=`${head}<div class="answer" id="ansZone" aria-label="Tu respuesta"></div><div class="bank" id="bankZone"></div>`;
-  wireSpk(box);
+  wireSpk(box);wireHints(box);
   if(listen||ex.dir==='eu2es')setTimeout(()=>speak(listen?ex.eu:ex.src),250);
   const draw=()=>{
     $('#ansZone').innerHTML=ans.map(i=>`<button class="tile" data-a="${i}">${esc(bank[i].w)}</button>`).join('');
@@ -1163,8 +1199,9 @@ const RENDER={
   ctrl={check:()=>({ok:picked===ex.ans,solution:full,meaning:ex.es,say:full})};
  },
  type(ex,box){
-  box.innerHTML=`<h1 class="ex-title">Escribe en euskera</h1><div class="source">${mascot()}<div class="bubble">${esc(ex.es)}</div></div>
+  box.innerHTML=`<h1 class="ex-title">Escribe en euskera</h1><div class="source">${mascot()}<div class="bubble"><span>${hintify(ex.es,'es')}</span></div></div>${HINT_NOTE}
    <textarea class="type-in" id="typeIn" placeholder="Escribe aquí en euskera" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tu respuesta en euskera"></textarea>`;
+  wireHints(box);
   const ta=$('#typeIn');ta.oninput=()=>setCheck(ta.value.trim().length>0);setTimeout(()=>ta.focus({preventScroll:true}),100);
   ctrl={check:()=>{const got=norm(ta.value);const acc=ex.answers.map(norm);const disp=ex.answers[0].charAt(0).toUpperCase()+ex.answers[0].slice(1);
     if(acc.includes(got))return {ok:true,say:ex.answers[0]};
