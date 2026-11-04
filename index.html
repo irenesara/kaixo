@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <title>Kaixo Euskara</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -166,6 +166,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hwt::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--fg)}
 .hw:hover .hwt,.hw.on .hwt{display:block}
 .hint-note{font-size:13px;color:var(--muted);margin-top:-12px}
+.prog-txt{font-size:14px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
 /* constructor */
 .answer{min-height:122px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:4px 0;background:repeating-linear-gradient(to bottom,transparent 0 56px,var(--line) 56px 58px,transparent 58px 61px)}
 .bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
@@ -225,6 +226,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .sheet td:first-child{color:var(--u);font-weight:900;width:38%}
 .toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:800;z-index:70;max-width:calc(100% - 32px);text-align:center}
 
+@media (max-height:520px){.type-in{min-height:64px;font-size:18px;padding:12px}.ls-inner{gap:14px;padding-block:10px 16px}.ex-title{font-size:21px}.source svg.mascot{width:54px;height:54px}.foot-in{padding-block:10px}}
 @media (max-width:420px){.ex-title{font-size:22px}.intro-card .eu{font-size:28px}.cards{grid-template-columns:repeat(2,1fr)}.card .em{font-size:42px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -1003,17 +1005,23 @@ function startLesson(def){
   const el=$('#lesson');el.style.setProperty('--u',def.unit.color);
   el.innerHTML=`<div class="ls-top"><button class="close" id="quit" aria-label="Salir de la lección">${ICON.close}</button>
      <div class="bar" role="progressbar" aria-label="Progreso"><i id="prog"></i></div>
+     <span class="prog-txt" id="progTxt" aria-label="Ejercicios completados">0/0</span>
      <span class="hearts" aria-label="Vidas">${ICON.heart}<span id="hearts">5</span></span></div>
    <div class="ls-body" id="lsBody"></div>
    <footer class="foot" id="foot"><div class="foot-in"><div class="fb" id="fb"></div><div class="foot-btns"><button class="btn ghost" id="skipBtn" hidden>Saltar</button><button class="btn" id="mainBtn" disabled>Comprobar</button></div></div></footer>`;
-  el.hidden=false;document.body.style.overflow='hidden';
+  el.hidden=false;document.body.style.overflow='hidden';fitViewport();
   $('#quit').onclick=closeLesson;
   $('#mainBtn').onclick=onMain;
   $('#skipBtn').onclick=()=>{LS.solved++;LS.i++;next();};
   next();
 }
-function closeLesson(){if(hasTTS)speechSynthesis.cancel();$('#lesson').hidden=true;document.body.style.overflow='';LS=null;renderHome();}
-function setProg(){$('#prog').style.width=(LS.solved/LS.total*100)+'%';$('#hearts').textContent=LS.hearts;}
+/* Móvil: cuando sale el teclado, la lección se ajusta al espacio visible para que el botón quede encima del teclado */
+function fitViewport(){const el=$('#lesson');if(!el||el.hidden||!window.visualViewport)return;const vv=window.visualViewport;
+  el.style.top=vv.offsetTop+'px';el.style.height=vv.height+'px';el.style.bottom='auto';}
+function resetViewport(){const el=$('#lesson');if(!el)return;el.style.top='';el.style.height='';el.style.bottom='';}
+if(window.visualViewport){visualViewport.addEventListener('resize',fitViewport);visualViewport.addEventListener('scroll',fitViewport);}
+function closeLesson(){resetViewport();if(hasTTS)speechSynthesis.cancel();$('#lesson').hidden=true;document.body.style.overflow='';LS=null;renderHome();}
+function setProg(extra){const n=Math.min(LS.total,LS.solved+(extra||0));$('#prog').style.width=(n/LS.total*100)+'%';$('#progTxt').textContent=n+'/'+LS.total;$('#hearts').textContent=LS.hearts;}
 function setCheck(enabled){$('#mainBtn').disabled=!enabled;}
 function next(){
   setProg();
@@ -1044,13 +1052,13 @@ function showFeedback(r,ex){
   const foot=$('#foot'),fb=$('#fb');
   if(r.ok){
     const p=PRAISE[Math.random()*PRAISE.length|0];
-    foot.className='foot ok';sfxOk();
+    foot.className='foot ok';sfxOk();setProg(1);
     fb.innerHTML=`<div class="fb-ic">${ICON.check}</div><div><h3>${p[0]} <span class="meaning" style="font-size:16px">(${p[1]})</span></h3>${r.note?`<p>${r.note}</p>`:''}${r.meaning?`<p class="meaning">Significa: ${esc(r.meaning)}</p>`:''}</div>`;
     if(r.say)setTimeout(()=>speak(r.say),250);
   }else{
     LS.hearts--;LS.mistakes++;setProg();
     foot.className='foot bad';sfxBad();
-    fb.innerHTML=`<div class="fb-ic">${ICON.x}</div><div><h3>Solución correcta:</h3><p>${esc(r.solution)}</p>${r.meaning?`<p class="meaning">Significa: ${esc(r.meaning)}</p>`:''}</div>`;
+    fb.innerHTML=`<div class="fb-ic">${ICON.x}</div><div><h3>Solución correcta:</h3><p>${esc(r.solution)}</p>${r.meaning?`<p class="meaning">Significa: ${esc(r.meaning)}</p>`:''}<span class="tiny" style="margin-top:4px">La barra no avanza: este ejercicio se repetirá al final.</span></div>`;
   }
   $('#skipBtn').hidden=true;
   const mb=$('#mainBtn');mb.textContent='Continuar';mb.disabled=false;mb.focus({preventScroll:true});
@@ -1099,7 +1107,7 @@ const GL_EU={
  'bero':'calor','hotz':'frío','udan':'en verano','negua':'el invierno','udazkena':'el otoño','daukat':'tengo','dauzkat':'tengo (varios)','katu':'gato','txakur':'perro','ardi':'oveja','zuri':'blanco/a'
 };
 const GL_ES={
- 'hola':'kaixo','buenos':'on (va detrás)','dias':'egun','muchas':'asko (va detrás)','gracias':'eskerrik','nada':'(de nada = ez horregatik)','por':'(por favor = mesedez)','favor':'(por favor = mesedez)','si':'bai','no':'ez',
+ 'hola':'kaixo','adios':'agur','buenos':'on (va detrás)','dias':'egun','muchas':'asko (va detrás)','gracias':'eskerrik','nada':'(de nada = ez horregatik)','por':'(por favor = mesedez)','favor':'(por favor = mesedez)','si':'bai','no':'ez',
  'que':'zer','tal':'(¿qué tal? = zer moduz?)','bien':'ondo','y':'eta','tu':'zu (tú) · zure (tu)','yo':'ni','soy':'naiz','eres':'zara','es':'da','mi':'nire','nombre':'izena','cual':'zein',
  'de':'-koa (de dónde) · -ren (de quién)','del':'-ren (de quién)','estudiante':'ikasle','bilbao':'Bilbo','hasta':'arte','manana':'bihar','hoy':'gaur','ayer':'atzo',
  'un':'bat (va detrás)','dos':'bi','tres':'hiru','cinco':'bost','diez':'hamar','veinte':'hogei','veintiun':'hogeita bat','cuanto':'zenbat','cuantos':'zenbat','cafes':'kafe','anos':'urte','tengo':'daukat · ditut (años)','tienes':'dituzu (años) · daukazu',
@@ -1202,7 +1210,8 @@ const RENDER={
   box.innerHTML=`<h1 class="ex-title">Escribe en euskera</h1><div class="source">${mascot()}<div class="bubble"><span>${hintify(ex.es,'es')}</span></div></div>${HINT_NOTE}
    <textarea class="type-in" id="typeIn" placeholder="Escribe aquí en euskera" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tu respuesta en euskera"></textarea>`;
   wireHints(box);
-  const ta=$('#typeIn');ta.oninput=()=>setCheck(ta.value.trim().length>0);setTimeout(()=>ta.focus({preventScroll:true}),100);
+  const ta=$('#typeIn');ta.oninput=()=>setCheck(ta.value.trim().length>0);
+  ta.addEventListener('focus',()=>setTimeout(()=>{fitViewport();ta.scrollIntoView({block:'center',behavior:'smooth'});},350));setTimeout(()=>ta.focus({preventScroll:true}),100);
   ctrl={check:()=>{const got=norm(ta.value);const acc=ex.answers.map(norm);const disp=ex.answers[0].charAt(0).toUpperCase()+ex.answers[0].slice(1);
     if(acc.includes(got))return {ok:true,say:ex.answers[0]};
     const near=acc.find(a=>a.length>3&&lev(a,got)<=1);
