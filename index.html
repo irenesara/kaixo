@@ -6,30 +6,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
 <style>
-/* Layout: una columna tipo app móvil (máx. 600px): barra de estado arriba, camino de lecciones en zigzag; las lecciones abren a pantalla completa */
+/* Layout: una columna tipo app móvil (máx. 600px): barra de estado arriba, camino de lecciones como un sendero de monte; las lecciones abren a pantalla completa.
+   Paleta propia inspirada en Euskal Herria: verde y rojo de la ikurriña, azul del Cantábrico, ocre de la tierra, blanco de caserío. */
 :root{
-  --bg:#ffffff; --fg:#3c3c3c; --muted:#7a7f80; --line:#e5e5e5; --soft:#f7f7f7;
-  --green:#58cc02; --green-dk:#46a302;
-  --red:#e5483c; --red-dk:#b8362c;
-  --blue:#1cb0f6; --blue-dk:#1899d6;
-  --gold:#ffc800; --gold-dk:#e0a800;
-  --locked:#e5e5e5; --locked-dk:#c9c9c9; --locked-fg:#afafaf;
-  --sel-bg:#ddf4ff; --sel-line:#84d8ff; --sel-fg:#1899d6;
-  --ok-bg:#d7ffb8; --ok-fg:#58a700; --bad-bg:#ffdfe0; --bad-fg:#ea2b2b;
-  --flame:#ff9600; --heart:#ff4b4b;
+  --bg:#fbfaf6; --fg:#22302a; --muted:#66746c; --line:#e2dfd4; --soft:#f1efe7;
+  --green:#00923f; --green-dk:#006b2e;
+  --red:#d52b1e; --red-dk:#a01f15;
+  --blue:#1f6f8b; --blue-dk:#164f63;
+  --gold:#d9a21b; --gold-dk:#a87b0f;
+  --locked:#e4e1d6; --locked-dk:#c8c4b6; --locked-fg:#a29e90;
+  --sel-bg:#e2eff3; --sel-line:#6aa5ba; --sel-fg:#1f6f8b;
+  --ok-bg:#dcf1e2; --ok-fg:#00792f; --bad-bg:#fbe2de; --bad-fg:#c42418;
+  --flame:#e2701c; --heart:#d52b1e;
+  --trail:#d8d3c4; --tree:#a9cba5; --tree-dk:#7fae7a;
+  --petal:#f4f0e2; --petal-line:#b3aa90;
+  --wall:#ffffff; --roof:#b5523b; --wood:#6e4c33; --hay:#d9b45a; --wool:#ffffff;
   --font:"Nunito","Varela Round","Segoe UI",system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#131f24; --fg:#f1f7fb; --muted:#8a9ba5; --line:#37464f; --soft:#1b2a31;
-  --locked:#37464f; --locked-dk:#283840; --locked-fg:#5d6f78;
-  --sel-bg:#1a3a4a; --sel-line:#3f8fb5; --sel-fg:#49c0f8;
-  --ok-bg:#1f3318; --ok-fg:#79d634; --bad-bg:#3a1f22; --bad-fg:#ff6b6b;
+  --bg:#121a16; --fg:#eef2ee; --muted:#8fa096; --line:#2c3a33; --soft:#1a2620;
+  --locked:#2c3a33; --locked-dk:#1f2a24; --locked-fg:#5c6d63;
+  --sel-bg:#16323b; --sel-line:#3d7d92; --sel-fg:#7cc3da;
+  --ok-bg:#16301f; --ok-fg:#5fd08a; --bad-bg:#3a1e1b; --bad-fg:#ff7a6b;
+  --blue-dk:#164f63; --trail:#34433b; --tree:#2b4a36; --tree-dk:#3d6a4b; --heart:#ff6a5c; --petal:#e6e1d2; --petal-line:#8f8874; --wall:#cfc9ba; --roof:#8e4030; --wood:#4f3624; --hay:#a88a43; --wool:#d9d6cf;
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#131f24; --fg:#f1f7fb; --muted:#8a9ba5; --line:#37464f; --soft:#1b2a31;
-  --locked:#37464f; --locked-dk:#283840; --locked-fg:#5d6f78;
-  --sel-bg:#1a3a4a; --sel-line:#3f8fb5; --sel-fg:#49c0f8;
-  --ok-bg:#1f3318; --ok-fg:#79d634; --bad-bg:#3a1f22; --bad-fg:#ff6b6b;
+  --bg:#121a16; --fg:#eef2ee; --muted:#8fa096; --line:#2c3a33; --soft:#1a2620;
+  --locked:#2c3a33; --locked-dk:#1f2a24; --locked-fg:#5c6d63;
+  --sel-bg:#16323b; --sel-line:#3d7d92; --sel-fg:#7cc3da;
+  --ok-bg:#16301f; --ok-fg:#5fd08a; --bad-bg:#3a1e1b; --bad-fg:#ff7a6b;
+  --blue-dk:#164f63; --trail:#34433b; --tree:#2b4a36; --tree-dk:#3d6a4b; --heart:#ff6a5c; --petal:#e6e1d2; --petal-line:#8f8874; --wall:#cfc9ba; --roof:#8e4030; --wood:#4f3624; --hay:#a88a43; --wool:#d9d6cf;
   color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -54,7 +60,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* ---------- home ---------- */
 .wrap{max-width:600px;margin:0 auto;padding-block:18px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
-.hero{display:flex;gap:14px;align-items:center;border:2px solid var(--line);border-radius:20px;padding:16px}
+.hero{display:flex;gap:14px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:16px}
 .hero svg.mascot{width:86px;height:86px;flex:none}
 .hero-txt{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1}
 .hero-txt h1{font-size:20px;font-weight:900}
@@ -66,20 +72,21 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .bar>i::after{content:"";position:absolute;left:8px;right:8px;top:3px;height:3px;border-radius:9px;background:rgba(255,255,255,.4)}
 
 .unit{display:flex;flex-direction:column;gap:22px}
-.unit-head{background:var(--u);color:#fff;border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 0 var(--ud)}
+.unit-head{background:var(--u);color:#fff;border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 0 var(--ud)}
 .unit-head .eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;font-weight:800}
 .unit-head h2{font-size:22px;font-weight:900}
 .unit-head p.sub{font-weight:700;opacity:.92;margin-top:2px}
-.tips-btn{flex:none;background:transparent;border:2px solid rgba(255,255,255,.45);color:#fff;border-radius:14px;padding:10px 12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:13px;display:flex;gap:6px;align-items:center}
+.tips-btn{flex:none;background:transparent;border:2px solid rgba(255,255,255,.45);color:#fff;border-radius:10px;padding:10px 12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:13px;display:flex;gap:6px;align-items:center}
 .tips-btn svg{width:18px;height:18px}
-.path{display:flex;flex-direction:column;align-items:center;gap:26px;padding-block:6px}
-.node-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
-.node{width:74px;height:68px;border-radius:50%;border:0;display:grid;place-items:center;background:var(--u);box-shadow:0 7px 0 var(--ud);color:#fff;transition:transform .08s,box-shadow .08s}
+.path{position:relative;display:flex;flex-direction:column;align-items:center;gap:40px;padding-block:14px 6px}
+.node-wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px}
+.node{width:68px;height:64px;border-radius:16px;border:0;display:grid;place-items:center;background:var(--u);box-shadow:inset 0 3px 0 rgba(255,255,255,.22),inset 0 -3px 0 rgba(0,0,0,.12),0 7px 0 var(--ud);color:#fff;transition:transform .08s,box-shadow .08s}
 .node svg{width:34px;height:34px}
-.node:active{transform:translateY(5px);box-shadow:0 2px 0 var(--ud)}
-.node.done{background:var(--gold);box-shadow:0 7px 0 var(--gold-dk)}
+.node:active{transform:translateY(5px);box-shadow:inset 0 3px 0 rgba(255,255,255,.22),0 2px 0 var(--ud)}
+.node.done{background:var(--gold);box-shadow:inset 0 3px 0 rgba(255,255,255,.25),inset 0 -3px 0 rgba(0,0,0,.1),0 7px 0 var(--gold-dk)}
 .node.locked{background:var(--locked);box-shadow:0 7px 0 var(--locked-dk);color:var(--locked-fg)}
-.node-label{font-size:14px;color:var(--muted);font-weight:800;text-align:center;max-width:150px}
+.node-label{font-size:14px;color:var(--muted);font-weight:800;text-align:center;max-width:150px;background:var(--bg);padding:2px 8px;border-radius:8px}
+.node-wrap.current{margin-top:26px}
 .node-wrap.current .node{outline:5px solid color-mix(in srgb,var(--u) 25%,transparent);outline-offset:5px}
 .start-tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:var(--bg);color:var(--u);border:2px solid var(--line);border-radius:12px;padding:7px 12px;font-weight:900;font-size:14px;letter-spacing:.06em;white-space:nowrap;animation:bob 1.2s ease-in-out infinite}
 .start-tip::after{content:"";position:absolute;top:100%;left:50%;width:12px;height:12px;background:var(--bg);border-right:2px solid var(--line);border-bottom:2px solid var(--line);transform:translate(-50%,-6px) rotate(45deg)}
@@ -88,10 +95,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .link-btn{background:none;border:0;color:var(--blue-dk);font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:13px;padding:6px}
 
 /* ---------- botones ---------- */
-.btn{border:0;border-radius:16px;padding:14px 22px;font-weight:900;font-size:16px;letter-spacing:.06em;text-transform:uppercase;background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-dk);transition:transform .06s,box-shadow .06s;min-width:150px}
+.btn{border:0;border-radius:10px;background-image:linear-gradient(rgba(255,255,255,.12),rgba(255,255,255,0));padding:14px 22px;font-weight:900;font-size:16px;letter-spacing:.06em;text-transform:uppercase;background:var(--green);color:#fff;box-shadow:0 4px 0 var(--green-dk);transition:transform .06s,box-shadow .06s;min-width:150px}
 .btn:active{transform:translateY(4px);box-shadow:0 0 0 var(--green-dk)}
 .btn:disabled{background:var(--locked);color:var(--locked-fg);box-shadow:0 4px 0 var(--locked-dk);cursor:default;transform:none}
-.btn.red{background:var(--bad-fg);box-shadow:0 4px 0 #c42020}
+.btn.red{background:var(--bad-fg);box-shadow:0 4px 0 var(--red-dk)}
 .btn.ghost{background:var(--bg);color:var(--muted);border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
 
 /* ---------- lección ---------- */
@@ -101,8 +108,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ls-top .bar>i{background:var(--green)}
 .close{background:none;border:0;color:var(--muted);padding:4px;display:grid;place-items:center}
 .close svg{width:26px;height:26px}
-.hearts{display:flex;align-items:center;gap:4px;color:var(--heart);font-weight:900;font-variant-numeric:tabular-nums}
-.hearts svg{width:26px;height:26px}
+.hearts{display:flex;align-items:center;gap:4px;color:var(--gold-dk);font-weight:900;font-variant-numeric:tabular-nums}
+.hearts svg{width:30px;height:30px}
 .ls-body{flex:1;overflow-y:auto;overflow-x:hidden}
 .ls-inner{max-width:600px;margin:0 auto;padding-block:18px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
 .ex-label{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--u, var(--green));font-weight:900;display:flex;align-items:center;gap:6px}
@@ -124,29 +131,29 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .fb .fixed{display:block;font-size:19px;font-weight:800;margin-top:2px}
 .fb .fix{text-decoration:underline 3px;text-underline-offset:4px;font-weight:900}
 .foot.ok .btn{background:var(--green);box-shadow:0 4px 0 var(--green-dk)}
-.foot.bad .btn{background:var(--bad-fg);box-shadow:0 4px 0 #c42020}
+.foot.bad .btn{background:var(--bad-fg);box-shadow:0 4px 0 var(--red-dk)}
 .foot-btns{display:flex;gap:10px;margin-left:auto}
 
 /* tarjeta nueva */
-.intro-card{border:2px solid var(--line);border-radius:20px;padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.intro-card{border:2px solid var(--line);border-radius:14px;padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
 .intro-card .em{font-size:64px;line-height:1}
 .intro-card .eu{font-size:34px;font-weight:900;color:var(--fg);display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
 .intro-card .es{font-size:20px;color:var(--muted)}
-.tip{background:var(--soft);border-radius:14px;padding:12px 14px;font-weight:700;line-height:1.45;color:var(--fg);text-align:left;width:100%}
+.tip{background:var(--soft);border-radius:10px;padding:12px 14px;font-weight:700;line-height:1.45;color:var(--fg);text-align:left;width:100%}
 .tip b{color:var(--u, var(--green))}
-.spk{border:0;background:var(--blue);color:#fff;width:46px;height:46px;border-radius:14px;display:inline-grid;place-items:center;box-shadow:0 4px 0 var(--blue-dk);flex:none}
+.spk{border:0;background:var(--blue);color:#fff;width:46px;height:46px;border-radius:10px;display:inline-grid;place-items:center;box-shadow:0 4px 0 var(--blue-dk);flex:none}
 .spk:active{transform:translateY(4px);box-shadow:none}
 .spk svg{width:24px;height:24px}
-.spk.big{width:96px;height:84px;border-radius:20px}
+.spk.big{width:96px;height:84px;border-radius:14px}
 .spk.big svg{width:44px;height:44px}
-.spk.slow{width:64px;height:58px;border-radius:16px;font-size:13px;font-weight:900}
+.spk.slow{width:64px;height:58px;border-radius:10px;font-size:13px;font-weight:900}
 
 /* opciones */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
-.card{border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;background:var(--bg);padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:18px;font-weight:800}
+.card{border:2px solid var(--line);border-bottom-width:4px;border-radius:10px;background:var(--bg);padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:18px;font-weight:800}
 .card .em{font-size:52px;line-height:1}
 .opt-list{display:flex;flex-direction:column;gap:12px}
-.opt{border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;background:var(--bg);padding:14px 16px;display:flex;align-items:center;gap:14px;font-size:18px;font-weight:700;text-align:left}
+.opt{border:2px solid var(--line);border-bottom-width:4px;border-radius:10px;background:var(--bg);padding:14px 16px;display:flex;align-items:center;gap:14px;font-size:18px;font-weight:700;text-align:left}
 .opt .k{width:30px;height:30px;border:2px solid var(--line);border-radius:9px;display:grid;place-items:center;font-size:14px;color:var(--muted);flex:none}
 .sel{border-color:var(--sel-line)!important;background:var(--sel-bg)!important;color:var(--sel-fg)!important}
 .sel .k{border-color:var(--sel-line);color:var(--sel-fg)}
@@ -155,7 +162,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* frase fuente */
 .source{display:flex;align-items:flex-end;gap:10px}
 .source svg.mascot{width:78px;height:78px;flex:none}
-.bubble{border:2px solid var(--line);border-radius:16px;padding:12px 14px;font-size:19px;position:relative;display:flex;gap:10px;align-items:center;min-width:0}
+.bubble{border:2px solid var(--line);border-radius:10px;padding:12px 14px;font-size:19px;position:relative;display:flex;gap:10px;align-items:center;min-width:0}
 .bubble::before{content:"";position:absolute;left:-8px;bottom:18px;width:12px;height:12px;background:var(--bg);border-left:2px solid var(--line);border-bottom:2px solid var(--line);transform:rotate(45deg)}
 .bubble .spk{width:38px;height:38px;border-radius:11px}
 .bubble .spk svg{width:20px;height:20px}
@@ -176,7 +183,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* parejas */
 .match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .match .col{display:flex;flex-direction:column;gap:12px;min-width:0}
-.mt{border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:var(--bg);padding:14px 8px;font-size:17px;font-weight:700;min-height:58px}
+.mt{border:2px solid var(--line);border-bottom-width:4px;border-radius:10px;background:var(--bg);padding:14px 8px;font-size:17px;font-weight:700;min-height:58px}
 .mt.done{opacity:.35;pointer-events:none;border-color:var(--line);background:var(--bg);color:var(--muted)}
 .mt.wrong{border-color:var(--bad-fg);background:var(--bad-bg);color:var(--bad-fg);animation:shake .3s}
 .mt.right{border-color:var(--ok-fg);background:var(--ok-bg);color:var(--ok-fg)}
@@ -188,7 +195,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .meaning-line{color:var(--muted);font-size:17px}
 
 /* escribir */
-.type-in{width:100%;border:2px solid var(--line);border-radius:16px;background:var(--soft);color:var(--fg);font:inherit;font-size:20px;padding:16px;min-height:110px;resize:none}
+.type-in{width:100%;border:2px solid var(--line);border-radius:10px;background:var(--soft);color:var(--fg);font:inherit;font-size:20px;padding:16px;min-height:110px;resize:none}
 
 /* diálogo */
 .chat{display:flex;flex-direction:column;gap:12px}
@@ -197,7 +204,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ava{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;flex:none}
 .msg.mikel .ava{background:var(--blue)}
 .msg.ane .ava{background:var(--red)}
-.mb{border:2px solid var(--line);border-radius:16px;padding:10px 13px;min-width:0}
+.mb{border:2px solid var(--line);border-radius:10px;padding:10px 13px;min-width:0}
 .mb .t{font-size:18px}
 .mb .s{font-size:14px;color:var(--muted);margin-top:3px}
 .msg.ane .mb{background:var(--soft)}
@@ -210,7 +217,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .result.fail h2{color:var(--bad-fg)}
 .result .lead{color:var(--muted);font-size:18px}
 .chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-.chip{border:2px solid var(--c);border-radius:16px;overflow:hidden;min-width:104px}
+.chip{border:2px solid var(--c);border-radius:10px;overflow:hidden;min-width:104px}
 .chip .h{background:var(--c);color:#fff;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;font-weight:900}
 .chip .v{padding:12px 8px;font-size:22px;font-weight:900;color:var(--c);font-variant-numeric:tabular-nums}
 
@@ -224,11 +231,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .sheet table{border-collapse:collapse;width:100%;font-weight:700}
 .sheet td{border-bottom:2px solid var(--line);padding:8px 6px}
 .sheet td:first-child{color:var(--u);font-weight:900;width:38%}
-.toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:800;z-index:70;max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:10px;font-weight:800;z-index:70;max-width:calc(100% - 32px);text-align:center}
 
 @media (max-height:520px){.type-in{min-height:64px;font-size:18px;padding:12px}.ls-inner{gap:14px;padding-block:10px 16px}.ex-title{font-size:21px}.source svg.mascot{width:54px;height:54px}.foot-in{padding-block:10px}}
 @media (max-width:420px){.ex-title{font-size:22px}.intro-card .eu{font-size:28px}.cards{grid-template-columns:repeat(2,1fr)}.card .em{font-size:42px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.trail{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:visible}
 </style>
 
 <header class="top">
@@ -236,7 +244,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <div class="wordmark">kaixo</div>
     <div class="stats">
       <span class="stat" title="Racha de días"><svg viewBox="0 0 24 24"><path fill="var(--flame)" d="M12.2 2c.9 3.3 5.3 5.6 5.3 10.7A5.6 5.6 0 0 1 6.4 13c0-2.2 1-3.9 2.3-5 .1 2 1 3.2 2.2 3.4-.4-3.2.1-6.5 1.3-9.4z"/></svg><span id="sStreak">0</span></span>
-      <span class="stat" title="Experiencia total"><svg viewBox="0 0 24 24"><path fill="var(--gold)" d="M13.5 2 4.5 13.5h6l-1 8.5 9-11.5h-6z"/></svg><span id="sXp">0</span></span>
+      <span class="stat" title="Lauburus ganados" style="color:var(--gold)" id="sXpWrap"></span>
       <button class="icon-btn" id="soundBtn" aria-label="Sonido activado"></button>
     </div>
   </div>
@@ -299,7 +307,7 @@ function convo(n,L=CONV){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:
    - Una lección ya hecha siempre queda abierta, así que se pueden insertar lecciones entre otras sin bloquear a nadie.
    - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
 const UNITS=[
-{ id:'u1', n:1, title:'Saludos', sub:'Hola, adiós, gracias y qué tal', color:'#58cc02', dark:'#46a302',
+{ id:'u1', n:1, title:'Saludos', sub:'Hola, adiós, gracias y qué tal', color:'#00923f', dark:'#006b2e',
   tips:`<h3>Se lee casi como el español</h3>
   <p>El euskera se escribe tal como suena y no lleva tildes. Casi todas las letras suenan como en español, salvo estas:</p>
   <table><tbody>
@@ -311,6 +319,8 @@ const UNITS=[
   <tr><td>h</td><td>muda en la mayoría de zonas</td></tr>
   <tr><td>j</td><td>«j» o «y» según la zona</td></tr>
   </tbody></table>
+  <h3>Tus vidas son eguzkilores</h3>
+  <p>El <b>eguzkilore</b> («flor del sol») es un cardo silvestre que se cuelga en la puerta de los caseríos para proteger la casa. En cada lección tienes cinco: pierdes uno con cada fallo.</p>
   <h3>«On» significa «bueno»</h3>
   <p>El adjetivo va detrás del nombre: <i>egun on</i> es literalmente «día bueno», y <i>arratsalde on</i>, «tarde buena».</p>
   <h3>Dos palabras comodín</h3>
@@ -363,7 +373,7 @@ const UNITS=[
     T('Hasta mañana',['bihar arte']),
   ]},
 ]},
-{ id:'u2', n:2, title:'Presentarse', sub:'Quién eres, cómo te llamas, de dónde eres', color:'#e5483c', dark:'#b8362c',
+{ id:'u2', n:2, title:'Presentarse', sub:'Quién eres, cómo te llamas, de dónde eres', color:'#d52b1e', dark:'#a01f15',
   tips:`<h3>El verbo va al final</h3>
   <p>En euskera el verbo suele ir al final de la frase. <i>Ni Ane naiz</i> es, palabra por palabra, «Yo Ane soy».</p>
   <h3>El verbo «ser» (izan)</h3>
@@ -426,7 +436,7 @@ const UNITS=[
     T('Soy de Bilbao',['bilbokoa naiz','ni bilbokoa naiz']),
   ]},
 ]},
-{ id:'u3', n:3, title:'Primera conversación', sub:'Junta todo lo aprendido con Ane y Mikel', color:'#1cb0f6', dark:'#1899d6',
+{ id:'u3', n:3, title:'Primera conversación', sub:'Junta todo lo aprendido con Ane y Mikel', color:'#1f6f8b', dark:'#164f63',
   tips:`<h3>La conversación completa</h3>
   <p>En esta lección Ane conoce a Mikel. Tú eliges lo que responde Ane. Este es el diálogo entero:</p>
   <table><tbody>${CONV.map(c=>`<tr><td>${c.m}</td><td>${c.es}</td></tr><tr><td>${c.a}</td><td>${c.aes}</td></tr>`).join('')}</tbody></table>
@@ -447,7 +457,7 @@ const UNITS=[
     T('Yo también',['ni ere bai']),
   ]},
 ]},
-{ id:'u4', n:4, title:'Números', sub:'Contar, pedir en el bar y decir tu edad', color:'#a560e8', dark:'#7d42b8',
+{ id:'u4', n:4, title:'Números', sub:'Contar, pedir en el bar y decir tu edad', color:'#7a4fa3', dark:'#5a3a7a',
   tips:`<h3>Del 1 al 10</h3>
   <table><tbody>
   <tr><td>bat</td><td>1</td></tr><tr><td>bi</td><td>2</td></tr><tr><td>hiru</td><td>3</td></tr><tr><td>lau</td><td>4</td></tr><tr><td>bost</td><td>5</td></tr>
@@ -547,7 +557,7 @@ const UNITS=[
     T('¿Cuántos años tienes?',['zenbat urte dituzu']),
   ]},
 ]},
-{ id:'u5', n:5, title:'Los días', sub:'La semana, hoy, ayer, mañana y quedar', color:'#ff9600', dark:'#cc7800',
+{ id:'u5', n:5, title:'Los días', sub:'La semana, hoy, ayer, mañana y quedar', color:'#d9841c', dark:'#a5620f',
   tips:`<h3>Los días de la semana</h3>
   <table><tbody>
   <tr><td>astelehena</td><td>lunes</td></tr><tr><td>asteartea</td><td>martes</td></tr><tr><td>asteazkena</td><td>miércoles</td></tr>
@@ -640,7 +650,7 @@ const UNITS=[
     T('¡De acuerdo!',['ados']),
   ]},
 ]},
-{ id:'u6', n:6, title:'El tiempo', sub:'Estaciones, lluvia, sol, calor y frío', color:'#1fb39a', dark:'#178a76',
+{ id:'u6', n:6, title:'El tiempo', sub:'Estaciones, lluvia, sol, calor y frío', color:'#178a76', dark:'#0f6455',
   tips:`<h3>Las cuatro estaciones (urtaroak)</h3>
   <table><tbody>
   <tr><td>udaberria</td><td>primavera</td></tr><tr><td>uda</td><td>verano</td></tr><tr><td>udazkena</td><td>otoño</td></tr><tr><td>negua</td><td>invierno</td></tr>
@@ -737,7 +747,7 @@ const UNITS=[
     T('Mañana lloverá',['bihar euria egingo du']),
   ]},
 ]},
-{ id:'u7', n:7, title:'Animales', sub:'Mascotas, el caserío y hablar de tus animales', color:'#f0609e', dark:'#c4457c',
+{ id:'u7', n:7, title:'Animales', sub:'Mascotas, el caserío y hablar de tus animales', color:'#b8436f', dark:'#8a3052',
   tips:`<h3>Mascotas</h3>
   <table><tbody>
   <tr><td>txakurra</td><td>el perro</td></tr><tr><td>katua</td><td>el gato</td></tr><tr><td>txoria</td><td>el pájaro</td></tr><tr><td>arraina</td><td>el pez</td></tr><tr><td>untxia</td><td>el conejo</td></tr><tr><td>sagua</td><td>el ratón</td></tr>
@@ -866,6 +876,8 @@ const ICON={
  speaker:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.5 9h4l5-4.2v14.4l-5-4.2h-4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>',
  mute:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.5 9h4l5-4.2v14.4l-5-4.2h-4z"/><path d="M16 9l5 6m0-6l-5 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
  close:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>',
+ txapela:'<svg viewBox="0 0 24 24"><g fill="var(--petal)" stroke="var(--petal-line)" stroke-width=".5"><path transform="rotate(0.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(20.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(40.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(60.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(80.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(100.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(120.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(140.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(160.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(180.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(200.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(220.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(240.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(260.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(280.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(300.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(320.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(340.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/></g><circle cx="12" cy="12" r="4.4" fill="var(--gold)" stroke="var(--gold-dk)" stroke-width=".8"/><g fill="var(--gold-dk)"><circle cx="14.20" cy="12.00" r=".55"/><circle cx="13.10" cy="13.91" r=".55"/><circle cx="10.90" cy="13.91" r=".55"/><circle cx="9.80" cy="12.00" r=".55"/><circle cx="10.90" cy="10.09" r=".55"/><circle cx="13.10" cy="10.09" r=".55"/><circle cx="12" cy="12" r=".6"/></g></svg>',
+ lauburu:'<svg viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/><path transform="rotate(90 12 12)" d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/><path transform="rotate(180 12 12)" d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/><path transform="rotate(270 12 12)" d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/></g></svg>',
  heart:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.6-4.6-9.6-9.4C1.1 8.4 3.3 5 6.8 5c2.1 0 3.5 1.1 4.2 2.3h2C13.7 6.1 15.1 5 17.2 5c3.5 0 5.7 3.4 4.4 6.6C19.6 16.4 12 21 12 21z"/></svg>',
  book:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5a1.5 1.5 0 0 0 0 3H20v1H6.5A3.5 3.5 0 0 1 3 18.5v-14zM7 6v2h9V6z"/></svg>',
  x:'<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></svg>',
@@ -955,15 +967,15 @@ function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTi
 
 /* ================== HOME ================== */
 function renderHome(){
-  $('#sStreak').textContent=S.streak;$('#sXp').textContent=S.xp;renderSoundBtn();
+  $('#sStreak').textContent=S.streak;$('#sXpWrap').innerHTML=ICON.lauburu+`<span style="color:var(--fg)">${S.xp}</span>`;renderSoundBtn();
   const doneCount=ALL.filter(l=>S.done[l.id]).length;
   let firstOpen=ALL.findIndex(l=>!S.done[l.id]);
   let h=`<section class="hero">${mascot()}<div class="hero-txt">
     <h1>${doneCount===0?'Kaixo! Soy Latxa.':doneCount===ALL.length?'Bikain! ¡Lo has completado todo!':'Ondo! Vas por buen camino.'}</h1>
     <p>${doneCount===0?'Vamos a aprender a saludar y presentarte en euskera, desde cero.':doneCount===ALL.length?'Ya sabes saludar, presentarte y mantener tu primera conversación. Puedes repetir cualquier lección.':`Llevas ${doneCount} de ${ALL.length} lecciones.`}</p>
-    <div class="goal"><div class="goal-row"><span>Meta diaria</span><span>${Math.min(S.dayXp,GOAL)}/${GOAL} XP</span></div><div class="bar"><i style="width:${Math.min(100,S.dayXp/GOAL*100)}%"></i></div></div>
+    <div class="goal"><div class="goal-row"><span>Meta diaria</span><span>${Math.min(S.dayXp,GOAL)}/${GOAL} lauburus</span></div><div class="bar"><i style="width:${Math.min(100,S.dayXp/GOAL*100)}%"></i></div></div>
   </div></section>`;
-  const offs=[0,48,70,48,0,-48,-70,-48];
+  const offs=[0,56,84,56,0,-56,-84,-56];
   let gi=0;
   UNITS.forEach(u=>{
     h+=`<section class="unit" style="--u:${u.color};--ud:${u.dark}"><header class="unit-head"><div><p class="eyebrow">Unidad ${u.n}</p><h2>${u.title}</h2><p class="sub">${u.sub}</p></div>
@@ -990,9 +1002,38 @@ function renderHome(){
     if(idx>0&&!S.done[ALL[idx].id]&&!S.done[ALL[idx-1].id]){toast('Completa la lección anterior para desbloquear esta.');return;}
     startLesson(ALL[idx]);});
   document.querySelectorAll('[data-tips]').forEach(b=>b.onclick=()=>openTips(UNITS.find(u=>u.id===b.dataset.tips)));
+  requestAnimationFrame(drawTrails);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawTrails);
   let armed=false;$('#resetBtn').onclick=e=>{if(!armed){armed=true;e.target.textContent='¿Seguro? Pulsa otra vez para borrar';setTimeout(()=>{armed=false;if(e.target.isConnected)e.target.textContent='Borrar mi progreso';},3000);return;}
     S={xp:0,done:{},streak:0,lastDay:null,dayXp:0,dayKey:today(),sound:S.sound};save();renderHome();toast('Progreso borrado');};
 }
+/* Dibuja el sendero (línea de puntos) que une las lecciones, con árboles y montes a los lados */
+function drawTrails(){document.querySelectorAll('.path').forEach((pth,pi)=>{pth.querySelector('.trail')?.remove();
+  const r=pth.getBoundingClientRect();const pts=[...pth.querySelectorAll('.node')].map(n=>{const b=n.getBoundingClientRect();return [b.left-r.left+b.width/2,b.top-r.top+b.height/2];});
+  if(!pts.length)return;const W=r.width,H=r.height;
+  let d=`M${pts[0][0]} ${Math.max(0,pts[0][1]-60)} L${pts[0][0]} ${pts[0][1]}`;
+  for(let i=1;i<pts.length;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i],my=(y0+y1)/2;d+=` C${x0} ${my},${x1} ${my},${x1} ${y1}`;}
+  const tree=(x,y,k)=>`<g transform="translate(${x} ${y}) scale(${k})"><path d="M0-22L10-4H-10Z" fill="var(--tree)"/><path d="M0-14L12 6H-12Z" fill="var(--tree)"/><rect x="-2" y="6" width="4" height="6" rx="1" fill="var(--tree-dk)"/></g>`;
+  const mount=(x,y)=>`<path d="M${x-46} ${y}L${x-14} ${y-40}L${x} ${y-24}L${x+16} ${y-46}L${x+50} ${y}Z" fill="var(--soft)" stroke="var(--line)" stroke-width="2" stroke-linejoin="round"/><path d="M${x+16} ${y-46}L${x+8} ${y-36}L${x+16} ${y-38}L${x+23} ${y-35}Z" fill="var(--bg)"/>`;
+  /* caserío: tejado a dos aguas muy abierto, paredes blancas, entramado de madera, balcón y portalón en arco */
+  const baserri=(x,y)=>`<g transform="translate(${x} ${y}) scale(${W<400?.8:1})">
+    <rect x="-44" y="-46" width="88" height="46" fill="var(--wall)" stroke="var(--line)" stroke-width="2"/>
+    <path d="M-54 -42L0 -72L54 -42Z" fill="var(--roof)"/><path d="M-54 -42L0 -72L54 -42" fill="none" stroke="var(--wood)" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="-44" y="-31" width="88" height="3" fill="var(--wood)"/><rect x="-44" y="-46" width="3" height="46" fill="var(--wood)"/><rect x="41" y="-46" width="3" height="46" fill="var(--wood)"/>
+    <rect x="-24" y="-44" width="48" height="3" fill="var(--wood)"/>${[-20,-12,-4,4,12,20].map(v=>`<rect x="${v}" y="-44" width="2" height="10" fill="var(--wood)"/>`).join('')}<rect x="-24" y="-35" width="48" height="2.5" fill="var(--wood)"/>
+    <path d="M-12 0V-14A12 12 0 0 1 12 -14V0Z" fill="var(--wood)"/>
+    <rect x="-36" y="-22" width="11" height="11" rx="1" fill="var(--green)"/><rect x="25" y="-22" width="11" height="11" rx="1" fill="var(--green)"/></g>`;
+  /* oveja latxa pequeña y meta de hierba (almiar) */
+  const ardi=(x,y,f)=>`<g transform="translate(${x} ${y}) scale(${f} 1)"><ellipse cx="0" cy="-9" rx="12" ry="8" fill="var(--wool)" stroke="var(--line)" stroke-width="1.5"/><ellipse cx="11" cy="-13" rx="4.5" ry="5" fill="#3b2f2a"/><rect x="-7" y="-3" width="2.5" height="5" fill="#3b2f2a"/><rect x="4" y="-3" width="2.5" height="5" fill="#3b2f2a"/></g>`;
+  const meta=(x,y)=>`<g transform="translate(${x} ${y})"><rect x="-1.2" y="-46" width="2.4" height="12" fill="var(--wood)"/><path d="M-15 0C-17 -18 -9 -36 0 -38C9 -36 17 -18 15 0Z" fill="var(--hay)"/><path d="M-12 -12H12M-13 -22H13" stroke="var(--wood)" stroke-width="1" opacity=".35"/></g>`;
+  const clamp=(v,m)=>Math.min(W-m,Math.max(m,v));
+  let deco='';pts.forEach(([x,y],i)=>{const side=x>W/2?-1:1;const k=(i+pi*2)%5;const big=W>290;
+    if(k===1&&big)deco+=baserri(clamp(x+side*(W<400?135:150),W<400?48:58),y+26);
+    else if(k===2&&big)deco+=mount(clamp(x+side*140,56),y+22);
+    else if(k===3){const mx=clamp(x+side*130,40);deco+=meta(mx,y+24)+ardi(clamp(mx+side*34,20),y+26,side)+ardi(clamp(mx+side*60,20),y+30,-side);}
+    else{const tx=clamp(x+side*(110+(i%2)*30),24);deco+=tree(tx,y+8,1);deco+=tree(clamp(tx+side*24,16),y+16,.75);}});
+  const svg=`<svg class="trail" viewBox="0 0 ${W} ${H}" aria-hidden="true">${deco}<path d="${d}" fill="none" stroke="var(--trail)" stroke-width="9" stroke-linecap="round" stroke-dasharray="1 17"/></svg>`;
+  pth.insertAdjacentHTML('afterbegin',svg);});}
+let trailT;window.addEventListener('resize',()=>{clearTimeout(trailT);trailT=setTimeout(drawTrails,120);});
 function openTips(u){const m=$('#modal');m.style.setProperty('--u',u.color);
   m.innerHTML=`<div class="sheet" role="dialog" aria-label="Consejos: ${esc(u.title)}"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h2>Consejos · ${u.title}</h2><button class="close" id="tipsClose" aria-label="Cerrar">${ICON.close}</button></div>${u.tips}</div>`;
   m.hidden=false;$('#tipsClose').onclick=()=>m.hidden=true;m.onclick=e=>{if(e.target===m)m.hidden=true;};}
@@ -1006,7 +1047,7 @@ function startLesson(def){
   el.innerHTML=`<div class="ls-top"><button class="close" id="quit" aria-label="Salir de la lección">${ICON.close}</button>
      <div class="bar" role="progressbar" aria-label="Progreso"><i id="prog"></i></div>
      <span class="prog-txt" id="progTxt" aria-label="Ejercicios completados">0/0</span>
-     <span class="hearts" aria-label="Vidas">${ICON.heart}<span id="hearts">5</span></span></div>
+     <span class="hearts" title="Eguzkilores (vidas)" aria-label="Eguzkilores que te quedan">${ICON.txapela}<span id="hearts">5</span></span></div>
    <div class="ls-body" id="lsBody"></div>
    <footer class="foot" id="foot"><div class="foot-in"><div class="fb" id="fb"></div><div class="foot-btns"><button class="btn ghost" id="skipBtn" hidden>Saltar</button><button class="btn" id="mainBtn" disabled>Comprobar</button></div></div></footer>`;
   el.hidden=false;document.body.style.overflow='hidden';fitViewport();
@@ -1074,7 +1115,7 @@ function finish(){
   el.innerHTML=`<div class="result">${mascot()}<h2>¡Lección completada!</h2>
     <p class="lead">${perfect?'Sin ni un fallo. Bikain!':'Zorionak! Los fallos se repasan solos: así se aprende.'}</p>
     <div class="chips">
-     <div class="chip" style="--c:var(--gold-dk)"><div class="h">XP ganada</div><div class="v">+${gained}</div></div>
+     <div class="chip" style="--c:var(--gold-dk)"><div class="h">Lauburus</div><div class="v">+${gained}</div></div>
      <div class="chip" style="--c:var(--green)"><div class="h">Precisión</div><div class="v">${acc}%</div></div>
      <div class="chip" style="--c:var(--blue)"><div class="h">Tiempo</div><div class="v">${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}</div></div>
     </div>
@@ -1084,7 +1125,7 @@ function finish(){
 }
 function fail(){
   sfxBad();const def=LS.def;
-  $('#lesson').innerHTML=`<div class="result fail">${mascot('sad')}<h2>Te has quedado sin vidas</h2>
+  $('#lesson').innerHTML=`<div class="result fail">${mascot('sad')}<h2>Te has quedado sin eguzkilores</h2>
    <p class="lead">No pasa nada: repite la lección y verás que ya te suena todo.</p>
    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><button class="btn ghost" id="outBtn">Salir</button><button class="btn" id="retryBtn">Reintentar</button></div></div>`;
   $('#retryBtn').onclick=()=>startLesson(def);$('#outBtn').onclick=closeLesson;
