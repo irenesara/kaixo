@@ -174,6 +174,32 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .hw:hover .hwt,.hw.on .hwt{display:block}
 .hint-note{font-size:13px;color:var(--muted);margin-top:-12px}
 .prog-txt{font-size:14px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
+/* canción */
+.song-card{display:flex;align-items:center;gap:14px;border:2px solid var(--line);border-radius:14px;padding:14px 16px;flex-wrap:wrap}
+.song-ic{width:52px;height:52px;border-radius:12px;background:var(--gold);color:#fff;display:grid;place-items:center;flex:none;box-shadow:inset 0 3px 0 rgba(255,255,255,.22),0 4px 0 var(--gold-dk)}
+.song-ic svg{width:28px;height:28px}
+.song-txt{flex:1 1 180px;min-width:0;display:flex;flex-direction:column;gap:2px}
+.song-txt .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold-dk);font-weight:900}
+.song-txt h2{font-size:19px;font-weight:900}
+.song-txt p:last-child{color:var(--muted);font-size:14px;line-height:1.4}
+.btn.small{min-width:0;padding:11px 16px;font-size:14px}
+.btn svg{width:18px;height:18px;vertical-align:-3px}
+.song-head{flex:1;min-width:0}
+.song-head h2{font-size:20px;font-weight:900}
+.song-head p{font-size:13px;color:var(--muted)}
+.song-lyrics{gap:8px}
+.sec-label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold-dk);font-weight:900;margin-top:10px}
+.sl{display:flex;flex-direction:column;gap:2px;text-align:left;background:none;border:2px solid transparent;border-radius:10px;padding:8px 12px;width:100%}
+.sl .eu{font-size:21px;font-weight:800;color:var(--fg)}
+.sl .es{font-size:14px;color:var(--muted);font-weight:700}
+.no-es .sl .es{display:none}
+.sl.past .eu{color:var(--muted)}
+.sl.cur{background:var(--soft);border-color:var(--line)}
+.sl.cur .sy.sung{color:var(--green)}
+.sl:hover{border-color:var(--line)}
+.song-ctrl{justify-content:flex-end}
+.chip-btn{border:2px solid var(--line);background:var(--bg);color:var(--muted);border-radius:10px;padding:10px 12px;font-weight:800;font-size:14px}
+.chip-btn.on{border-color:var(--sel-line);background:var(--sel-bg);color:var(--sel-fg)}
 /* constructor */
 .answer{min-height:122px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:4px 0;background:repeating-linear-gradient(to bottom,transparent 0 56px,var(--line) 56px 58px,transparent 58px 61px)}
 .bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
@@ -253,6 +279,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <main class="wrap" id="home"></main>
 
 <div class="lesson" id="lesson" hidden></div>
+<div class="lesson" id="song" hidden></div>
 <div class="modal" id="modal" hidden></div>
 <div class="toast" id="toast" hidden></div>
 
@@ -878,6 +905,9 @@ const ICON={
  close:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>',
  txapela:'<svg viewBox="0 0 24 24"><g fill="var(--petal)" stroke="var(--petal-line)" stroke-width=".5"><path transform="rotate(0.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(20.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(40.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(60.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(80.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(100.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(120.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(140.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(160.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(180.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(200.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(220.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(240.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(260.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(280.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(300.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(320.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/><path transform="rotate(340.0 12 12)" d="M12 1.2C13 4 13 6.5 12 8.4C11 6.5 11 4 12 1.2Z"/></g><circle cx="12" cy="12" r="4.4" fill="var(--gold)" stroke="var(--gold-dk)" stroke-width=".8"/><g fill="var(--gold-dk)"><circle cx="14.20" cy="12.00" r=".55"/><circle cx="13.10" cy="13.91" r=".55"/><circle cx="10.90" cy="13.91" r=".55"/><circle cx="9.80" cy="12.00" r=".55"/><circle cx="10.90" cy="10.09" r=".55"/><circle cx="13.10" cy="10.09" r=".55"/><circle cx="12" cy="12" r=".6"/></g></svg>',
  lauburu:'<svg viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/><path transform="rotate(90 12 12)" d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/><path transform="rotate(180 12 12)" d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/><path transform="rotate(270 12 12)" d="M12 12a5 5 0 0 1 0-10a2.5 2.5 0 0 1 0 5a2.5 2.5 0 0 0 0 5z"/></g></svg>',
+ music:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 17.5V6l11-2.5v11.5" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" fill-opacity="0"/><ellipse cx="6.5" cy="17.5" rx="3.3" ry="2.7" fill="currentColor"/><ellipse cx="17.5" cy="15" rx="3.3" ry="2.7" fill="currentColor"/></svg>',
+ play:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l12.5-7.5z"/></svg>',
+ pause:'<svg viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1" fill="currentColor"/><rect x="14" y="4.5" width="4" height="15" rx="1" fill="currentColor"/></svg>',
  heart:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.6-4.6-9.6-9.4C1.1 8.4 3.3 5 6.8 5c2.1 0 3.5 1.1 4.2 2.3h2C13.7 6.1 15.1 5 17.2 5c3.5 0 5.7 3.4 4.4 6.6C19.6 16.4 12 21 12 21z"/></svg>',
  book:'<svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5a1.5 1.5 0 0 0 0 3H20v1H6.5A3.5 3.5 0 0 1 3 18.5v-14zM7 6v2h9V6z"/></svg>',
  x:'<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></svg>',
@@ -975,6 +1005,7 @@ function renderHome(){
     <p>${doneCount===0?'Vamos a aprender a saludar y presentarte en euskera, desde cero.':doneCount===ALL.length?'Ya sabes saludar, presentarte y mantener tu primera conversación. Puedes repetir cualquier lección.':`Llevas ${doneCount} de ${ALL.length} lecciones.`}</p>
     <div class="goal"><div class="goal-row"><span>Meta diaria</span><span>${Math.min(S.dayXp,GOAL)}/${GOAL} lauburus</span></div><div class="bar"><i style="width:${Math.min(100,S.dayXp/GOAL*100)}%"></i></div></div>
   </div></section>`;
+  h+=songCard();
   const offs=[0,56,84,56,0,-56,-84,-56];
   let gi=0;
   UNITS.forEach(u=>{
@@ -1001,6 +1032,7 @@ function renderHome(){
     const idx=ALL.findIndex(x=>x.id===b.dataset.lesson);
     if(idx>0&&!S.done[ALL[idx].id]&&!S.done[ALL[idx-1].id]){toast('Completa la lección anterior para desbloquear esta.');return;}
     startLesson(ALL[idx]);});
+  $('#songBtn').onclick=openSong;
   document.querySelectorAll('[data-tips]').forEach(b=>b.onclick=()=>openTips(UNITS.find(u=>u.id===b.dataset.tips)));
   requestAnimationFrame(drawTrails);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(drawTrails);
   let armed=false;$('#resetBtn').onclick=e=>{if(!armed){armed=true;e.target.textContent='¿Seguro? Pulsa otra vez para borrar';setTimeout(()=>{armed=false;if(e.target.isConnected)e.target.textContent='Borrar mi progreso';},3000);return;}
@@ -1037,6 +1069,79 @@ let trailT;window.addEventListener('resize',()=>{clearTimeout(trailT);trailT=set
 function openTips(u){const m=$('#modal');m.style.setProperty('--u',u.color);
   m.innerHTML=`<div class="sheet" role="dialog" aria-label="Consejos: ${esc(u.title)}"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h2>Consejos · ${u.title}</h2><button class="close" id="tipsClose" aria-label="Cerrar">${ICON.close}</button></div>${u.tips}</div>`;
   m.hidden=false;$('#tipsClose').onclick=()=>m.hidden=true;m.onclick=e=>{if(e.target===m)m.hidden=true;};}
+
+/* ================== CANCIÓN ORIGINAL: «Latxa eta lagunak» ==================
+   Letra y melodía originales de Kaixo (sin derechos de terceros).
+   Sílabas separadas con «|»; un espacio al final de la sílaba marca el final de palabra.
+   m = melodía [nota MIDI, tiempos]; si falta, se genera con el contorno de la estrofa. ch = acordes de los dos compases. */
+const SONG_CHORUS=[
+ {eu:'Kai|xo, |kai|xo, |e|gun |on!',es:'¡Hola, hola, buenos días!',m:[[67,1],[64,1],[67,1],[64,1],[65,.5],[67,.5],[72,2]],ch:['C','G']},
+ {eu:'Zer |mo|duz? |O|so |on|do!',es:'¿Qué tal? ¡Muy bien!',m:[[72,1],[71,.5],[69,1.5],[67,.5],[69,.5],[67,1],[64,2]],ch:['F','C']},
+ {eu:'Bat, |bi, |hi|ru, |lau, |bost,',es:'Uno, dos, tres, cuatro, cinco,',m:[[60,1],[62,1],[64,.5],[64,.5],[65,1],[67,2]],ch:['C','F']},
+ {eu:'kan|ta |de|za|gun |gaur!',es:'¡cantemos hoy!',m:[[69,.5],[69,.5],[67,.5],[65,.5],[64,1],[60,3]],ch:['G','C']},
+];
+const SONG_VERSES=[
+ [{eu:'Ni |La|txa |naiz, |ar|di |bat,',es:'Soy Latxa, una oveja,'},
+  {eu:'ba|se|rri|an |bi|zi |naiz.',es:'vivo en el caserío.'},
+  {eu:'Ni|re |txa|pe|la |bel|tza |da,',es:'Mi txapela es negra,'},
+  {eu:'e|ta |zu? |Nor |za|ra |zu?',es:'¿y tú? ¿Quién eres tú?'}],
+ [{eu:'Be|hi|ak |mu, |ka|tu|ak |miau,',es:'Las vacas «mu», los gatos «miau»,'},
+  {eu:'txa|ku|rrak: |au, |au, |au!',es:'los perros: ¡guau, guau, guau!'},
+  {eu:'Oi|lo|ak |e|ta |zal|di|ak,',es:'Las gallinas y los caballos,'},
+  {eu:'de|nok |gau|de |he|men, |bai!',es:'¡estamos todos aquí, sí!'}],
+ [{eu:'As|te|le|he|ne|an |eu|ri|a,',es:'El lunes, lluvia,'},
+  {eu:'os|ti|ra|le|an |e|guz|ki|a,',es:'el viernes, sol,'},
+  {eu:'u|dan |be|ro, |ne|gu|an |hotz,',es:'en verano calor, en invierno frío,'},
+  {eu:'i|gan|de|an |jai |e|ta |poz!',es:'el domingo, ¡fiesta y alegría!'}],
+];
+const SONG_END=[{eu:'A|gur, |a|gur, |ge|ro |ar|te!',es:'¡Adiós, adiós, hasta luego!',m:[[67,.5],[67,1.5],[64,.5],[64,1.5],[65,1],[62,1],[59,1],[60,1]],ch:['G','C']}];
+const VERSE_CONTOUR=[[60,62,64,65,67,65,64,62,60],[64,65,67,69,67,65,64,62,64],[65,67,69,71,72,71,69,67,65],[67,65,64,62,64,62,60,59,60]];
+const VERSE_CHORDS=[['C','F'],['C','G'],['F','C'],['G','C']];
+const DUR={6:[1,1,1,1,2,2],7:[1,1,1,1,1,1,2],8:[1,1,1,1,1,1,1,1],9:[.5,.5,1,1,1,1,1,1,1]};
+const ROOT={C:48,F:53,G:55};
+function buildSong(){const lines=[];
+  const add=(label,arr,isVerse)=>arr.forEach((l,li)=>{const syl=l.eu.split('|');let m=l.m;
+    if(!m){const c=VERSE_CONTOUR[li],n=syl.length,p=c.slice(0,n-1).concat([c[c.length-1]]);m=p.map((x,i)=>[x,DUR[n][i]]);}
+    lines.push({label:li===0?label:null,syl,es:l.es,m,ch:l.ch||VERSE_CHORDS[li]});});
+  add('Estribillo',SONG_CHORUS);add('Estrofa 1',SONG_VERSES[0]);add('Estribillo',SONG_CHORUS);add('Estrofa 2',SONG_VERSES[1]);
+  add('Estribillo',SONG_CHORUS);add('Estrofa 3',SONG_VERSES[2]);add('Estribillo',SONG_CHORUS);add('Final',SONG_END);
+  let t=0;lines.forEach(L=>{L.start=t;let b=t;L.notes=L.m.map(([midi,d],i)=>{const n={midi,start:b,dur:d,syl:i};b+=d;return n;});t+=8;});
+  return {lines,total:t};}
+const SONGDATA=buildSong();
+let SG=null; /* estado del reproductor */
+function songCard(){return `<section class="song-card"><div class="song-ic">${ICON.music}</div><div class="song-txt"><p class="eyebrow">Abestia · Canción</p><h2>Latxa eta lagunak</h2><p>Canta con Latxa una canción con palabras de las lecciones.</p></div><button class="btn small" id="songBtn">Escuchar</button></section>`;}
+function openSong(){const el=$('#song');SG={ctx:null,playing:false,slow:false,showEs:true,from:0,t0:0,raf:0,cur:-1};
+  el.innerHTML=`<div class="ls-top"><button class="close" id="songClose" aria-label="Cerrar la canción">${ICON.close}</button><div class="song-head"><h2>Latxa eta lagunak</h2><p>Latxa y sus amigos · canción original de Kaixo</p></div></div>
+   <div class="ls-body" id="songBody"><div class="ls-inner song-lyrics" id="lyrics">${SONGDATA.lines.map((L,i)=>`${L.label?`<p class="sec-label">${L.label}</p>`:''}<button class="sl" data-i="${i}"><span class="eu">${L.syl.map((x,j)=>`<span class="sy" data-j="${j}">${esc(x)}</span>`).join('')}</span><span class="es">${esc(L.es)}</span></button>`).join('')}</div></div>
+   <footer class="foot"><div class="foot-in song-ctrl"><button class="chip-btn" id="slowBtn" aria-pressed="false">Despacio</button><button class="chip-btn on" id="esBtn" aria-pressed="true">Traducción</button><button class="btn" id="playBtn">${ICON.play} Tocar</button></div></footer>`;
+  el.hidden=false;document.body.style.overflow='hidden';
+  $('#songClose').onclick=closeSong;$('#playBtn').onclick=togglePlay;
+  $('#slowBtn').onclick=e=>{SG.slow=!SG.slow;e.currentTarget.classList.toggle('on',SG.slow);e.currentTarget.setAttribute('aria-pressed',SG.slow);if(SG.playing)playFrom(Math.max(0,SG.cur));};
+  $('#esBtn').onclick=e=>{SG.showEs=!SG.showEs;e.currentTarget.classList.toggle('on',SG.showEs);e.currentTarget.setAttribute('aria-pressed',SG.showEs);$('#lyrics').classList.toggle('no-es',!SG.showEs);};
+  el.querySelectorAll('.sl').forEach(b=>b.onclick=()=>playFrom(+b.dataset.i));}
+function closeSong(){stopSong();$('#song').hidden=true;document.body.style.overflow='';SG=null;}
+function stopSong(){if(!SG)return;cancelAnimationFrame(SG.raf);if(SG.ctx){try{SG.ctx.close();}catch(e){}}SG.ctx=null;SG.playing=false;setPlayBtn();}
+function setPlayBtn(){const b=$('#playBtn');if(!b||!SG)return;b.innerHTML=SG.playing?`${ICON.pause} Pausa`:`${ICON.play} ${SG.ctx?'Seguir':'Tocar'}`;}
+function togglePlay(){if(!SG)return;if(!SG.ctx){playFrom(0);return;}
+  if(SG.playing){SG.ctx.suspend();SG.playing=false;}else{SG.ctx.resume();SG.playing=true;loop();}setPlayBtn();}
+function tone2(ctx,dest,midi,t,dur,type,g){const o=ctx.createOscillator(),a=ctx.createGain();o.type=type;o.frequency.value=440*Math.pow(2,(midi-69)/12);
+  a.gain.setValueAtTime(0.0001,t);a.gain.exponentialRampToValueAtTime(g,t+0.02);a.gain.exponentialRampToValueAtTime(g*0.45,t+Math.max(0.05,dur*0.5));a.gain.exponentialRampToValueAtTime(0.0001,t+dur*0.97);
+  o.connect(a);a.connect(dest);o.start(t);o.stop(t+dur+0.02);}
+function playFrom(i){stopSong();let ctx;try{ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){toast('Este navegador no puede reproducir la canción.');return;}
+  SG.ctx=ctx;SG.from=i;SG.cur=-1;const spb=60/(SG.slow?76:100);const master=ctx.createGain();master.gain.value=0.9;master.connect(ctx.destination);
+  const off=SONGDATA.lines[i].start;const t0=ctx.currentTime+0.25+2*spb;SG.t0=t0;SG.spb=spb;SG.off=off;
+  [0,1].forEach(k=>tone2(ctx,master,84,t0-(2-k)*spb,0.08,'sine',0.12)); /* dos golpecitos para entrar */
+  SONGDATA.lines.slice(i).forEach(L=>{L.notes.forEach(n=>{const t=t0+(n.start-off)*spb,d=n.dur*spb;tone2(ctx,master,n.midi,t,d*0.95,'triangle',0.26);tone2(ctx,master,n.midi+12,t,d*0.6,'sine',0.04);});
+    L.ch.forEach((c,bar)=>{const t=t0+(L.start-off+bar*4)*spb;tone2(ctx,master,ROOT[c],t,spb*1.8,'sine',0.2);tone2(ctx,master,ROOT[c]+7,t+2*spb,spb*1.8,'sine',0.14);});});
+  SG.playing=true;setPlayBtn();loop();}
+function loop(){if(!SG||!SG.ctx)return;const now=(SG.ctx.currentTime-SG.t0)/SG.spb+SG.off;
+  if(now>=SONGDATA.total+0.5){stopSong();markLine(-1,0);return;}
+  const li=Math.max(SG.from,Math.min(SONGDATA.lines.length-1,Math.floor(Math.max(0,now)/8)));markLine(now<SONGDATA.lines[SG.from].start?-1:li,now);
+  if(SG.playing)SG.raf=requestAnimationFrame(loop);}
+function markLine(li,now){const lines=document.querySelectorAll('#lyrics .sl');
+  if(li!==SG.cur){lines.forEach((b,k)=>{b.classList.toggle('cur',k===li);b.classList.toggle('past',li>=0&&k<li);});
+    if(li>=0){lines[li].scrollIntoView({block:'center',behavior:'smooth'});}SG.cur=li;}
+  if(li<0)return;const L=SONGDATA.lines[li];lines[li].querySelectorAll('.sy').forEach((s,j)=>s.classList.toggle('sung',now>=L.notes[j].start));}
 
 /* ================== LECCIÓN ================== */
 let LS=null, ctrl=null, phase='check';
