@@ -285,7 +285,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <script>
 /* ================== CONTENIDO ================== */
-const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️','Animalia':'🐾','Txakurra':'🐶','Katua':'🐱','Txoria':'🐦','Arraina':'🐟','Untxia':'🐰','Sagua':'🐭','Behia':'🐄','Ardia':'🐑','Zaldia':'🐴','Txerria':'🐷','Oiloa':'🐔','Baserria':'🏡','Handia':'🐘','Txikia':'🐜'};
+const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️','Animalia':'🐾','Txakurra':'🐶','Katua':'🐱','Txoria':'🐦','Arraina':'🐟','Untxia':'🐰','Sagua':'🐭','Behia':'🐄','Ardia':'🐑','Zaldia':'🐴','Txerria':'🐷','Oiloa':'🐔','Baserria':'🏡','Handia':'🐘','Txikia':'🐜','Janaria':'🍽️','Ogia':'🍞','Ura':'💧','Esnea':'🥛','Gazta':'🧀','Arrautza':'🥚','Fruta':'🍇','Sagarra':'🍎','Laranja':'🍊','Platanoa':'🍌','Sagardoa':'🍏','Txuleta':'🥩','Intxaurrak':'🌰','Sagardotegia':'🛢️'};
 const I=(eu,es,tip)=>({t:'intro',eu,es,tip});
 const P=(es,eu,wrong)=>({t:'pick',es,eu,opts:[eu,...wrong]});
 const C=(prompt,speak,opts,ans,meaning)=>({t:'choice',prompt,speak,opts,ans,meaning});
@@ -324,12 +324,19 @@ const CONV4=[
  {m:'Eta zer eguraldi egingo du?',es:'¿Y qué tiempo hará?',a:'Eguzkia egongo da!',aes:'¡Hará sol!',wrong:['Eguzkia naiz!','Eguzkia dauzkat!']},
  {m:'Primeran! Zure txakurra ere joango da?',es:'¡Genial! ¿Tu perro también irá?',a:'Bai, txakurra ere bai!',aes:'¡Sí, el perro también!',wrong:['Bai, txakurra naiz!','Ez, txakurra handia zara.']},
 ];
+const CONV5=[
+ {m:'Kaixo Ane! Gose zara?',es:'¡Hola, Ane! ¿Tienes hambre?',a:'Bai, oso gose naiz!',aes:'¡Sí, tengo mucha hambre!',wrong:['Bai, gose zara!','Ez, egarri da.']},
+ {m:'Zer jan nahi duzu?',es:'¿Qué quieres comer?',a:'Txuleta eta patatak, mesedez.',aes:'Chuletón y patatas, por favor.',wrong:['Txuleta naiz, mesedez.','Bost urte ditut.']},
+ {m:'Eta zer edan nahi duzu?',es:'¿Y qué quieres beber?',a:'Sagardoa! Txotx!',aes:'¡Sidra! ¡Txotx!',wrong:['Sagardoa jaten dut.','Egarri zara.']},
+ {m:'Zer moduz txuleta?',es:'¿Qué tal el chuletón?',a:'Oso goxoa da!',aes:'¡Está muy rico!',wrong:['Oso goxoa naiz!','Gaizki zara!']},
+ {m:'Postrea? Gazta eta intxaurrak?',es:'¿Postre? ¿Queso y nueces?',a:'Bai, gazta gustatzen zait!',aes:'¡Sí, me gusta el queso!',wrong:['Bai, gazta naiz!','Ez, gustatzen zaizkit.']},
+];
 function convo(n,L=CONV){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:L[i].m,es:L[i].es});h.push({who:'Ane',eu:L[i].a,es:L[i].aes});}
   const c=L[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
 
 /* IMPORTANTE para ampliar la app:
    - NO cambiar los id de unidades (u1, u2...) ni de lecciones (l1, l2...): el progreso de cada persona se guarda con ellos.
-   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l28, u8).
+   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l33, u9).
      El orden del camino lo marca su posición en la lista, no el número del id.
    - Una lección ya hecha siempre queda abierta, así que se pueden insertar lecciones entre otras sin bloquear a nadie.
    - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
@@ -874,6 +881,109 @@ const UNITS=[
     T('Hay diez ovejas',['hamar ardi daude']),
   ]},
 ]},
+{ id:'u8', n:8, title:'La comida', sub:'Comer, beber, lo que te gusta y la sidrería', color:'#a35a2a', dark:'#7a421e',
+  tips:`<h3>Lo básico</h3>
+  <table><tbody>
+  <tr><td>janaria</td><td>la comida</td></tr><tr><td>ogia</td><td>el pan</td></tr><tr><td>ura</td><td>el agua</td></tr><tr><td>esnea</td><td>la leche</td></tr><tr><td>gazta</td><td>el queso</td></tr><tr><td>arrautza</td><td>el huevo</td></tr><tr><td>arraina</td><td>el pescado (y el pez)</td></tr>
+  </tbody></table>
+  <h3>Fruta</h3>
+  <table><tbody><tr><td>sagarra</td><td>la manzana</td></tr><tr><td>laranja</td><td>la naranja</td></tr><tr><td>platanoa</td><td>el plátano</td></tr><tr><td>sagardoa</td><td>la sidra (sagar + ardo, «vino de manzana»)</td></tr></tbody></table>
+  <h3>Comer y beber</h3>
+  <table><tbody>
+  <tr><td>Ogia jaten dut</td><td>Como pan</td></tr><tr><td>Ura edaten dut</td><td>Bebo agua</td></tr><tr><td>Zer jaten duzu?</td><td>¿Qué comes?</td></tr>
+  <tr><td>Gose naiz</td><td>Tengo hambre</td></tr><tr><td>Egarri naiz</td><td>Tengo sed</td></tr>
+  </tbody></table>
+  <h3>Me gusta / me gustan</h3>
+  <p>Lo que gusta va delante: <i>Gazta gustatzen <b>zait</b></i> = me gusta el queso. Si son varias cosas: <i>Sagarrak gustatzen <b>zaizkit</b></i> = me gustan las manzanas (como <i>daukat → dauzkat</i>).</p>
+  <p>Con <b>ez</b> cambia el orden: <i>Arraina <b>ez zait</b> gustatzen</i> = no me gusta el pescado. Y para preguntar: <i>Gazta gustatzen <b>zaizu</b>?</i> = ¿te gusta el queso?</p>
+  <h3>En la sidrería (sagardotegia)</h3>
+  <p>El menú típico es tortilla de bacalao, <i>txuleta</i> (chuletón) y de postre queso, membrillo e <i>intxaurrak</i> (nueces). Cuando alguien grita <b>«Txotx!»</b>, todos van a llenar el vaso directamente de la barrica.</p>
+  <table><tbody><tr><td>On egin!</td><td>¡Buen provecho!</td></tr><tr><td>Oso goxoa da!</td><td>¡Está muy rico!</td></tr><tr><td>Kontua, mesedez</td><td>La cuenta, por favor</td></tr></tbody></table>`,
+  lessons:[
+  { id:'l28', title:'Pan, agua y leche', ex:[
+    I('Janaria','La comida','<b>jan</b> = comer → <b>janari</b> = comida.'),
+    I('Ogia','El pan'),
+    I('Ura','El agua','Ya la viste en «ur botila bat».'),
+    P('El pan','Ogia',['Ura']),
+    I('Esnea','La leche'),
+    I('Gazta','El queso','El famoso queso Idiazabal se hace con leche de oveja latxa, ¡como nuestra mascota!'),
+    I('Arrautza','El huevo'),
+    P('El queso','Gazta',['Esnea','Arrautza']),
+    M([['Ogia','El pan'],['Ura','El agua'],['Esnea','La leche'],['Gazta','El queso'],['Arrautza','El huevo']]),
+    B('es2eu','Pan y queso, por favor',['Ogia eta gazta, mesedez'],['ura','bat','esnea']),
+    I('Ur bat, mesedez','Un agua, por favor','Como en el bar: <b>bat</b> detrás y sin la -a: ura → ur bat.'),
+    C('¿Cómo se dice «dos huevos»?','',['Bi arrautza','Bi arrautzak','Arrautza bat'],'Bi arrautza'),
+    L('Ogia, gazta eta esnea',['ura','bat'],'Pan, queso y leche'),
+    T('La leche',['esnea']),
+  ]},
+  { id:'l29', title:'La fruta', ex:[
+    I('Fruta','La fruta','Igual que en español.'),
+    I('Sagarra','La manzana','Muy importante aquí: con ella se hace la sidra.'),
+    I('Laranja','La naranja'),
+    I('Platanoa','El plátano'),
+    P('La manzana','Sagarra',['Laranja']),
+    P('El plátano','Platanoa',['Sagarra','Laranja']),
+    I('Bost sagar dauzkat','Tengo cinco manzanas','Número delante, sin plural, y <b>dauzkat</b> porque son varias.'),
+    F('Tengo tres naranjas','Hiru laranja','',['dauzkat','daukat','da'],'dauzkat'),
+    I('Sagardoa','La sidra','<b>sagar</b> (manzana) + <b>ardo</b> (vino): «vino de manzana».'),
+    M([['Sagarra','La manzana'],['Laranja','La naranja'],['Platanoa','El plátano'],['Sagardoa','La sidra'],['Ardoa','El vino']]),
+    D([{who:'Mikel',eu:'Kaixo! Zer nahi duzu?',es:'¡Hola! ¿Qué quieres?'}],['Bi sagar, mesedez. Zenbat da?','Bi sagarrak, mesedez.','Sagar bi naiz.'],'Bi sagar, mesedez. Zenbat da?','Dos manzanas, por favor. ¿Cuánto es?'),
+    B('eu2es','Laranja bat eta bi platano',['Una naranja y dos plátanos'],['manzanas','tres','es']),
+    L('Bost sagar dauzkat',['laranja','daukat'],'Tengo cinco manzanas'),
+    T('La manzana',['sagarra']),
+  ]},
+  { id:'l30', title:'Comer y beber', ex:[
+    I('Jan','Comer'),
+    I('Edan','Beber'),
+    I('Ogia jaten dut','Como pan','<b>jaten dut</b> = como. El verbo, como siempre, al final.'),
+    I('Ura edaten dut','Bebo agua','<b>edaten dut</b> = bebo.'),
+    C('¿Qué significa «Esnea edaten dut»?','Esnea edaten dut',['Bebo leche','Como leche','Bebes leche'],'Bebo leche'),
+    B('es2eu','Como queso',['Gazta jaten dut'],['edaten','duzu','ogia']),
+    I('Zer jaten duzu?','¿Qué comes?','<b>duzu</b> = tú, como en «zer egiten duzu?».'),
+    I('Gose naiz','Tengo hambre','Literalmente «soy hambriento».'),
+    I('Egarri naiz','Tengo sed'),
+    C('¿Cómo se dice «tengo sed»?','',['Egarri naiz','Gose naiz','Egarri zara'],'Egarri naiz'),
+    I('Goizean kafea edaten dut','Por la mañana bebo café','<b>goizean</b> = por la mañana, como <b>arratsaldean</b> = por la tarde.'),
+    M([['Jan','Comer'],['Edan','Beber'],['Gose','Hambre'],['Egarri','Sed'],['Goizean','Por la mañana']]),
+    D([{who:'Mikel',eu:'Egarri zara?',es:'¿Tienes sed?'}],['Bai, ura edaten dut.','Bai, ura jaten dut.','Bai, egarri zara.'],'Bai, ura edaten dut.','Sí, bebo agua.'),
+    B('eu2es','Gose naiz. Ogia jaten dut.',['Tengo hambre. Como pan.'],['bebo','sed','agua']),
+    L('Goizean esnea edaten dut',['kafea','jaten'],'Por la mañana bebo leche'),
+    T('Tengo hambre',['gose naiz']),
+  ]},
+  { id:'l31', title:'Me gusta', ex:[
+    I('Gustatzen zait','Me gusta','Lo que gusta va delante: <b>gazta gustatzen zait</b> = me gusta el queso.'),
+    I('Gazta gustatzen zait','Me gusta el queso'),
+    I('Ez zait gustatzen','No me gusta','Con <b>ez</b> cambia el orden: <b>ez zait</b> va antes que <b>gustatzen</b>.'),
+    I('Arraina ez zait gustatzen','No me gusta el pescado','<b>arraina</b> es el pez y también el pescado.'),
+    C('¿Qué significa «Esnea ez zait gustatzen»?','Esnea ez zait gustatzen',['No me gusta la leche','Me gusta la leche','No bebo leche'],'No me gusta la leche'),
+    I('Sagarrak gustatzen zaizkit','Me gustan las manzanas','Si son varias cosas, <b>zait</b> pasa a <b>zaizkit</b> (como daukat → dauzkat).'),
+    F('Me gustan los plátanos','Platanoak gustatzen','',['zaizkit','zait','dauzkat'],'zaizkit'),
+    I('Oso goxoa da!','¡Está muy rico!','<b>goxo</b> = rico, sabroso.'),
+    I('Nire janari gogokoena patata-tortilla da','Mi comida favorita es la tortilla de patatas','<b>gogokoena</b>, como con los animales y las estaciones.'),
+    B('es2eu','Me gusta el pan',['Ogia gustatzen zait'],['zaizkit','ez','jaten']),
+    B('es2eu','No me gusta el café',['Kafea ez zait gustatzen'],['zaizkit','edaten','da']),
+    D([{who:'Mikel',eu:'Gazta gustatzen zaizu?',es:'¿Te gusta el queso?'}],['Bai, asko gustatzen zait!','Bai, asko gustatzen zaizu!','Bai, gazta naiz!'],'Bai, asko gustatzen zait!','¡Sí, me gusta mucho!'),
+    M([['Zait','Me (gusta)'],['Zaizkit','Me (gustan)'],['Zaizu','Te (gusta)'],['Goxoa','Rico'],['Ez','No']]),
+    L('Sagarrak gustatzen zaizkit',['zait','ez'],'Me gustan las manzanas'),
+    T('Me gusta el queso',['gazta gustatzen zait']),
+  ]},
+  { id:'l32', title:'En la sidrería', final:true, ex:[
+    I('Sagardotegia','La sidrería','Aquí se grita <b>«Txotx!»</b> para ir a llenar el vaso directamente de la barrica.'),
+    I('On egin!','¡Buen provecho!'),
+    convo(0,CONV5),
+    I('Txuleta','El chuletón','El plato estrella de la sidrería, junto con la tortilla de bacalao.'),
+    convo(1,CONV5),
+    B('es2eu','Tengo mucha hambre',['Oso gose naiz'],['egarri','zara','asko']),
+    convo(2,CONV5),
+    convo(3,CONV5),
+    I('Intxaurrak','Las nueces','De postre: queso, membrillo y nueces.'),
+    convo(4,CONV5),
+    M([['Sagardoa','La sidra'],['Txuleta','El chuletón'],['On egin!','¡Buen provecho!'],['Goxoa','Rico'],['Intxaurrak','Las nueces']]),
+    I('Kontua, mesedez','La cuenta, por favor'),
+    L('On egin! Oso goxoa da!',['gose','zait'],'¡Buen provecho! ¡Está muy rico!'),
+    T('La cuenta, por favor',['kontua mesedez']),
+  ]},
+]},
 ];
 const ALL=UNITS.flatMap(u=>u.lessons.map(l=>({...l,unit:u})));
 
@@ -1248,7 +1358,7 @@ const GL_EU={
  'kaixo':'hola','agur':'adiós','egun':'día','on':'bueno/a','gabon':'buenas noches','eskerrik':'gracias','asko':'mucho/a','horregatik':'por eso','ez':'no','bai':'sí','mesedez':'por favor',
  'zer':'qué','moduz':'tal','ondo':'bien','oso':'muy','eta':'y','zu':'tú','ni':'yo','naiz':'soy','zara':'eres','da':'es','nor':'quién','nire':'mi','zure':'tu','izena':'el nombre','zein':'cuál',
  'nongoa':'de dónde','bilbokoa':'de Bilbao','donostiakoa':'de San Sebastián','ikaslea':'estudiante','euskara':'euskera','ikasten':'aprendiendo / estudiando','ari':'estar …-ando (ari naiz = estoy)',
- 'bat':'uno / un','bi':'dos','hiru':'tres','lau':'cuatro','bost':'cinco','zenbat':'cuánto/s','euro':'euro(s)','kafe':'café','urte':'año(s)','dituzu':'tienes','ditut':'tengo',
+ 'bat':'uno / un','bi':'dos','hiru':'tres','lau':'cuatro','bost':'cinco','zenbat':'cuánto/s','euro':'euro(s)','kafe':'café','ogia':'el pan','gazta':'el queso','esnea':'la leche','ura':'el agua','laranja':'naranja','platano':'plátano','gose':'hambre (gose naiz = tengo hambre)','jaten':'comiendo (jaten dut = como)','edaten':'bebiendo (edaten dut = bebo)','urte':'año(s)','dituzu':'tienes','ditut':'tengo',
  'gaur':'hoy','atzo':'ayer','bihar':'mañana','asteburuan':'el fin de semana (cuándo)','egiten':'haciendo (egiten du = hace)','du':'(auxiliar: lo hace él/ella)','dut':'(auxiliar: lo hago yo)',
  'bero':'calor','hotz':'frío','udan':'en verano','negua':'el invierno','udazkena':'el otoño','daukat':'tengo','dauzkat':'tengo (varios)','katu':'gato','txakur':'perro','ardi':'oveja','zuri':'blanco/a'
 };
@@ -1260,7 +1370,7 @@ const GL_ES={
  'lunes':'astelehena','martes':'asteartea','viernes':'ostirala','sabado':'larunbata','domingo':'igandea','el':'-a (va al final)','la':'-a (va al final)','en':'-n / -an (va al final)','trabajo':'lan egiten dut',
  'hace':'egiten du','sol':'eguzkia','frio':'hotz','esta':'ari du (está …-ando)','lloviendo':'euria ari du','llovera':'euria egingo du','verano':'uda','invierno':'negu','primavera':'udaberri',
  'perro':'txakur','gato':'katu','gatos':'katu (sin plural tras número)','oveja':'ardi','ovejas':'ardi','caballos':'zaldi','pequeno':'txiki','hay':'dago (uno) · daude (varios)','caserio':'baserri','al':'-ra (al caserío = baserrira)','voy':'noa',
- 'acuerdo':'(de acuerdo = ados)','tambien':'ere bai'
+ 'acuerdo':'(de acuerdo = ados)','pan':'ogi(a)','queso':'gazta','leche':'esne(a)','agua':'ur(a)','como':'jaten dut','gusta':'gustatzen zait','me':'(me gusta = gustatzen zait)','cafe':'kafe(a)','mucha':'oso (oso gose = mucha hambre)','hambre':'gose','cuenta':'kontua','manzana':'sagar(ra)','tambien':'ere bai'
 };
 function hintify(text,lang){const G=lang==='eu'?GL_EU:GL_ES;
   return String(text).split(/(\s+)/).map(tok=>{const m=tok.match(/^([¿¡«"]*)(.*?)([?!.,»"]*)$/);if(!m||!m[2])return esc(tok);
