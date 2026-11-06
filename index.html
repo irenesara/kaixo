@@ -20,6 +20,7 @@
   --flame:#e2701c; --heart:#d52b1e;
   --trail:#d8d3c4; --tree:#a9cba5; --tree-dk:#7fae7a;
   --petal:#f4f0e2; --petal-line:#b3aa90;
+  --stone:#e8e1cf; --stone-line:#c9bfa6;
   --wall:#ffffff; --roof:#b5523b; --wood:#6e4c33; --hay:#d9b45a; --wool:#ffffff;
   --font:"Nunito","Varela Round","Segoe UI",system-ui,sans-serif;
 }
@@ -28,14 +29,14 @@
   --locked:#2c3a33; --locked-dk:#1f2a24; --locked-fg:#5c6d63;
   --sel-bg:#16323b; --sel-line:#3d7d92; --sel-fg:#7cc3da;
   --ok-bg:#16301f; --ok-fg:#5fd08a; --bad-bg:#3a1e1b; --bad-fg:#ff7a6b;
-  --blue-dk:#164f63; --trail:#34433b; --tree:#2b4a36; --tree-dk:#3d6a4b; --heart:#ff6a5c; --petal:#e6e1d2; --petal-line:#8f8874; --wall:#cfc9ba; --roof:#8e4030; --wood:#4f3624; --hay:#a88a43; --wool:#d9d6cf;
+  --blue-dk:#164f63; --trail:#34433b; --tree:#2b4a36; --tree-dk:#3d6a4b; --heart:#ff6a5c; --petal:#e6e1d2; --petal-line:#8f8874; --stone:#a59d8a; --stone-line:#7d7563; --wall:#cfc9ba; --roof:#8e4030; --wood:#4f3624; --hay:#a88a43; --wool:#d9d6cf;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121a16; --fg:#eef2ee; --muted:#8fa096; --line:#2c3a33; --soft:#1a2620;
   --locked:#2c3a33; --locked-dk:#1f2a24; --locked-fg:#5c6d63;
   --sel-bg:#16323b; --sel-line:#3d7d92; --sel-fg:#7cc3da;
   --ok-bg:#16301f; --ok-fg:#5fd08a; --bad-bg:#3a1e1b; --bad-fg:#ff7a6b;
-  --blue-dk:#164f63; --trail:#34433b; --tree:#2b4a36; --tree-dk:#3d6a4b; --heart:#ff6a5c; --petal:#e6e1d2; --petal-line:#8f8874; --wall:#cfc9ba; --roof:#8e4030; --wood:#4f3624; --hay:#a88a43; --wool:#d9d6cf;
+  --blue-dk:#164f63; --trail:#34433b; --tree:#2b4a36; --tree-dk:#3d6a4b; --heart:#ff6a5c; --petal:#e6e1d2; --petal-line:#8f8874; --stone:#a59d8a; --stone-line:#7d7563; --wall:#cfc9ba; --roof:#8e4030; --wood:#4f3624; --hay:#a88a43; --wool:#d9d6cf;
   color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -200,6 +201,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .song-ctrl{justify-content:flex-end}
 .chip-btn{border:2px solid var(--line);background:var(--bg);color:var(--muted);border-radius:10px;padding:10px 12px;font-weight:800;font-size:14px}
 .chip-btn.on{border-color:var(--sel-line);background:var(--sel-bg);color:var(--sel-fg)}
+.clock-wrap{display:flex;justify-content:center}
+.clock{width:170px;height:170px;max-width:60vw}
+@media (max-height:620px){.clock{width:130px;height:130px}}
 /* constructor */
 .answer{min-height:122px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:4px 0;background:repeating-linear-gradient(to bottom,transparent 0 56px,var(--line) 56px 58px,transparent 58px 61px)}
 .bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
@@ -285,7 +289,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <script>
 /* ================== CONTENIDO ================== */
-const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️','Animalia':'🐾','Txakurra':'🐶','Katua':'🐱','Txoria':'🐦','Arraina':'🐟','Untxia':'🐰','Sagua':'🐭','Behia':'🐄','Ardia':'🐑','Zaldia':'🐴','Txerria':'🐷','Oiloa':'🐔','Baserria':'🏡','Handia':'🐘','Txikia':'🐜','Janaria':'🍽️','Ogia':'🍞','Ura':'💧','Esnea':'🥛','Gazta':'🧀','Arrautza':'🥚','Fruta':'🍇','Sagarra':'🍎','Laranja':'🍊','Platanoa':'🍌','Sagardoa':'🍏','Txuleta':'🥩','Intxaurrak':'🌰','Sagardotegia':'🛢️'};
+const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️','Animalia':'🐾','Txakurra':'🐶','Katua':'🐱','Txoria':'🐦','Arraina':'🐟','Untxia':'🐰','Sagua':'🐭','Behia':'🐄','Ardia':'🐑','Zaldia':'🐴','Txerria':'🐷','Oiloa':'🐔','Baserria':'🏡','Handia':'🐘','Txikia':'🐜','Janaria':'🍽️','Ogia':'🍞','Ura':'💧','Esnea':'🥛','Gazta':'🧀','Arrautza':'🥚','Fruta':'🍇','Sagarra':'🍎','Laranja':'🍊','Platanoa':'🍌','Sagardoa':'🍏','Txuleta':'🥩','Intxaurrak':'🌰','Sagardotegia':'🛢️','Lana':'💼','Irakaslea':'🧑‍🏫','Medikua':'🩺','Erizaina':'💊','Sukaldaria':'🧑‍🍳','Dendaria':'🛍️','Tabernaria':'☕','Nekazaria':'🚜','Arrantzalea':'🎣','Ingeniaria':'👷','Bulegoa':'🏢','Ospitalea':'🏥','Eskola':'🏫','Jatetxea':'🍴','Denda':'🏪','Kirola':'🏅','Futbola':'⚽','Saskibaloia':'🏀','Igeri egiten dut':'🏊','Korrika egiten dut':'🏃','Mendira joaten naiz':'⛰️','Euskal pilota':'🥎','Pilotalekua':'🧱','Pilotaria':'🙌','Eskuz':'✋','Pala':'🏓','Zesta-punta':'🧺','Herri kirolak':'💪','Harria':'🪨','Harri-jasotzailea':'🏋️','Aizkolaria':'🪓','Sokatira':'🪢','Estropadak':'🚣','Txapelketa':'🏆','Txapelduna':'🥇','Koadrila':'👯','Lagunak':'🧑‍🤝‍🧑','Kalea':'🛣️','Taberna':'🍻','Pintxoa':'🍢','Gilda':'🌶️','Patata-tortilla':'🥔','Bakailaoa':'🐟','Zuritoa':'🍺','Txakolina':'🥂','Kalimotxoa':'🍷','Mostoa':'🍇','Ardo beltza':'🍷','Ardo zuria':'🥂','Marmitakoa':'🍲','Hegaluzea':'🐟','Patatak':'🥔','Lehiaketa':'🏆','Tipula':'🧅','Topa!':'🥂'};
 const I=(eu,es,tip)=>({t:'intro',eu,es,tip});
 const P=(es,eu,wrong)=>({t:'pick',es,eu,opts:[eu,...wrong]});
 const C=(prompt,speak,opts,ans,meaning)=>({t:'choice',prompt,speak,opts,ans,meaning});
@@ -295,6 +299,7 @@ const L=(eu,extra,es)=>({t:'listen',eu,extra,es});
 const T=(es,answers)=>({t:'type',es,answers});
 const F=(es,before,after,opts,ans)=>({t:'fill',es,before,after,opts,ans});
 const D=(hist,opts,ans,aes)=>({t:'dialog',hist,opts,ans,aes});
+const K=(h,m,opts,ans,es)=>({t:'clock',h,m,opts,ans,es});
 
 const CONV=[
  {m:'Kaixo! Zer moduz?',es:'¡Hola! ¿Qué tal?',a:'Oso ondo, eta zu?',aes:'Muy bien, ¿y tú?',wrong:['Bihar arte!','Ez horregatik.']},
@@ -331,12 +336,40 @@ const CONV5=[
  {m:'Zer moduz txuleta?',es:'¿Qué tal el chuletón?',a:'Oso goxoa da!',aes:'¡Está muy rico!',wrong:['Oso goxoa naiz!','Gaizki zara!']},
  {m:'Postrea? Gazta eta intxaurrak?',es:'¿Postre? ¿Queso y nueces?',a:'Bai, gazta gustatzen zait!',aes:'¡Sí, me gusta el queso!',wrong:['Bai, gazta naiz!','Ez, gustatzen zaizkit.']},
 ];
+const CONV6=[
+ {m:'Kaixo Ane! Zertan egiten duzu lan?',es:'¡Hola, Ane! ¿En qué trabajas?',a:'Irakaslea naiz.',aes:'Soy profesora.',wrong:['Irakaslea zara.','Lan bat daukat.']},
+ {m:'Non egiten duzu lan?',es:'¿Dónde trabajas?',a:'Eskolan egiten dut lan.',aes:'Trabajo en la escuela.',wrong:['Eskola naiz.','Eskolan egiten duzu lan.']},
+ {m:'Zer ordutan hasten zara?',es:'¿A qué hora empiezas?',a:'Zortzietan hasten naiz.',aes:'Empiezo a las ocho.',wrong:['Zortzi hasten naiz.','Zortzietan hasten zara.']},
+ {m:'Larunbatean ere lan egiten duzu?',es:'¿También trabajas el sábado?',a:'Ez, asteburuan ez dut lanik egiten.',aes:'No, el fin de semana no trabajo.',wrong:['Ez, asteburuan lan egiten zara.','Bai, larunbata naiz.']},
+ {m:'Zure lana gustatzen zaizu?',es:'¿Te gusta tu trabajo?',a:'Bai, asko gustatzen zait!',aes:'¡Sí, me gusta mucho!',wrong:['Bai, asko gustatzen zaizu!','Bai, lana naiz!']},
+];
+const CONV7=[
+ {m:'Kaixo Ane! Zer egingo duzu larunbatean?',es:'¡Hola, Ane! ¿Qué harás el sábado?',a:'Larunbatean pilotalekura noa.',aes:'El sábado voy al frontón.',wrong:['Larunbatean pilotalekua naiz.','Pilotan jaten dut.']},
+ {m:'Zer ordutan da partida?',es:'¿A qué hora es el partido?',a:'Bostetan da.',aes:'Es a las cinco.',wrong:['Bost da.','Bostetan naiz.']},
+ {m:'Nor da zure pilotari gogokoena?',es:'¿Quién es tu pelotari favorito?',a:'Nire aita! Oso azkarra da.',aes:'¡Mi padre! Es muy rápido.',wrong:['Nire aita naiz!','Oso azkarra zara.']},
+ {m:'Eta gero? Herri kirolak?',es:'¿Y después? ¿Deporte rural?',a:'Bai, harri-jasotzea gustatzen zait!',aes:'¡Sí, me gusta el levantamiento de piedras!',wrong:['Bai, harria naiz!','Bai, harria jaten dut!']},
+ {m:'Nork irabazi du partida?',es:'¿Quién ha ganado el partido?',a:'Nire aitak! Txapelduna da!',aes:'¡Mi padre! ¡Es el campeón!',wrong:['Nire aita naiz!','Txapela jaten du!']},
+];
+const CONV8=[
+ {m:'Kaixo Ane! Gaur patata-tortilla lehiaketa dago!',es:'¡Hola, Ane! ¡Hoy hay concurso de tortilla de patatas!',a:'Bai? Zer ordutan?',aes:'¿Sí? ¿A qué hora?',wrong:['Bai, tortilla naiz!','Lehiaketa jaten dut.']},
+ {m:'Zortzietan, plazan. Tipularekin ala tipularik gabe?',es:'A las ocho, en la plaza. ¿Con cebolla o sin cebolla?',a:'Tipularekin, noski!',aes:'¡Con cebolla, claro!',wrong:['Tipula naiz, noski!','Tipularekin zara!']},
+ {m:'Zer hartuko duzu?',es:'¿Qué vas a tomar?',a:'Kalimotxo bat, mesedez.',aes:'Un kalimotxo, por favor.',wrong:['Kalimotxoa jaten dut.','Kalimotxo bi naiz.']},
+ {m:'Zer moduz tortilla?',es:'¿Qué tal la tortilla?',a:'Oso goxoa! Hau da onena!',aes:'¡Muy rica! ¡Esta es la mejor!',wrong:['Oso goxoa naiz!','Onena zara tortilla!']},
+ {m:'Topa! Gaur nik gonbidatzen dut.',es:'¡Salud! Hoy invito yo.',a:'Eskerrik asko! Topa!',aes:'¡Muchas gracias! ¡Salud!',wrong:['Ez horregatik! Topa!','Kontua naiz!']},
+];
+const CONV9=[
+ {m:'Kaixo Ane! Zer ordu da?',es:'¡Hola, Ane! ¿Qué hora es?',a:'Seiak eta erdi dira.',aes:'Son las seis y media.',wrong:['Seiak eta erdi da.','Sei naiz.']},
+ {m:'Zinemara goaz? Pelikula zazpietan da.',es:'¿Vamos al cine? La película es a las siete.',a:'Bai, ados! Zer ordutan elkartuko gara?',aes:'¡Sí, vale! ¿A qué hora quedamos?',wrong:['Bai, zinema naiz!','Zazpiak zara.']},
+ {m:'Zazpiak laurden gutxitan, plazan.',es:'A las siete menos cuarto, en la plaza.',a:'Ados! Plazan, zazpiak laurden gutxitan.',aes:'¡De acuerdo! En la plaza, a las siete menos cuarto.',wrong:['Ados! Plaza naiz.','Zazpiak laurden gutxi zara.']},
+ {m:'Ane! Non zaude? Zazpiak dira!',es:'¡Ane! ¿Dónde estás? ¡Son las siete!',a:'Barkatu! Bost minutu!',aes:'¡Perdón! ¡Cinco minutos!',wrong:['Ez horregatik! Bost minutu!','Barkatu! Bost urte!']},
+ {m:'Lasai, pelikula zazpiak eta bostetan hasten da.',es:'Tranquila, la película empieza a las siete y cinco.',a:'Primeran! Ez da berandu!',aes:'¡Genial! ¡No es tarde!',wrong:['Primeran! Berandu naiz!','Pelikula naiz!']},
+];
 function convo(n,L=CONV){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:L[i].m,es:L[i].es});h.push({who:'Ane',eu:L[i].a,es:L[i].aes});}
   const c=L[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
 
 /* IMPORTANTE para ampliar la app:
    - NO cambiar los id de unidades (u1, u2...) ni de lecciones (l1, l2...): el progreso de cada persona se guarda con ellos.
-   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l33, u9).
+   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l53, u13).
      El orden del camino lo marca su posición en la lista, no el número del id.
    - Una lección ya hecha siempre queda abierta, así que se pueden insertar lecciones entre otras sin bloquear a nadie.
    - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
@@ -984,6 +1017,413 @@ const UNITS=[
     T('La cuenta, por favor',['kontua mesedez']),
   ]},
 ]},
+{ id:'u9', n:9, title:'El trabajo', sub:'Profesiones, dónde trabajas, horarios y compañeros', color:'#3d5a80', dark:'#2b4060',
+  tips:`<h3>Las profesiones no tienen género</h3>
+  <p><i>irakaslea</i> es profesor y profesora; <i>medikua</i>, médico y médica. Para decir tu profesión: profesión + <b>naiz</b> → <i>Irakaslea naiz</i>. Para otra persona: <b>da</b> → <i>Nire ama medikua da</i>.</p>
+  <table><tbody>
+  <tr><td>irakaslea</td><td>profesor/a</td></tr><tr><td>medikua</td><td>médico/a</td></tr><tr><td>erizaina</td><td>enfermero/a</td></tr><tr><td>sukaldaria</td><td>cocinero/a (sukalde = cocina)</td></tr>
+  <tr><td>dendaria</td><td>dependiente/a (denda = tienda)</td></tr><tr><td>tabernaria</td><td>camarero/a de bar</td></tr><tr><td>nekazaria</td><td>agricultor/a</td></tr><tr><td>arrantzalea</td><td>pescador/a</td></tr><tr><td>ingeniaria</td><td>ingeniero/a</td></tr>
+  </tbody></table>
+  <h3>Dónde: -an / -n</h3>
+  <p>Como con <i>baserrian</i>: <i>bulegoan</i> (en la oficina), <i>ospitalean</i>, <i>eskolan</i>, <i>jatetxean</i>, <i>dendan</i>. Y la frase: <i>Eskolan egiten dut lan</i> = trabajo en la escuela.</p>
+  <h3>A qué hora: -etan</h3>
+  <table><tbody>
+  <tr><td>hiruretan</td><td>a las tres</td></tr><tr><td>bostetan</td><td>a las cinco</td></tr><tr><td>zortzietan</td><td>a las ocho</td></tr><tr><td>bederatzietan</td><td>a las nueve</td></tr><tr><td>hamarretan</td><td>a las diez</td></tr>
+  </tbody></table>
+  <p><i>Zortzietan hasten naiz</i> = empiezo a las ocho. <i>Bostetan bukatzen dut</i> = termino a las cinco.</p>
+  <h3>Desde… hasta…</h3>
+  <p><b>-tik</b> = desde, <b>-ra</b> = hasta: <i>astelehene<b>tik</b> ostirale<b>ra</b></i> = de lunes a viernes.</p>
+  <h3>Cómo estás: nago</h3>
+  <p><i>Nekatuta nago</i> = estoy cansado/a. <i>Pozik nago</i> = estoy contento/a. Y con <b>ez</b>, «lan» pasa a <b>lanik</b>: <i>Asteburuan ez dut lanik egiten</i> = el fin de semana no trabajo.</p>`,
+  lessons:[
+  { id:'l33', title:'¿En qué trabajas?', ex:[
+    I('Lana','El trabajo','Ya conoces <b>lan egiten dut</b> = trabajo.'),
+    I('Zertan egiten duzu lan?','¿En qué trabajas?','<b>zertan</b> = en qué.'),
+    I('Irakaslea','El profesor / la profesora','En euskera las profesiones no cambian según sea hombre o mujer.'),
+    I('Irakaslea naiz','Soy profesor/a','Como <b>ikaslea naiz</b>: profesión + <b>naiz</b>.'),
+    I('Medikua','El médico / la médica'),
+    P('El médico','Medikua',['Irakaslea']),
+    I('Erizaina','El enfermero / la enfermera'),
+    I('Sukaldaria','El cocinero / la cocinera','<b>sukalde</b> = cocina.'),
+    P('El cocinero','Sukaldaria',['Erizaina','Medikua']),
+    M([['Lana','El trabajo'],['Irakaslea','Profesor/a'],['Medikua','Médico/a'],['Erizaina','Enfermero/a'],['Sukaldaria','Cocinero/a']]),
+    B('es2eu','Soy enfermera',['Erizaina naiz','Ni erizaina naiz'],['zara','medikua','da']),
+    D([{who:'Mikel',eu:'Kaixo! Zertan egiten duzu lan?',es:'¡Hola! ¿En qué trabajas?'}],['Sukaldaria naiz.','Sukaldaria zara.','Sukaldaria daukat.'],'Sukaldaria naiz.','Soy cocinera.'),
+    L('Medikua naiz',['irakaslea','zara'],'Soy médico/a'),
+    T('Soy profesor',['irakaslea naiz','ni irakaslea naiz']),
+  ]},
+  { id:'l34', title:'Más profesiones', ex:[
+    I('Dendaria','El dependiente / la dependienta','<b>denda</b> = tienda.'),
+    I('Tabernaria','El camarero / la camarera (de bar)','<b>taberna</b> = bar.'),
+    I('Nekazaria','El agricultor / la agricultora','Trabaja en el baserri, con las vacas y las ovejas.'),
+    I('Arrantzalea','El pescador / la pescadora','Viene de <b>arrantza</b> (pesca). ¡Pesca <b>arraina</b>!'),
+    P('El pescador','Arrantzalea',['Nekazaria']),
+    I('Ingeniaria','El ingeniero / la ingeniera'),
+    C('¿Qué significa «Tabernaria»?','Tabernaria',['Camarero/a','Dependiente/a','Cocinero/a'],'Camarero/a'),
+    I('Mikel sukaldaria da','Mikel es cocinero','Para otra persona: <b>da</b> (es).'),
+    I('Nire ama medikua da','Mi madre es médica','<b>ama</b> = madre · <b>aita</b> = padre.'),
+    F('Mi padre es pescador','Nire aita arrantzalea','',['da','naiz','zara'],'da'),
+    M([['Dendaria','Dependiente/a'],['Tabernaria','Camarero/a'],['Nekazaria','Agricultor/a'],['Arrantzalea','Pescador/a'],['Ingeniaria','Ingeniero/a']]),
+    B('es2eu','Mi madre es ingeniera',['Nire ama ingeniaria da'],['aita','naiz','zure']),
+    B('eu2es','Nire aita nekazaria da',['Mi padre es agricultor'],['madre','soy','pescador']),
+    L('Ane dendaria da',['naiz','tabernaria'],'Ane es dependienta'),
+    T('Mi madre',['nire ama']),
+  ]},
+  { id:'l35', title:'¿Dónde trabajas?', ex:[
+    I('Non egiten duzu lan?','¿Dónde trabajas?','<b>non</b> = dónde.'),
+    I('Bulegoa','La oficina'),
+    I('Bulegoan egiten dut lan','Trabajo en la oficina','bulegoa → bulego<b>an</b> = en la oficina, como baserri<b>an</b>.'),
+    I('Ospitalea','El hospital'),
+    I('Eskola','La escuela'),
+    P('La escuela','Eskola',['Ospitalea','Bulegoa']),
+    I('Jatetxea','El restaurante','<b>jan</b> (comer) + <b>etxe</b> (casa): «casa de comer».'),
+    I('Denda','La tienda'),
+    C('¿Cómo se dice «en el hospital»?','',['Ospitalean','Ospitalea','Ospitalera'],'Ospitalean'),
+    M([['Bulegoa','La oficina'],['Ospitalea','El hospital'],['Eskola','La escuela'],['Jatetxea','El restaurante'],['Denda','La tienda']]),
+    I('Erizaina naiz eta ospitalean egiten dut lan','Soy enfermera y trabajo en el hospital'),
+    B('es2eu','Trabajo en la escuela',['Eskolan egiten dut lan'],['eskola','duzu','naiz']),
+    D([{who:'Mikel',eu:'Non egiten duzu lan?',es:'¿Dónde trabajas?'}],['Jatetxean egiten dut lan.','Jatetxea egiten dut lan.','Jatetxean egiten duzu lan.'],'Jatetxean egiten dut lan.','Trabajo en el restaurante.'),
+    B('eu2es','Sukaldaria naiz eta jatetxean egiten dut lan',['Soy cocinero y trabajo en el restaurante','Soy cocinera y trabajo en el restaurante'],['hospital','eres','tienda']),
+    L('Bulegoan egiten dut lan',['eskolan','duzu'],'Trabajo en la oficina'),
+    T('¿Dónde trabajas?',['non egiten duzu lan']),
+  ]},
+  { id:'l36', title:'Horarios', ex:[
+    I('Zer ordutan?','¿A qué hora?','<b>ordu</b> = hora.'),
+    I('Zortzietan','A las ocho','<b>zortzi</b> (8) + <b>-etan</b> = a las ocho.'),
+    I('Zortzietan hasten naiz','Empiezo a las ocho','<b>hasten naiz</b> = empiezo.'),
+    I('Bostetan bukatzen dut','Termino a las cinco','<b>bukatzen dut</b> = termino.'),
+    C('¿Qué significa «Bederatzietan»?','Bederatzietan',['A las nueve','A las diez','Las nueve'],'A las nueve'),
+    C('¿Cómo se dice «a las tres»?','',['Hiruretan','Hiru','Hirua'],'Hiruretan'),
+    F('Empiezo a las nueve','Bederatzietan hasten','',['naiz','dut','zara'],'naiz'),
+    I('Astelehenetik ostiralera','De lunes a viernes','<b>-tik</b> = desde · <b>-ra</b> = hasta, como en baserri<b>ra</b>.'),
+    I('Asteburuan ez dut lanik egiten','El fin de semana no trabajo','Con <b>ez</b>, <b>lan</b> pasa a <b>lanik</b>.'),
+    M([['Zortzietan','A las 8'],['Hamarretan','A las 10'],['Hasten naiz','Empiezo'],['Bukatzen dut','Termino'],['Astelehenetik','Desde el lunes']]),
+    B('es2eu','Empiezo a las ocho',['Zortzietan hasten naiz'],['bukatzen','dut','zortzi']),
+    B('eu2es','Astelehenetik ostiralera lan egiten dut',['De lunes a viernes trabajo','Trabajo de lunes a viernes'],['sábado','termino','en']),
+    D([{who:'Mikel',eu:'Zer ordutan bukatzen duzu?',es:'¿A qué hora terminas?'}],['Bostetan bukatzen dut.','Bost bukatzen dut.','Bostetan bukatzen duzu.'],'Bostetan bukatzen dut.','Termino a las cinco.'),
+    L('Hamarretan hasten naiz',['bostetan','dut'],'Empiezo a las diez'),
+    T('A las ocho',['zortzietan']),
+  ]},
+  { id:'l37', title:'Un día de trabajo', final:true, ex:[
+    I('Lankidea','El compañero / la compañera de trabajo','<b>lan</b> (trabajo) + <b>kide</b> (compañero).'),
+    I('Nagusia','El jefe / la jefa'),
+    I('Lan asko daukat','Tengo mucho trabajo','<b>asko</b> va detrás, como en eskerrik <b>asko</b>.'),
+    I('Nekatuta nago','Estoy cansado/a','<b>nago</b> = estoy (para cómo te sientes).'),
+    I('Pozik nago','Estoy contento/a'),
+    convo(0,CONV6),
+    convo(1,CONV6),
+    B('es2eu','Tengo mucho trabajo',['Lan asko daukat'],['dauzkat','oso','naiz']),
+    convo(2,CONV6),
+    convo(3,CONV6),
+    convo(4,CONV6),
+    M([['Lankidea','Compañero/a'],['Nagusia','Jefe/a'],['Nekatuta nago','Estoy cansado/a'],['Pozik nago','Estoy contento/a'],['Lan asko','Mucho trabajo']]),
+    L('Gaur lan asko daukat eta nekatuta nago',['pozik','dauzkat'],'Hoy tengo mucho trabajo y estoy cansado/a'),
+    T('Estoy contento',['pozik nago']),
+  ]},
+]},
+{ id:'u10', n:10, title:'Los deportes', sub:'Pelota vasca, el frontón y el deporte rural', color:'#5f7a1e', dark:'#455a14',
+  tips:`<h3>Hacer deporte</h3>
+  <table><tbody>
+  <tr><td>Zer kirol egiten duzu?</td><td>¿Qué deporte haces?</td></tr><tr><td>Futbolean jokatzen dut</td><td>Juego al fútbol</td></tr><tr><td>Pilotan jokatzen dut</td><td>Juego a pelota</td></tr>
+  <tr><td>Igeri egiten dut</td><td>Nado</td></tr><tr><td>Korrika egiten dut</td><td>Corro</td></tr><tr><td>Mendira joaten naiz</td><td>Voy al monte</td></tr>
+  </tbody></table>
+  <p>El deporte al que juegas lleva <b>-an / -ean / -n</b>: <i>futbol<b>ean</b>, saskibaloi<b>an</b>, pilota<b>n</b></i>.</p>
+  <h3>La pelota vasca (euskal pilota)</h3>
+  <p>Se juega en el <b>pilotalekua</b> o <b>frontoia</b>, el frontón: un gran muro (el frontis) contra el que se lanza la pelota. El jugador es el <b>pilotari</b>. Se puede jugar <b>eskuz</b> (a mano), con <b>pala</b> o con <b>zesta-punta</b> (una cesta de mimbre).</p>
+  <h3>El deporte rural (herri kirolak)</h3>
+  <p>Nació del trabajo en el caserío y en el mar:</p>
+  <table><tbody>
+  <tr><td>harri-jasotzailea</td><td>levantador de piedras (harri = piedra, jaso = levantar)</td></tr>
+  <tr><td>aizkolaria</td><td>cortador de troncos con hacha (aizkora = hacha)</td></tr>
+  <tr><td>sokatira</td><td>tirar de la cuerda, por equipos (soka = cuerda)</td></tr>
+  <tr><td>estropadak</td><td>regatas de traineras en el mar</td></tr>
+  </tbody></table>
+  <h3>Ganar y la txapela</h3>
+  <p>Al ganador de un campeonato (<b>txapelketa</b>) se le pone una txapela, por eso el campeón es el <b>txapelduna</b>, «el que tiene la txapela».</p>
+  <p>Quien hace algo lleva <b>-k</b>: <i>Ni<b>k</b> irabazi dut!</i> (¡he ganado yo!), <i>Nire aita<b>k</b> irabazi du</i> (ha ganado mi padre). Para preguntar: <i><b>Nork</b> irabazi du?</i> (¿quién ha ganado?).</p>`,
+  lessons:[
+  { id:'l38', title:'Los deportes', ex:[
+    I('Kirola','El deporte'),
+    I('Zer kirol egiten duzu?','¿Qué deporte haces?','Después de <b>zer</b> va sin -a, como en «zer egun».'),
+    I('Futbola','El fútbol'),
+    I('Saskibaloia','El baloncesto','<b>saski</b> = cesta · <b>baloi</b> = balón.'),
+    P('El baloncesto','Saskibaloia',['Futbola']),
+    I('Futbolean jokatzen dut','Juego al fútbol','<b>jokatzen dut</b> = juego. El deporte lleva <b>-ean</b>: futbol<b>ean</b>.'),
+    I('Igeri egiten dut','Nado','<b>igeri</b> = nadando.'),
+    I('Korrika egiten dut','Corro'),
+    C('¿Qué significa «Igeri egiten dut»?','Igeri egiten dut',['Nado','Corro','Juego'],'Nado'),
+    I('Mendira joaten naiz','Voy al monte','<b>mendi</b> = monte, como los de nuestro camino. <b>-ra</b> = a, hacia.'),
+    M([['Kirola','El deporte'],['Futbola','El fútbol'],['Igeri','Nadando'],['Korrika','Corriendo'],['Mendia','El monte']]),
+    B('es2eu','Juego al baloncesto',['Saskibaloian jokatzen dut'],['futbolean','egiten','naiz']),
+    D([{who:'Mikel',eu:'Zer kirol egiten duzu?',es:'¿Qué deporte haces?'}],['Larunbatean korrika egiten dut.','Larunbata korrika naiz.','Korrika egiten duzu.'],'Larunbatean korrika egiten dut.','El sábado corro.'),
+    L('Igandean mendira joaten naiz',['igeri','korrika'],'El domingo voy al monte'),
+    T('Nado',['igeri egiten dut']),
+  ]},
+  { id:'l39', title:'La pelota vasca', ex:[
+    I('Euskal pilota','La pelota vasca','Uno de los deportes más queridos del País Vasco.'),
+    I('Pilotalekua','El frontón','<b>pilota</b> + <b>-leku</b> (lugar): «el lugar de la pelota». También se dice <b>frontoia</b>.'),
+    I('Pilotaria','El pelotari','Quien juega a pelota.'),
+    P('El frontón','Pilotalekua',['Pilotaria']),
+    I('Eskuz','A mano','<b>esku</b> = mano. Se golpea la pelota con la mano desnuda.'),
+    I('Pala','La pala'),
+    I('Zesta-punta','La cesta punta','Con una cesta de mimbre en la mano: ¡la pelota sale rapidísima!'),
+    C('¿Qué significa «Pilotalekua»?','Pilotalekua',['El frontón','La pelota','El pelotari'],'El frontón'),
+    M([['Pilota','La pelota'],['Pilotalekua','El frontón'],['Pilotaria','El pelotari'],['Eskuz','A mano'],['Pala','La pala']]),
+    I('Pilotan jokatzen dut','Juego a pelota','Como <b>futbolean jokatzen dut</b>: pilota → pilota<b>n</b>.'),
+    B('es2eu','Juego a pelota a mano',['Eskuz pilotan jokatzen dut','Pilotan eskuz jokatzen dut'],['pala','naiz','pilota']),
+    I('Pilotaria oso azkarra da','El pelotari es muy rápido','<b>azkar</b> = rápido.'),
+    B('eu2es','Pilotalekua handia da',['El frontón es grande'],['pequeño','pelota','soy']),
+    L('Pilotalekuan pilotan jokatzen dut',['pala','eskuz'],'Juego a pelota en el frontón'),
+    T('El frontón',['pilotalekua','frontoia']),
+  ]},
+  { id:'l40', title:'El deporte rural', ex:[
+    I('Herri kirolak','El deporte rural vasco','Pruebas de fuerza que nacieron del trabajo en el caserío y en el mar.'),
+    I('Harria','La piedra'),
+    I('Harri-jasotzailea','El levantador de piedras','<b>harri</b> (piedra) + <b>jaso</b> (levantar). Sube piedras enormes hasta el hombro.'),
+    I('Harria jasotzen du','Levanta la piedra','<b>du</b> = él / ella lo hace.'),
+    I('Harria oso astuna da','La piedra es muy pesada','<b>astun</b> = pesado.'),
+    C('¿Qué significa «Harri-jasotzailea»?','Harri-jasotzailea',['El levantador de piedras','La piedra','El pelotari'],'El levantador de piedras'),
+    I('Aizkolaria','El aizkolari (cortador de troncos)','<b>aizkora</b> = hacha. Corta troncos gruesos a toda velocidad.'),
+    I('Sokatira','La sokatira (tirar de la cuerda)','<b>soka</b> = cuerda. Dos equipos tiran de una cuerda.'),
+    I('Estropadak','Las regatas de traineras','Barcas de remo en el mar Cantábrico, en verano.'),
+    M([['Harria','La piedra'],['Aizkora','El hacha'],['Soka','La cuerda'],['Astuna','Pesado'],['Estropadak','Las regatas']]),
+    B('es2eu','La piedra es muy grande',['Harria oso handia da'],['astuna','txikia','naiz']),
+    D([{who:'Mikel',eu:'Herri kirolak gustatzen zaizkizu?',es:'¿Te gustan los deportes rurales?'}],['Bai, asko gustatzen zaizkit!','Bai, harria gustatzen zaizu!','Bai, harria naiz!'],'Bai, asko gustatzen zaizkit!','¡Sí, me gustan mucho!'),
+    B('eu2es','Aizkolariak enborra mozten du',['El aizkolari corta el tronco'],['piedra','levanta','la']),
+    L('Harri-jasotzaileak harria jasotzen du',['aizkolaria','astuna'],'El levantador de piedras levanta la piedra'),
+    T('La piedra',['harria']),
+  ]},
+  { id:'l41', title:'¡Campeones!', ex:[
+    I('Partida','El partido','Se usa sobre todo para la pelota.'),
+    I('Irabazi dut!','¡He ganado!'),
+    I('Galdu dut','He perdido'),
+    C('¿Qué significa «Galdu dut»?','Galdu dut',['He perdido','He ganado','Juego'],'He perdido'),
+    I('Nork irabazi du?','¿Quién ha ganado?','<b>nork</b> = quién (cuando hace algo), con la misma <b>-k</b> de txakurra<b>k</b>.'),
+    I('Txapelketa','El campeonato','Viene de <b>txapela</b>, ¡como la de Latxa!'),
+    I('Txapelduna','El campeón / la campeona','Literalmente «el que tiene la txapela»: al ganador se le pone una txapela.'),
+    M([['Irabazi','Ganar'],['Galdu','Perder'],['Txapelketa','El campeonato'],['Txapelduna','El campeón'],['Nork?','¿Quién?']]),
+    I('Ane txapelduna da!','¡Ane es la campeona!'),
+    F('¡He ganado!','Irabazi','',['dut','naiz','du'],'dut'),
+    B('es2eu','¿Quién ha ganado?',['Nork irabazi du?'],['nor','dut','galdu']),
+    B('eu2es','Partida galdu dut',['He perdido el partido'],['ganado','campeón','la']),
+    D([{who:'Mikel',eu:'Nork irabazi du partida?',es:'¿Quién ha ganado el partido?'}],['Nik! Txapelduna naiz!','Ni! Txapelduna zara!','Txapela jaten dut!'],'Nik! Txapelduna naiz!','¡Yo! ¡Soy la campeona!'),
+    L('Nork irabazi du?',['galdu','dut'],'¿Quién ha ganado?'),
+    T('He ganado',['irabazi dut']),
+  ]},
+  { id:'l42', title:'Un partido en el frontón', final:true, ex:[
+    I('Pilotalekura noa','Voy al frontón','Como <b>baserrira noa</b>: pilotaleku<b>ra</b> = al frontón.'),
+    convo(0,CONV7),
+    convo(1,CONV7),
+    B('es2eu','El partido es a las cinco',['Partida bostetan da'],['bost','naiz','zortzietan']),
+    convo(2,CONV7),
+    convo(3,CONV7),
+    I('Nire aitak irabazi du!','¡Ha ganado mi padre!','Quien gana lleva <b>-k</b>: aita<b>k</b>.'),
+    convo(4,CONV7),
+    M([['Pilotalekura','Al frontón'],['Partida','El partido'],['Azkarra','Rápido'],['Harri-jasotzea','Levantar piedras'],['Txapelduna','El campeón']]),
+    L('Larunbatean pilotalekura noa',['baserrira','igandean'],'El sábado voy al frontón'),
+    T('Voy al frontón',['pilotalekura noa','frontoira noa']),
+  ]},
+]},
+{ id:'u11', n:11, title:'De pintxos', sub:'La cuadrilla, pintxos, kalimotxo y el concurso de tortilla', color:'#7a2340', dark:'#57172d',
+  tips:`<h3>Salir con la cuadrilla</h3>
+  <p>En Euskadi se sale con la <b>koadrila</b>, el grupo de amigos de siempre, y se va de bar en bar: el <b>txikiteoa</b>.</p>
+  <table><tbody>
+  <tr><td>Ostiralean lagunekin ateratzen naiz</td><td>El viernes salgo con los amigos</td></tr><tr><td>Gaur kalera goaz!</td><td>¡Hoy salimos! («vamos a la calle»)</td></tr>
+  <tr><td>Zer hartuko duzu?</td><td>¿Qué vas a tomar?</td></tr><tr><td>Zenbat da dena?</td><td>¿Cuánto es todo?</td></tr><tr><td>Gaur nik gonbidatzen dut</td><td>Hoy invito yo</td></tr><tr><td>Topa!</td><td>¡Salud! (al brindar)</td></tr>
+  </tbody></table>
+  <p><b>-ekin / -rekin</b> = con: <i>lagun<b>ekin</b></i> (con los amigos), <i>tipula<b>rekin</b></i> (con cebolla). Y <b>-rik gabe</b> = sin: <i>tipula<b>rik gabe</b></i>.</p>
+  <h3>En la barra</h3>
+  <table><tbody>
+  <tr><td>pintxoa</td><td>el pintxo</td></tr><tr><td>gilda</td><td>guindilla, anchoa y aceituna en un palillo</td></tr><tr><td>patata-tortilla</td><td>tortilla de patatas</td></tr><tr><td>bakailaoa</td><td>el bacalao</td></tr>
+  <tr><td>zuritoa</td><td>vaso pequeño de cerveza</td></tr><tr><td>txakolina</td><td>vino blanco ligero vasco</td></tr><tr><td>kalimotxoa</td><td>vino tinto con cola</td></tr><tr><td>mostoa</td><td>mosto (sin alcohol)</td></tr>
+  </tbody></table>
+  <p>El vino tinto es <i>ardo <b>beltza</b></i>, «vino negro», y el blanco, <i>ardo <b>zuria</b></i>.</p>
+  <h3>Platos típicos</h3>
+  <p>El <b>marmitakoa</b> es un guiso de <i>hegaluzea</i> (bonito) con patatas, nacido en los barcos: <i>arrantzaleen janaria</i>, comida de pescadores. El <b>bakailaoa pil-pilean</b> se hace moviendo la cazuela hasta que el aceite forma una salsa… ¡que suena «pil-pil»!</p>`,
+  lessons:[
+  { id:'l43', title:'Salir con la cuadrilla', ex:[
+    I('Koadrila','La cuadrilla','El grupo de amigos de toda la vida: en Euskadi se sale «con la cuadrilla».'),
+    I('Lagunak','Los amigos','<b>laguna</b> = el amigo · <b>lagunak</b> = los amigos. ¡Como en «Latxa eta lagunak»!'),
+    I('Ostiralean lagunekin ateratzen naiz','El viernes salgo con los amigos','<b>-ekin</b> = con · <b>ateratzen naiz</b> = salgo.'),
+    C('¿Qué significa «Lagunekin»?','Lagunekin',['Con los amigos','Los amigos','Sin amigos'],'Con los amigos'),
+    I('Kalea','La calle'),
+    I('Gaur kalera goaz!','¡Hoy salimos!','Literalmente «hoy vamos a la calle». <b>goaz</b> = vamos.'),
+    I('Taberna','El bar'),
+    I('Txikiteoa','El txikiteo','Ir de bar en bar tomando algo con la cuadrilla.'),
+    M([['Koadrila','La cuadrilla'],['Lagunak','Los amigos'],['Kalea','La calle'],['Taberna','El bar'],['Goaz','Vamos']]),
+    B('es2eu','El sábado salgo con los amigos',['Larunbatean lagunekin ateratzen naiz'],['lagunak','zara','ostiralean']),
+    F('Vamos al bar','Tabernara','',['goaz','naiz','da'],'goaz'),
+    D([{who:'Mikel',eu:'Zer egingo dugu gaur?',es:'¿Qué haremos hoy?'}],['Gaur kalera goaz!','Gaur kalea naiz!','Kalera goaz zara!'],'Gaur kalera goaz!','¡Hoy salimos!'),
+    L('Ostiralean koadrilarekin ateratzen naiz',['lagunak','goaz'],'El viernes salgo con la cuadrilla'),
+    T('Los amigos',['lagunak']),
+  ]},
+  { id:'l44', title:'Pintxos', ex:[
+    I('Pintxoa','El pintxo','Pequeñas raciones sobre pan, en la barra del bar.'),
+    I('Gilda','La gilda','Guindilla, anchoa y aceituna en un palillo. ¡Uno de los pintxos más clásicos!'),
+    I('Patata-tortilla','La tortilla de patatas'),
+    P('La tortilla de patatas','Patata-tortilla',['Gilda']),
+    I('Bakailaoa','El bacalao'),
+    P('El bacalao','Bakailaoa',['Pintxoa','Patata-tortilla']),
+    I('Zuritoa','El zurito','Un vaso pequeño de cerveza.'),
+    I('Txakolina','El txakoli','Vino blanco ligero del País Vasco.'),
+    I('Bi pintxo eta zurito bat, mesedez','Dos pintxos y un zurito, por favor','Número delante (<b>bi pintxo</b>) y <b>bat</b> detrás (<b>zurito bat</b>).'),
+    B('es2eu','Un pintxo de tortilla, por favor',['Tortilla-pintxo bat, mesedez'],['bi','pintxoa','zuritoa']),
+    M([['Pintxoa','El pintxo'],['Gilda','La gilda'],['Bakailaoa','El bacalao'],['Zuritoa','El zurito'],['Txakolina','El txakoli']]),
+    I('Zenbat da dena?','¿Cuánto es todo?','<b>dena</b> = todo.'),
+    D([{who:'Mikel',eu:'Kaixo! Zer nahi duzu?',es:'¡Hola! ¿Qué quieres?'}],['Gilda bat eta txakolin bat, mesedez.','Bat gilda eta txakolina bat.','Gilda naiz, mesedez.'],'Gilda bat eta txakolin bat, mesedez.','Una gilda y un txakoli, por favor.'),
+    L('Zenbat da dena?',['pintxo','bat'],'¿Cuánto es todo?'),
+    T('El bacalao',['bakailaoa']),
+  ]},
+  { id:'l45', title:'¿Qué vas a tomar?', ex:[
+    I('Zer hartuko duzu?','¿Qué vas a tomar?','<b>hartuko duzu</b> = tomarás: el futuro de <b>hartu</b> (tomar).'),
+    I('Kalimotxoa','El kalimotxo','Vino tinto con cola: ¡un invento vasco!'),
+    I('Ardo beltza','El vino tinto','Literalmente «vino negro». <b>beltz</b> = negro.'),
+    I('Ardo zuria','El vino blanco','<b>zuri</b> = blanco, como el gato blanco.'),
+    C('¿Qué significa «Ardo beltza»?','Ardo beltza',['Vino tinto','Vino blanco','Cerveza'],'Vino tinto'),
+    I('Mostoa','El mosto','Zumo de uva, sin alcohol.'),
+    I('Ez dut alkoholik edaten','No bebo alcohol','Con <b>ez</b>, «alkohol» pasa a <b>alkoholik</b> (como lan → lanik).'),
+    M([['Kalimotxoa','El kalimotxo'],['Ardo beltza','Vino tinto'],['Ardo zuria','Vino blanco'],['Mostoa','El mosto'],['Kola','La cola']]),
+    I('Topa!','¡Salud! (al brindar)'),
+    B('es2eu','Un kalimotxo, por favor',['Kalimotxo bat, mesedez'],['kalimotxoa','bi','topa']),
+    D([{who:'Mikel',eu:'Zer hartuko duzu?',es:'¿Qué vas a tomar?'}],['Mostoa, mesedez. Ez dut alkoholik edaten.','Mostoa naiz, mesedez.','Ez dut mostoa jaten.'],'Mostoa, mesedez. Ez dut alkoholik edaten.','Mosto, por favor. No bebo alcohol.'),
+    B('eu2es','Kalimotxoa ardo beltza eta kola da',['El kalimotxo es vino tinto y cola'],['blanco','mosto','son']),
+    L('Ardo zuri bat, mesedez',['beltza','topa'],'Un vino blanco, por favor'),
+    T('¡Salud!',['topa','osasuna']),
+  ]},
+  { id:'l46', title:'Platos típicos', ex:[
+    I('Marmitakoa','El marmitako','Guiso de bonito con patatas, nacido en los barcos de pesca.'),
+    I('Hegaluzea','El bonito (del norte)','El pescado con el que se hace el marmitako.'),
+    I('Marmitakoa arrantzaleen janaria da','El marmitako es comida de pescadores','<b>arrantzaleen</b> = de los pescadores. ¿Te acuerdas de <b>arrantzalea</b>?'),
+    C('¿Qué significa «Hegaluzea»?','Hegaluzea',['El bonito','El bacalao','La sardina'],'El bonito'),
+    I('Bakailaoa pil-pilean','El bacalao al pil-pil','Se mueve la cazuela hasta que el aceite forma una salsa: ¡suena «pil-pil»!'),
+    I('Bakailao-tortilla','La tortilla de bacalao','Como en la sidrería.'),
+    I('Patatak','Las patatas'),
+    M([['Marmitakoa','El marmitako'],['Hegaluzea','El bonito'],['Bakailaoa','El bacalao'],['Patatak','Las patatas'],['Arrantzalea','El pescador']]),
+    B('es2eu','El marmitako está muy rico',['Marmitakoa oso goxoa da'],['zait','naiz','bakailaoa']),
+    F('Me gusta el bacalao','Bakailaoa gustatzen','',['zait','zaizkit','naiz'],'zait'),
+    B('eu2es','Marmitakoa hegaluzez egiten da',['El marmitako se hace con bonito'],['bacalao','es','patatas']),
+    D([{who:'Mikel',eu:'Zein da zure janari gogokoena?',es:'¿Cuál es tu comida favorita?'}],['Marmitakoa, oso goxoa da!','Marmitakoa naiz!','Marmitakoa gustatzen zaizu!'],'Marmitakoa, oso goxoa da!','¡El marmitako, está muy rico!'),
+    L('Bakailaoa pil-pilean gustatzen zait',['marmitakoa','zaizkit'],'Me gusta el bacalao al pil-pil'),
+    T('Las patatas',['patatak']),
+  ]},
+  { id:'l47', title:'Concurso de tortilla', final:true, ex:[
+    I('Lehiaketa','El concurso'),
+    I('Tipula','La cebolla'),
+    I('Tipularekin ala tipularik gabe?','¿Con cebolla o sin cebolla?','El gran debate. <b>-rekin</b> = con · <b>ala</b> = o · <b>-rik gabe</b> = sin.'),
+    convo(0,CONV8),
+    convo(1,CONV8),
+    I('Hau da onena!','¡Esta es la mejor!','<b>onena</b> = el / la mejor (de <b>on</b>, bueno).'),
+    convo(2,CONV8),
+    B('es2eu','Con cebolla, claro',['Tipularekin, noski'],['tipula','gabe','ala']),
+    convo(3,CONV8),
+    I('Gaur nik gonbidatzen dut','Hoy invito yo','<b>nik</b> con -k, como en «Nik irabazi dut».'),
+    convo(4,CONV8),
+    M([['Lehiaketa','El concurso'],['Tipula','La cebolla'],['Onena','La mejor'],['Topa!','¡Salud!'],['Noski','Claro']]),
+    L('Tipularekin ala tipularik gabe?',['onena','noski'],'¿Con cebolla o sin cebolla?'),
+    T('Sin cebolla',['tipularik gabe']),
+  ]},
+]},
+{ id:'u12', n:12, title:'¿Qué hora es?', sub:'Las horas, y cuarto, y media, y quedar a una hora', color:'#5b5f97', dark:'#43467a',
+  tips:`<h3>Zer ordu da? (¿Qué hora es?)</h3>
+  <p>La una va en singular: <i>Ordu <b>bata</b> <b>da</b></i>. Desde las dos, el número lleva <b>-ak</b> y el verbo es <b>dira</b> (son):</p>
+  <table><tbody>
+  <tr><td>Ordu bata da</td><td>Es la una</td></tr><tr><td>Ordu biak dira</td><td>Son las dos</td></tr><tr><td>Hirurak dira</td><td>Son las tres (hiru → hirurak)</td></tr><tr><td>Laurak dira</td><td>Son las cuatro (lau → laurak)</td></tr>
+  <tr><td>Bostak · Seiak · Zazpiak · Zortziak · Bederatziak</td><td>5 · 6 · 7 · 8 · 9</td></tr><tr><td>Hamarrak · Hamaikak · Hamabiak</td><td>10 · 11 · 12</td></tr>
+  </tbody></table>
+  <h3>Cuartos, medias y minutos</h3>
+  <table><tbody>
+  <tr><td>eta laurden</td><td>y cuarto</td></tr><tr><td>eta erdi</td><td>y media</td></tr><tr><td>laurden gutxi</td><td>menos cuarto</td></tr><tr><td>eta hamar / hamar gutxi</td><td>y diez / menos diez</td></tr>
+  </tbody></table>
+  <p>Ejemplos: <i>Hirurak eta erdi dira</i> (las tres y media), <i>Laurak laurden gutxi dira</i> (las cuatro menos cuarto).</p>
+  <h3>Mañana, tarde y noche</h3>
+  <p><i><b>Goizeko</b> zortziak</i> (las ocho de la mañana), <i><b>arratsaldeko</b> bostak</i> (de la tarde), <i><b>gaueko</b> hamarrak</i> (de la noche). <i>Eguerdia</i> es el mediodía y <i>gauerdia</i>, la medianoche.</p>
+  <p>Ojo: <b>berandu</b> es «tarde» de retraso (<i>Berandu da!</i>, ¡es tarde!), y <b>goiz</b>, «pronto».</p>
+  <h3>A qué hora: -etan</h3>
+  <p>Como en la unidad del trabajo: <i>ordu bi<b>etan</b></i> (a las dos), <i>zortzi<b>etan</b></i> (a las ocho), <i>hiruretan eta erdi<b>etan</b></i> (a las tres y media). Con la una: <i>ordu bat<b>ean</b></i>.</p>`,
+  lessons:[
+  { id:'l48', title:'¿Qué hora es?', ex:[
+    I('Zer ordu da?','¿Qué hora es?','<b>ordu</b> = hora.'),
+    I('Ordu bata da','Es la una','Con la una: <b>bata</b> y <b>da</b> (es), en singular.'),
+    I('Ordu biak dira','Son las dos','Desde las dos: número + <b>-ak</b> y <b>dira</b> (son).'),
+    K(2,0,['Ordu biak dira','Ordu bata da','Hirurak dira'],'Ordu biak dira','Son las dos'),
+    I('Hirurak dira','Son las tres','hiru → hiru<b>rak</b>. No hace falta decir «ordu».'),
+    I('Laurak dira','Son las cuatro','lau → lau<b>rak</b>'),
+    I('Bostak dira','Son las cinco'),
+    K(4,0,['Laurak dira','Bostak dira','Lau dira'],'Laurak dira','Son las cuatro'),
+    K(1,0,['Ordu bata da','Ordu bata dira','Batak dira'],'Ordu bata da','Es la una'),
+    M([['Ordu bata da','Es la una'],['Biak dira','Son las dos'],['Hirurak dira','Son las tres'],['Laurak dira','Son las cuatro'],['Bostak dira','Son las cinco']]),
+    B('es2eu','Son las tres',['Hirurak dira','Ordu hirurak dira'],['da','hiru','bostak']),
+    D([{who:'Mikel',eu:'Barkatu, zer ordu da?',es:'Perdona, ¿qué hora es?'}],['Bostak dira.','Bost dira.','Bostak da.'],'Bostak dira.','Son las cinco.'),
+    L('Zer ordu da? Laurak dira',['bostak','da'],'¿Qué hora es? Son las cuatro'),
+    T('¿Qué hora es?',['zer ordu da']),
+  ]},
+  { id:'l49', title:'De las seis a las doce', ex:[
+    I('Seiak dira','Son las seis'),
+    I('Zazpiak dira','Son las siete'),
+    I('Zortziak dira','Son las ocho'),
+    K(7,0,['Zazpiak dira','Zortziak dira','Seiak dira'],'Zazpiak dira','Son las siete'),
+    I('Bederatziak dira','Son las nueve'),
+    I('Hamarrak dira','Son las diez','hamar → hamar<b>rak</b>'),
+    I('Hamaikak dira','Son las once'),
+    I('Hamabiak dira','Son las doce'),
+    K(10,0,['Hamarrak dira','Hamaikak dira','Bederatziak dira'],'Hamarrak dira','Son las diez'),
+    K(12,0,['Hamabiak dira','Hamaikak dira','Hamarrak dira'],'Hamabiak dira','Son las doce'),
+    M([['Seiak','Las seis'],['Zortziak','Las ocho'],['Bederatziak','Las nueve'],['Hamaikak','Las once'],['Hamabiak','Las doce']]),
+    B('es2eu','Son las nueve',['Bederatziak dira'],['bederatzi','da','hamarrak']),
+    L('Hamaikak dira',['hamabiak','da'],'Son las once'),
+    T('Son las ocho',['zortziak dira','ordu zortziak dira']),
+  ]},
+  { id:'l50', title:'Y cuarto, y media', ex:[
+    I('Eta erdi','Y media','<b>erdi</b> = medio, mitad.'),
+    I('Hirurak eta erdi dira','Son las tres y media'),
+    K(3,30,['Hirurak eta erdi dira','Hirurak eta laurden dira','Laurak eta erdi dira'],'Hirurak eta erdi dira','Son las tres y media'),
+    I('Eta laurden','Y cuarto','<b>laurden</b> = cuarto (viene de <b>lau</b>, cuatro).'),
+    I('Ordu biak eta laurden dira','Son las dos y cuarto'),
+    K(5,15,['Bostak eta laurden dira','Bostak eta erdi dira','Laurak eta laurden dira'],'Bostak eta laurden dira','Son las cinco y cuarto'),
+    I('Laurden gutxi','Menos cuarto','<b>gutxi</b> = poco, menos.'),
+    I('Laurak laurden gutxi dira','Son las cuatro menos cuarto'),
+    K(8,45,['Bederatziak laurden gutxi dira','Zortziak laurden gutxi dira','Zortziak eta erdi dira'],'Bederatziak laurden gutxi dira','Son las nueve menos cuarto'),
+    I('Bostak eta hamar dira','Son las cinco y diez','Los minutos, igual: <b>eta</b> + número.'),
+    K(6,10,['Seiak eta hamar dira','Seiak hamar gutxi dira','Hamarrak eta sei dira'],'Seiak eta hamar dira','Son las seis y diez'),
+    M([['Eta erdi','Y media'],['Eta laurden','Y cuarto'],['Laurden gutxi','Menos cuarto'],['Gutxi','Menos'],['Erdi','Medio']]),
+    B('es2eu','Son las once y media',['Hamaikak eta erdi dira'],['laurden','da','hamabiak']),
+    L('Zazpiak eta laurden dira',['erdi','gutxi'],'Son las siete y cuarto'),
+    T('Y media',['eta erdi']),
+  ]},
+  { id:'l51', title:'Mañana, tarde y noche', ex:[
+    I('Goizeko zortziak dira','Son las ocho de la mañana','<b>goiz</b> = mañana (temprano) · <b>-eko</b> = de.'),
+    I('Arratsaldeko bostak dira','Son las cinco de la tarde','Como en <b>arratsalde on</b>.'),
+    I('Gaueko hamarrak dira','Son las diez de la noche','<b>gau</b> = noche, como en <b>gabon</b>.'),
+    C('¿Qué significa «Gaueko hamaikak dira»?','Gaueko hamaikak dira',['Son las once de la noche','Son las once de la mañana','Son las doce de la noche'],'Son las once de la noche'),
+    I('Eguerdia','El mediodía','<b>egun</b> (día) + <b>erdi</b> (medio).'),
+    I('Gauerdia','La medianoche','<b>gau</b> (noche) + <b>erdi</b> (medio).'),
+    C('¿Cómo se dice «es mediodía»?','',['Eguerdia da','Gauerdia da','Goiza da'],'Eguerdia da'),
+    I('Berandu da!','¡Es tarde!','<b>berandu</b> = tarde (de retraso). No confundir con <b>arratsaldea</b>, la tarde del día.'),
+    I('Goiz da','Es pronto','<b>goiz</b> también significa «temprano».'),
+    M([['Goizeko','De la mañana'],['Arratsaldeko','De la tarde'],['Gaueko','De la noche'],['Berandu','Tarde (retraso)'],['Goiz','Pronto']]),
+    B('es2eu','Son las ocho de la mañana',['Goizeko zortziak dira'],['gaueko','da','zortzi']),
+    B('eu2es','Arratsaldeko seiak dira',['Son las seis de la tarde'],['mañana','es','noche']),
+    D([{who:'Mikel',eu:'Gaueko hamabiak dira!',es:'¡Son las doce de la noche!'}],['Berandu da! Gabon!','Goiz da! Egun on!','Berandu naiz!'],'Berandu da! Gabon!','¡Es tarde! ¡Buenas noches!'),
+    L('Goizeko zazpiak dira',['gaueko','berandu'],'Son las siete de la mañana'),
+    T('Es tarde',['berandu da']),
+  ]},
+  { id:'l52', title:'¿A qué hora quedamos?', final:true, ex:[
+    I('Ordu bietan','A las dos','Para decir <b>a qué hora</b>: <b>-etan</b>, como en zortzi<b>etan</b>. Con la una: <b>ordu batean</b>.'),
+    I('Hiruretan eta erdietan','A las tres y media'),
+    I('Zazpiak laurden gutxitan','A las siete menos cuarto'),
+    I('Barkatu','Perdón / perdona'),
+    convo(0,CONV9),
+    convo(1,CONV9),
+    K(6,45,['Zazpiak laurden gutxi dira','Seiak laurden gutxi dira','Seiak eta erdi dira'],'Zazpiak laurden gutxi dira','Son las siete menos cuarto'),
+    convo(2,CONV9),
+    convo(3,CONV9),
+    B('es2eu','Perdón, cinco minutos',['Barkatu, bost minutu'],['berandu','bostak','da']),
+    convo(4,CONV9),
+    M([['Bietan','A las dos'],['Batean','A la una'],['Barkatu','Perdón'],['Minutu','Minuto'],['Zinema','El cine']]),
+    L('Zinemara goaz zazpietan',['seietan','berandu'],'Vamos al cine a las siete'),
+    T('A las dos',['ordu bietan','bietan']),
+  ]},
+]},
 ];
 const ALL=UNITS.flatMap(u=>u.lessons.map(l=>({...l,unit:u})));
 
@@ -1120,7 +1560,7 @@ function renderHome(){
   let gi=0;
   UNITS.forEach(u=>{
     h+=`<section class="unit" style="--u:${u.color};--ud:${u.dark}"><header class="unit-head"><div><p class="eyebrow">Unidad ${u.n}</p><h2>${u.title}</h2><p class="sub">${u.sub}</p></div>
-      <button class="tips-btn" data-tips="${u.id}">${ICON.book}Consejos</button></header><div class="path">`;
+      <button class="tips-btn" data-tips="${u.id}">${ICON.book}Consejos</button></header><div class="path" data-u="${u.id}">`;
     u.lessons.forEach((l,li)=>{
       const idx=ALL.findIndex(x=>x.id===l.id);
       const done=!!S.done[l.id];const unlocked=done||idx===0||!!S.done[ALL[idx-1].id];
@@ -1167,8 +1607,68 @@ function drawTrails(){document.querySelectorAll('.path').forEach((pth,pi)=>{pth.
   /* oveja latxa pequeña y meta de hierba (almiar) */
   const ardi=(x,y,f)=>`<g transform="translate(${x} ${y}) scale(${f} 1)"><ellipse cx="0" cy="-9" rx="12" ry="8" fill="var(--wool)" stroke="var(--line)" stroke-width="1.5"/><ellipse cx="11" cy="-13" rx="4.5" ry="5" fill="#3b2f2a"/><rect x="-7" y="-3" width="2.5" height="5" fill="#3b2f2a"/><rect x="4" y="-3" width="2.5" height="5" fill="#3b2f2a"/></g>`;
   const meta=(x,y)=>`<g transform="translate(${x} ${y})"><rect x="-1.2" y="-46" width="2.4" height="12" fill="var(--wood)"/><path d="M-15 0C-17 -18 -9 -36 0 -38C9 -36 17 -18 15 0Z" fill="var(--hay)"/><path d="M-12 -12H12M-13 -22H13" stroke="var(--wood)" stroke-width="1" opacity=".35"/></g>`;
+  /* aizkolari: de pie sobre el tronco, con el hacha en alto; faja roja y astillas saltando */
+  const aizkolari=(x,y,f)=>`<g transform="translate(${x} ${y}) scale(${f*(W<400?.85:1)} ${W<400?.85:1})">
+    <rect x="-36" y="-16" width="72" height="16" rx="8" fill="#b07f52" stroke="#6e4c33" stroke-width="2"/>
+    <ellipse cx="30" cy="-8" rx="6" ry="8" fill="#e2c196" stroke="#6e4c33" stroke-width="1.8"/><ellipse cx="30" cy="-8" rx="2.6" ry="3.6" fill="none" stroke="#6e4c33" stroke-width="1"/>
+    <path d="M-20 -12l6 -1M-8 -5l7 1" stroke="#6e4c33" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
+    <path d="M-2 -16L0 -33M8 -16L6 -33" stroke="#2f3b35" stroke-width="4.5" stroke-linecap="round"/>
+    <rect x="-3" y="-52" width="12" height="20" rx="3" fill="#fbfaf6" stroke="#8c8a80" stroke-width="1.5"/>
+    <rect x="-3" y="-37" width="12" height="3.5" fill="var(--red)"/>
+    <path d="M-1 -49L-5 -68M7 -49L-3 -69" stroke="#e0b48a" stroke-width="3.2" stroke-linecap="round"/>
+    <circle cx="3" cy="-58" r="6" fill="#e0b48a"/><path d="M-3 -61Q3 -68 9 -61" fill="#2f3b35"/>
+    <path d="M-4 -68L-20 -86" stroke="#8a5a36" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-22 -88L-14 -96L-9 -88L-17 -81Z" fill="#a7aeaa" stroke="#6f7671" stroke-width="1.2"/>
+    <path d="M-34 -24l-5 -4M-30 -30l-2 -6M-40 -16l-6 -1" stroke="#b07f52" stroke-width="2.6" stroke-linecap="round"/></g>`;
+  /* dos vascos con txapela saludándose, con sus bocadillos */
+  const person=(cx,f,shirt,extra)=>`<path d="M${cx-3} 0V-16M${cx+3} 0V-16" stroke="#2f3b35" stroke-width="4.5" stroke-linecap="round"/>
+    <rect x="${cx-7}" y="-36" width="14" height="21" rx="4" fill="${shirt}" stroke="#8c8a80" stroke-width="1.2"/>${extra||''}
+    <path d="M${cx+5*f} -32L${cx+13*f} -27" stroke="#e0b48a" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="-44" r="6.5" fill="#e0b48a"/><circle cx="${cx+2.8*f}" cy="-44.5" r=".95" fill="#2f3b35"/>
+    <path d="M${cx-6.6} -48.6Q${cx} -56.5 ${cx+6.6} -48.6Z" fill="#1f2a33"/><ellipse cx="${cx+f}" cy="-48.8" rx="9" ry="2.4" fill="#1f2a33" stroke="#4a5a52" stroke-width=".6"/><rect x="${cx-.6}" y="-55.2" width="1.2" height="3" rx=".6" fill="#1f2a33"/>`;
+  const bubble=(x,y,w,txt,tail)=>`<rect x="${x}" y="${y}" width="${w}" height="18" rx="8" fill="var(--bg)" stroke="var(--line)" stroke-width="1.6"/><path d="M${tail} ${y+17}l4 6l3 -6" fill="var(--bg)" stroke="var(--line)" stroke-width="1.6" stroke-linejoin="round"/><rect x="${tail-1}" y="${y+15.5}" width="9" height="3" fill="var(--bg)"/><text x="${x+w/2}" y="${y+12.5}" text-anchor="middle" font-size="10.5" font-weight="800" font-family="Nunito,system-ui,sans-serif" fill="var(--fg)">${txt}</text>`;
+  const hizketan=(x,y)=>`<g transform="translate(${x} ${y}) scale(${W<400?.9:1})">
+    ${person(-17,1,'#3d6f8f')}
+    ${person(17,-1,'#fbfaf6',`<path d="M10 -36l7 5l7 -5" fill="var(--red)"/><path d="M23 -32L27 -22M27 -22L29 0" stroke="#8a5a36" stroke-width="2.2" stroke-linecap="round"/>`)}
+    ${bubble(-58,-82,42,'Kaixo!',-30)}${bubble(10,-90,52,'Egun on!',20)}</g>`;
+  /* iglesia de pueblo: torre de piedra con reloj (marca las 8:00), campanario con campana, tejado y nave */
+  const eliza=(x,y)=>`<g transform="translate(${x} ${y}) scale(${W<400?.85:1})">
+    <rect x="16" y="-40" width="52" height="40" fill="var(--stone)" stroke="var(--stone-line)" stroke-width="2"/><path d="M12 -40L42 -58L72 -40Z" fill="var(--roof)"/>
+    <path d="M28 0V-14A6 6 0 0 1 40 -14V0Z" fill="var(--wood)"/><path d="M52 -30v8M58 -30v8" stroke="var(--stone-line)" stroke-width="2"/>
+    <rect x="-16" y="-84" width="32" height="84" fill="var(--stone)" stroke="var(--stone-line)" stroke-width="2"/>
+    <path d="M-16 -20H16M-16 -40H16M0 -40V-20M-8 -20V0M8 -20V0" stroke="var(--stone-line)" stroke-width="1" opacity=".7"/>
+    <rect x="-18" y="-104" width="36" height="20" fill="var(--stone)" stroke="var(--stone-line)" stroke-width="2"/>
+    <path d="M-12 -86V-95A4 4 0 0 1 -4 -95V-86ZM4 -86V-95A4 4 0 0 1 12 -95V-86Z" fill="#3a3a36"/>
+    <path d="M-10.5 -88Q-8 -95 -5.5 -88Z" fill="var(--gold)"/><path d="M5.5 -88Q8 -95 10.5 -88Z" fill="var(--gold)"/>
+    <path d="M-21 -104L0 -126L21 -104Z" fill="var(--roof)"/><path d="M0 -126V-136M-3.5 -132.5H3.5" stroke="var(--wood)" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="0" cy="-62" r="10" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.6"/><path d="M0.00 -71.00L0.00 -69.00" stroke="var(--fg)" stroke-width="1.4"/><path d="M4.50 -69.79L3.50 -68.06" stroke="var(--fg)" stroke-width="0.8"/><path d="M7.79 -66.50L6.06 -65.50" stroke="var(--fg)" stroke-width="0.8"/><path d="M9.00 -62.00L7.00 -62.00" stroke="var(--fg)" stroke-width="1.4"/><path d="M7.79 -57.50L6.06 -58.50" stroke="var(--fg)" stroke-width="0.8"/><path d="M4.50 -54.21L3.50 -55.94" stroke="var(--fg)" stroke-width="0.8"/><path d="M0.00 -53.00L0.00 -55.00" stroke="var(--fg)" stroke-width="1.4"/><path d="M-4.50 -54.21L-3.50 -55.94" stroke="var(--fg)" stroke-width="0.8"/><path d="M-7.79 -57.50L-6.06 -58.50" stroke="var(--fg)" stroke-width="0.8"/><path d="M-9.00 -62.00L-7.00 -62.00" stroke="var(--fg)" stroke-width="1.4"/><path d="M-7.79 -66.50L-6.06 -65.50" stroke="var(--fg)" stroke-width="0.8"/><path d="M-4.50 -69.79L-3.50 -68.06" stroke="var(--fg)" stroke-width="0.8"/>
+    <path d="M0 -62L-5.2 -59" stroke="var(--fg)" stroke-width="1.8" stroke-linecap="round"/><path d="M0 -62V-69.5" stroke="var(--fg)" stroke-width="1.2" stroke-linecap="round"/><circle cx="0" cy="-62" r="1" fill="var(--fg)"/>
+    <path d="M-8 0V-10A8 8 0 0 1 8 -10V0Z" fill="var(--wood)"/></g>`;
+  /* taberna: fachada con letrero, toldo de rayas, escaparate con pintxos y una barrica con dos vasos */
+  const taberna=(x,y)=>`<g transform="translate(${x} ${y}) scale(${W<400?.85:1})">
+    <rect x="-40" y="-58" width="64" height="58" fill="var(--wall)" stroke="var(--line)" stroke-width="2"/><rect x="-44" y="-63" width="72" height="6" rx="1" fill="var(--roof)"/>
+    <rect x="-32" y="-54" width="48" height="12" rx="2" fill="var(--wood)"/><text x="-8" y="-45.3" text-anchor="middle" font-size="7.6" font-weight="900" letter-spacing=".8" font-family="Nunito,system-ui,sans-serif" fill="#fbfaf6">TABERNA</text>
+    ${[0,1,2,3,4,5,6,7].map(k=>`<rect x="${-40+k*8}" y="-39" width="8" height="9" fill="${k%2?'#fbfaf6':'var(--red)'}"/>`).join('')}<path d="M-40 -30${[0,1,2,3,4,5,6,7].map(k=>`q4 4 8 0`).join('')}" fill="var(--red)"/>
+    <rect x="-35" y="-24" width="13" height="24" rx="1" fill="var(--wood)"/><circle cx="-24.5" cy="-12" r="1" fill="var(--gold)"/>
+    <rect x="-16" y="-24" width="34" height="16" rx="1" fill="var(--sel-bg)" stroke="var(--wood)" stroke-width="2"/>
+    <rect x="-13" y="-14" width="28" height="2" fill="var(--wood)" opacity=".5"/>
+    <path d="M-11 -14h7v-3h-7zM-1 -14h6v-4h-6zM8 -14h6v-3h-6z" fill="#e7c25a"/><path d="M-9 -17v-3M1.5 -18v-3M11 -17v-3" stroke="var(--wood)" stroke-width=".8"/>
+    <rect x="31" y="-24" width="22" height="24" rx="6" fill="#a8794f" stroke="#6e4c33" stroke-width="1.8"/><path d="M31 -17h22M31 -7h22" stroke="#6e4c33" stroke-width="1.6"/>
+    <ellipse cx="42" cy="-24" rx="11" ry="3" fill="#c49a6c" stroke="#6e4c33" stroke-width="1.4"/>
+    <path d="M35 -35h5l-.6 9h-3.8z" fill="#7a1f2e" stroke="#4a3a33" stroke-width=".8"/><path d="M44 -34h5l-.6 8h-3.8z" fill="#e8b93c" stroke="#4a3a33" stroke-width=".8"/><path d="M44 -34h5v1.6h-5z" fill="#fbfaf6"/></g>`;
+  /* piedra de levantar, con su forma de cubo redondeado */
+  const harri=(x,y)=>`<g transform="translate(${x} ${y})"><rect x="-17" y="-26" width="34" height="26" rx="9" fill="#9aa19c" stroke="#6f7671" stroke-width="2"/><path d="M-9 -18H9" stroke="#6f7671" stroke-width="2" stroke-linecap="round" opacity=".6"/></g>`;
   const clamp=(v,m)=>Math.min(W-m,Math.max(m,v));
+  const isSport=pth.dataset.u==='u10';
+  const isHello=pth.dataset.u==='u1';
+  const isNum=pth.dataset.u==='u4';
+  const isBar=pth.dataset.u==='u11';
   let deco='';pts.forEach(([x,y],i)=>{const side=x>W/2?-1:1;const k=(i+pi*2)%5;const big=W>290;
+    if(isBar&&big&&(i===1||i===3)){const cx=x+side*(W<400?115:130);deco+=taberna(Math.min(W-(W<400?50:58),Math.max(42,cx)),y+28);return;}
+    if(isNum&&big&&(i===1||i===4)){const cx=x+side*(W<400?115:130);deco+=eliza(Math.min(W-(W<400?62:72),Math.max(24,cx)),y+30);return;}
+    if(isHello&&i===0){deco+=hizketan(clamp(x+side*(W<400?118:135),W<400?54:62),y+28);return;}
+    if(isSport&&big&&(i===0||i===3)){deco+=aizkolari(clamp(x+side*(W<400?115:135),W<400?44:52),y+28,side>0?-1:1);return;}
+    if(isSport&&i===2){const hx=clamp(x+side*120,24);deco+=harri(hx,y+24)+tree(clamp(hx+side*40,16),y+16,.8);return;}
     if(k===1&&big)deco+=baserri(clamp(x+side*(W<400?135:150),W<400?48:58),y+26);
     else if(k===2&&big)deco+=mount(clamp(x+side*140,56),y+22);
     else if(k===3){const mx=clamp(x+side*130,40);deco+=meta(mx,y+24)+ardi(clamp(mx+side*34,20),y+26,side)+ardi(clamp(mx+side*60,20),y+30,-side);}
@@ -1358,7 +1858,7 @@ const GL_EU={
  'kaixo':'hola','agur':'adiós','egun':'día','on':'bueno/a','gabon':'buenas noches','eskerrik':'gracias','asko':'mucho/a','horregatik':'por eso','ez':'no','bai':'sí','mesedez':'por favor',
  'zer':'qué','moduz':'tal','ondo':'bien','oso':'muy','eta':'y','zu':'tú','ni':'yo','naiz':'soy','zara':'eres','da':'es','nor':'quién','nire':'mi','zure':'tu','izena':'el nombre','zein':'cuál',
  'nongoa':'de dónde','bilbokoa':'de Bilbao','donostiakoa':'de San Sebastián','ikaslea':'estudiante','euskara':'euskera','ikasten':'aprendiendo / estudiando','ari':'estar …-ando (ari naiz = estoy)',
- 'bat':'uno / un','bi':'dos','hiru':'tres','lau':'cuatro','bost':'cinco','zenbat':'cuánto/s','euro':'euro(s)','kafe':'café','ogia':'el pan','gazta':'el queso','esnea':'la leche','ura':'el agua','laranja':'naranja','platano':'plátano','gose':'hambre (gose naiz = tengo hambre)','jaten':'comiendo (jaten dut = como)','edaten':'bebiendo (edaten dut = bebo)','urte':'año(s)','dituzu':'tienes','ditut':'tengo',
+ 'bat':'uno / un','bi':'dos','hiru':'tres','lau':'cuatro','bost':'cinco','zenbat':'cuánto/s','euro':'euro(s)','kafe':'café','arratsaldeko':'de la tarde','seiak':'las seis','dira':'son','kalimotxoa':'el kalimotxo','ardo':'vino','beltza':'negro (ardo beltza = vino tinto)','kola':'cola','marmitakoa':'el marmitako','hegaluzez':'con bonito','egiten':'haciendo (egiten da = se hace)','pilotalekua':'el frontón','handia':'grande','partida':'el partido','galdu':'perdido (galdu dut = he perdido)','aizkolariak':'el aizkolari (el que corta)','enborra':'el tronco','mozten':'cortando (mozten du = corta)','aita':'el padre','ama':'la madre','nekazaria':'agricultor/a','sukaldaria':'cocinero/a','jatetxean':'en el restaurante','astelehenetik':'desde el lunes','ostiralera':'hasta el viernes','lan':'trabajo (lan egiten dut = trabajo)','ogia':'el pan','gazta':'el queso','esnea':'la leche','ura':'el agua','laranja':'naranja','platano':'plátano','gose':'hambre (gose naiz = tengo hambre)','jaten':'comiendo (jaten dut = como)','edaten':'bebiendo (edaten dut = bebo)','urte':'año(s)','dituzu':'tienes','ditut':'tengo',
  'gaur':'hoy','atzo':'ayer','bihar':'mañana','asteburuan':'el fin de semana (cuándo)','egiten':'haciendo (egiten du = hace)','du':'(auxiliar: lo hace él/ella)','dut':'(auxiliar: lo hago yo)',
  'bero':'calor','hotz':'frío','udan':'en verano','negua':'el invierno','udazkena':'el otoño','daukat':'tengo','dauzkat':'tengo (varios)','katu':'gato','txakur':'perro','ardi':'oveja','zuri':'blanco/a'
 };
@@ -1367,10 +1867,10 @@ const GL_ES={
  'que':'zer','tal':'(¿qué tal? = zer moduz?)','bien':'ondo','y':'eta','tu':'zu (tú) · zure (tu)','yo':'ni','soy':'naiz','eres':'zara','es':'da','mi':'nire','nombre':'izena','cual':'zein',
  'de':'-koa (de dónde) · -ren (de quién)','del':'-ren (de quién)','estudiante':'ikasle','bilbao':'Bilbo','hasta':'arte','manana':'bihar','hoy':'gaur','ayer':'atzo',
  'un':'bat (va detrás)','dos':'bi','tres':'hiru','cinco':'bost','diez':'hamar','veinte':'hogei','veintiun':'hogeita bat','cuanto':'zenbat','cuantos':'zenbat','cafes':'kafe','anos':'urte','tengo':'daukat · ditut (años)','tienes':'dituzu (años) · daukazu',
- 'lunes':'astelehena','martes':'asteartea','viernes':'ostirala','sabado':'larunbata','domingo':'igandea','el':'-a (va al final)','la':'-a (va al final)','en':'-n / -an (va al final)','trabajo':'lan egiten dut',
+ 'lunes':'astelehena','martes':'asteartea','viernes':'ostirala','sabado':'larunbata','domingo':'igandea','el':'-a (va al final)','la':'-a (va al final)','en':'-n / -an (va al final)','trabajo':'lan egiten dut (yo trabajo) · lana (el trabajo)',
  'hace':'egiten du','sol':'eguzkia','frio':'hotz','esta':'ari du (está …-ando)','lloviendo':'euria ari du','llovera':'euria egingo du','verano':'uda','invierno':'negu','primavera':'udaberri',
  'perro':'txakur','gato':'katu','gatos':'katu (sin plural tras número)','oveja':'ardi','ovejas':'ardi','caballos':'zaldi','pequeno':'txiki','hay':'dago (uno) · daude (varios)','caserio':'baserri','al':'-ra (al caserío = baserrira)','voy':'noa',
- 'acuerdo':'(de acuerdo = ados)','pan':'ogi(a)','queso':'gazta','leche':'esne(a)','agua':'ur(a)','como':'jaten dut','gusta':'gustatzen zait','me':'(me gusta = gustatzen zait)','cafe':'kafe(a)','mucha':'oso (oso gose = mucha hambre)','hambre':'gose','cuenta':'kontua','manzana':'sagar(ra)','tambien':'ere bai'
+ 'acuerdo':'(de acuerdo = ados)','sabado':'larunbata (el sábado = larunbatean)','salgo':'ateratzen naiz','amigos':'lagunak (con los amigos = lagunekin)','los':'-ak (plural, al final)','vamos':'goaz','bar':'taberna','pintxo':'pintxo','tortilla':'tortilla','kalimotxo':'kalimotxo','marmitako':'marmitakoa','rico':'goxo(a)','cebolla':'tipula (con cebolla = tipularekin)','con':'-ekin / -rekin (al final)','claro':'noski','sin':'-rik gabe','salud':'topa!','son':'dira','tres':'hiru (las tres = hirurak)','nueve':'bederatzi (las nueve = bederatziak)','once':'hamaika (las once = hamaikak)','media':'erdi (y media = eta erdi)','ocho':'zortzi (las ocho = zortziak)','perdon':'barkatu','hora':'ordu (¿qué hora es? = zer ordu da?)','tarde':'arratsalde (de la tarde = arratsaldeko) · berandu (con retraso)','minutos':'minutu (sin plural tras número)','bacalao':'bakailao(a)','patatas':'patatak','juego':'jokatzen dut','nado':'igeri egiten dut','he':'dut (he ganado = irabazi dut)','baloncesto':'saskibaloi(a) (al baloncesto = saskibaloian)','pelota':'pilota (a pelota = pilotan)','mano':'esku (a mano = eskuz)','piedra':'harri(a)','muy':'oso','grande':'handi(a)','quien':'nork (quien hace algo)','ganado':'irabazi (ha ganado = irabazi du)','ha':'du (ha ganado = irabazi du)','partido':'partida','frontón':'pilotalekua','fronton':'pilotalekua','enfermera':'erizain(a)','madre':'ama','ingeniera':'ingeniari(a)','escuela':'eskola (en la escuela = eskolan)','empiezo':'hasten naiz','a':'(a las ocho = zortzietan: -etan al final)','las':'(a las ocho = zortzietan: -etan al final)','ocho':'zortzi (a las ocho = zortzietan)','mucho':'asko (va detrás)','donde':'non','trabajas':'lan egiten duzu','profesor':'irakasle(a)','contento':'pozik','estoy':'nago (estoy contento = pozik nago)','pan':'ogi(a)','queso':'gazta','leche':'esne(a)','agua':'ur(a)','como':'jaten dut','gusta':'gustatzen zait','me':'(me gusta = gustatzen zait)','cafe':'kafe(a)','mucha':'oso (oso gose = mucha hambre)','hambre':'gose','cuenta':'kontua','manzana':'sagar(ra)','tambien':'ere bai'
 };
 function hintify(text,lang){const G=lang==='eu'?GL_EU:GL_ES;
   return String(text).split(/(\s+)/).map(tok=>{const m=tok.match(/^([¿¡«"]*)(.*?)([?!.,»"]*)$/);if(!m||!m[2])return esc(tok);
@@ -1380,6 +1880,13 @@ function wireHints(box){const ws=[...box.querySelectorAll('.hw')];
   ws.forEach(w=>{w.onclick=e=>{e.stopPropagation();const was=w.classList.contains('on');ws.forEach(x=>x.classList.remove('on'));if(!was){w.classList.add('on');if(w.dataset.l==='eu')speak(w.dataset.w);}};
     w.onmouseenter=()=>{ws.forEach(x=>{if(x!==w)x.classList.remove('on')});};});
   box.addEventListener('click',()=>ws.forEach(x=>x.classList.remove('on')));}
+/* Esfera de reloj para los ejercicios de la hora */
+function clockSVG(h,m){const ha=((h%12)+m/60)*30*Math.PI/180,ma=m*6*Math.PI/180;
+  const ticks=[...Array(12)].map((_,k)=>{const a=k*30*Math.PI/180,r1=k%3===0?36:39;return `<path d="M${50+r1*Math.sin(a)} ${50-r1*Math.cos(a)}L${50+43*Math.sin(a)} ${50-43*Math.cos(a)}" stroke="var(--fg)" stroke-width="${k%3===0?3:1.6}" stroke-linecap="round"/>`;}).join('');
+  const nums=[[12,0],[3,90],[6,180],[9,270]].map(([n,d])=>{const a=d*Math.PI/180;return `<text x="${50+28*Math.sin(a)}" y="${50-28*Math.cos(a)+4.5}" text-anchor="middle" font-size="11" font-weight="900" font-family="Nunito,system-ui,sans-serif" fill="var(--muted)" opacity=".85">${n}</text>`;}).join('');
+  return `<svg class="clock" viewBox="0 0 100 100" role="img" aria-label="Reloj"><circle cx="50" cy="50" r="47" fill="var(--soft)" stroke="var(--u, var(--green))" stroke-width="4"/>${ticks}${nums}
+   <path d="M50 50L${50+21*Math.sin(ha)} ${50-21*Math.cos(ha)}" stroke="var(--fg)" stroke-width="5" stroke-linecap="round"/>
+   <path d="M50 50L${50+34*Math.sin(ma)} ${50-34*Math.cos(ma)}" stroke="var(--sel-fg)" stroke-width="3.4" stroke-linecap="round"/><circle cx="50" cy="50" r="3.6" fill="var(--fg)"/></svg>`;}
 const HINT_NOTE='<p class="hint-note">Pasa el ratón o toca una palabra subrayada para ver qué significa.</p>';
 
 /* ================== TIPOS DE EJERCICIO ================== */
@@ -1473,6 +1980,13 @@ const RENDER={
     const near=acc.find(a=>a.length>3&&lev(a,got)<=1);
     if(near)return {ok:true,note:`<span class="tiny">Tienes un pequeño fallo</span><span class="fixed">${markFix(near,got)}</span>`,say:near};
     return {ok:false,solution:disp,meaning:ex.es};}};
+ },
+ clock(ex,box){
+  let picked=null;
+  box.innerHTML=`<h1 class="ex-title">¿Qué hora es?</h1><div class="clock-wrap">${clockSVG(ex.h,ex.m)}</div>
+   <div class="opt-list">${shuffle(ex.opts).map((o,i)=>`<button class="opt" data-opt data-v="${esc(o)}"><span class="k">${i+1}</span>${esc(o)}</button>`).join('')}</div>`;
+  selectable(box,'.opt',it=>{picked=it.dataset.v;speak(picked);setCheck(true);});
+  ctrl={check:()=>({ok:picked===ex.ans,solution:ex.ans,meaning:ex.es,say:ex.ans})};
  },
  dialog(ex,box){
   let picked=null;
