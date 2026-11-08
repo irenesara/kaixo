@@ -180,6 +180,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .songs-title{display:flex;align-items:center;gap:6px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold-dk);font-weight:900}
 .songs-title svg{width:16px;height:16px}
 
+.songs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.song-tile{border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;background:var(--bg);padding:12px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0;transition:transform .06s}
+.song-tile:hover{border-color:var(--gold)}
+.song-tile:active{transform:translateY(2px)}
+.song-tile .song-ic{width:40px;height:40px;border-radius:10px}
+.song-tile .song-ic svg{width:22px;height:22px}
+.song-name{font-size:14px;font-weight:900;line-height:1.2;color:var(--fg);overflow-wrap:anywhere}
+.song-kind{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .song-card{display:flex;align-items:center;gap:14px;border:2px solid var(--line);border-radius:14px;padding:14px 16px;flex-wrap:wrap}
 .song-ic{width:52px;height:52px;border-radius:12px;background:var(--gold);color:#fff;display:grid;place-items:center;flex:none;box-shadow:inset 0 3px 0 rgba(255,255,255,.22),0 4px 0 var(--gold-dk)}
 .song-ic svg{width:28px;height:28px}
@@ -293,7 +301,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <script>
 /* ================== CONTENIDO ================== */
-const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️','Animalia':'🐾','Txakurra':'🐶','Katua':'🐱','Txoria':'🐦','Arraina':'🐟','Untxia':'🐰','Sagua':'🐭','Behia':'🐄','Ardia':'🐑','Zaldia':'🐴','Txerria':'🐷','Oiloa':'🐔','Baserria':'🏡','Handia':'🐘','Txikia':'🐜','Janaria':'🍽️','Ogia':'🍞','Ura':'💧','Esnea':'🥛','Gazta':'🧀','Arrautza':'🥚','Fruta':'🍇','Sagarra':'🍎','Laranja':'🍊','Platanoa':'🍌','Sagardoa':'🍏','Txuleta':'🥩','Intxaurrak':'🌰','Sagardotegia':'🛢️','Lana':'💼','Irakaslea':'🧑‍🏫','Medikua':'🩺','Erizaina':'💊','Sukaldaria':'🧑‍🍳','Dendaria':'🛍️','Tabernaria':'☕','Nekazaria':'🚜','Arrantzalea':'🎣','Ingeniaria':'👷','Bulegoa':'🏢','Ospitalea':'🏥','Eskola':'🏫','Jatetxea':'🍴','Denda':'🏪','Kirola':'🏅','Futbola':'⚽','Saskibaloia':'🏀','Igeri egiten dut':'🏊','Korrika egiten dut':'🏃','Mendira joaten naiz':'⛰️','Euskal pilota':'🥎','Pilotalekua':'🧱','Pilotaria':'🙌','Eskuz':'✋','Pala':'🏓','Zesta-punta':'🧺','Herri kirolak':'💪','Harria':'🪨','Harri-jasotzailea':'🏋️','Aizkolaria':'🪓','Sokatira':'🪢','Estropadak':'🚣','Txapelketa':'🏆','Txapelduna':'🥇','Koadrila':'👯','Lagunak':'🧑‍🤝‍🧑','Kalea':'🛣️','Taberna':'🍻','Pintxoa':'🍢','Gilda':'🌶️','Patata-tortilla':'🥔','Bakailaoa':'🐟','Zuritoa':'🍺','Txakolina':'🥂','Kalimotxoa':'🍷','Mostoa':'🍇','Ardo beltza':'🍷','Ardo zuria':'🥂','Marmitakoa':'🍲','Hegaluzea':'🐟','Patatak':'🥔','Lehiaketa':'🏆','Tipula':'🧅','Topa!':'🥂'};
+const EM={'Kaixo':'👋','Agur':'🚶','Egun on':'☀️','Arratsalde on':'🌇','Gabon':'🌙','Eskerrik asko':'🙏','Ez horregatik':'😊','Mesedez':'🤲','Bai':'✅','Ez':'❌','Zer moduz?':'🙂','Ondo':'👍','Oso ondo':'🤩','Gaizki':'👎','Gero arte':'⏳','Bihar arte':'📅','Ni':'🙋','Zu':'🫵','Izena':'🏷️','Ikaslea naiz':'🎒','Bilbokoa naiz':'🏙️','Madrilgoa naiz':'🏛️','Euskara ikasten ari naiz':'📚','Ni ere bai':'🤝','Nongoa zara?':'🗺️','Nor zara zu?':'❓','Bat':'1️⃣','Bi':'2️⃣','Hiru':'3️⃣','Lau':'4️⃣','Bost':'5️⃣','Sei':'6️⃣','Zazpi':'7️⃣','Zortzi':'8️⃣','Bederatzi':'9️⃣','Hamar':'🔟','Kafe bat, mesedez':'☕','Uda':'🏖️','Negua':'❄️','Udaberria':'🌸','Udazkena':'🍂','Urtaroa':'🗓️','Eguzkia dago':'☀️','Euria ari du':'🌧️','Elurra ari du':'🌨️','Txirimiri':'🌦️','Aterkia':'☂️','Bero egiten du':'🥵','Hotz egiten du':'🥶','Haizea dabil':'💨','Hodeitsu dago':'☁️','Lainoa dago':'🌫️','Animalia':'🐾','Txakurra':'🐶','Katua':'🐱','Txoria':'🐦','Arraina':'🐟','Untxia':'🐰','Sagua':'🐭','Behia':'🐄','Ardia':'🐑','Zaldia':'🐴','Txerria':'🐷','Oiloa':'🐔','Baserria':'🏡','Handia':'🐘','Txikia':'🐜','Janaria':'🍽️','Ogia':'🍞','Ura':'💧','Esnea':'🥛','Gazta':'🧀','Arrautza':'🥚','Fruta':'🍇','Sagarra':'🍎','Laranja':'🍊','Platanoa':'🍌','Sagardoa':'🍏','Txuleta':'🥩','Intxaurrak':'🌰','Sagardotegia':'🛢️','Lana':'💼','Irakaslea':'🧑‍🏫','Medikua':'🩺','Erizaina':'💊','Sukaldaria':'🧑‍🍳','Dendaria':'🛍️','Tabernaria':'☕','Nekazaria':'🚜','Arrantzalea':'🎣','Ingeniaria':'👷','Bulegoa':'🏢','Ospitalea':'🏥','Eskola':'🏫','Jatetxea':'🍴','Denda':'🏪','Kirola':'🏅','Futbola':'⚽','Saskibaloia':'🏀','Igeri egiten dut':'🏊','Korrika egiten dut':'🏃','Mendira joaten naiz':'⛰️','Euskal pilota':'🥎','Pilotalekua':'🧱','Pilotaria':'🙌','Eskuz':'✋','Pala':'🏓','Zesta-punta':'🧺','Herri kirolak':'💪','Harria':'🪨','Harri-jasotzailea':'🏋️','Aizkolaria':'🪓','Sokatira':'🪢','Estropadak':'🚣','Txapelketa':'🏆','Txapelduna':'🥇','Koadrila':'👯','Lagunak':'🧑‍🤝‍🧑','Kalea':'🛣️','Taberna':'🍻','Pintxoa':'🍢','Gilda':'🌶️','Patata-tortilla':'🥔','Bakailaoa':'🐟','Zuritoa':'🍺','Txakolina':'🥂','Kalimotxoa':'🍷','Mostoa':'🍇','Ardo beltza':'🍷','Ardo zuria':'🥂','Marmitakoa':'🍲','Hegaluzea':'🐟','Patatak':'🥔','Lehiaketa':'🏆','Tipula':'🧅','Topa!':'🥂','Kolorea':'🎨','Gorria':'🟥','Urdina':'🟦','Berdea':'🟩','Horia':'🟨','Zuria':'⬜','Beltza':'⬛','Arrosa':'🩷','Morea':'🟪','Marroia':'🟫','Grisa':'🩶','Ostadarra':'🌈','Sagar gorria':'🍎','Txakur beltza':'🐕‍🦺','Itsasoa urdina da':'🌊','Mendiak berdeak dira':'⛰️','Familia':'👨‍👩‍👧‍👦','Ama':'👩','Aita':'👨','Gurasoak':'👫','Anaia':'👦','Ahizpa':'👧','Arreba':'👧','Amona':'👵','Aitona':'👴','Izeba':'👩‍🦰','Osaba':'🧔','Lehengusua':'🧒','Semea':'👶','Alaba':'👧','Argazkia':'📷'};
 const I=(eu,es,tip)=>({t:'intro',eu,es,tip});
 const P=(es,eu,wrong)=>({t:'pick',es,eu,opts:[eu,...wrong]});
 const C=(prompt,speak,opts,ans,meaning)=>({t:'choice',prompt,speak,opts,ans,meaning});
@@ -368,12 +376,26 @@ const CONV9=[
  {m:'Ane! Non zaude? Zazpiak dira!',es:'¡Ane! ¿Dónde estás? ¡Son las siete!',a:'Barkatu! Bost minutu!',aes:'¡Perdón! ¡Cinco minutos!',wrong:['Ez horregatik! Bost minutu!','Barkatu! Bost urte!']},
  {m:'Lasai, pelikula zazpiak eta bostetan hasten da.',es:'Tranquila, la película empieza a las siete y cinco.',a:'Primeran! Ez da berandu!',aes:'¡Genial! ¡No es tarde!',wrong:['Primeran! Berandu naiz!','Pelikula naiz!']},
 ];
+const CONV10=[
+ {m:'Kaixo Ane! Zein da zure kolore gogokoena?',es:'¡Hola, Ane! ¿Cuál es tu color favorito?',a:'Nire kolore gogokoena berdea da.',aes:'Mi color favorito es el verde.',wrong:['Nire kolore gogokoena berdea naiz.','Berdea gustatzen zaizkit.']},
+ {m:'Zergatik berdea?',es:'¿Por qué el verde?',a:'Mendiak eta belarra berdeak dira!',aes:'¡Los montes y la hierba son verdes!',wrong:['Mendia berdea naiz!','Belarra urdina da!']},
+ {m:'Nire gogokoena urdina da, itsasoa bezala.',es:'El mío es el azul, como el mar.',a:'Itsasoa oso polita da!',aes:'¡El mar es muy bonito!',wrong:['Itsasoa oso polita naiz!','Itsasoa berdea zara!']},
+ {m:'Zer kolore da zure katua?',es:'¿De qué color es tu gato?',a:'Nire katua beltza eta zuria da.',aes:'Mi gato es blanco y negro.',wrong:['Nire katua beltza naiz.','Katu beltz bat zara.']},
+ {m:'Eta zure txapela?',es:'¿Y tu txapela?',a:'Gorria! Txapela gorria daukat.',aes:'¡Roja! Tengo una txapela roja.',wrong:['Gorria naiz!','Txapela gorriak daukat.']},
+];
+const CONV11=[
+ {m:'Kaixo Ane! Nor da hau?',es:'¡Hola, Ane! ¿Quién es esta?',a:'Hau nire ama da.',aes:'Esta es mi madre.',wrong:['Hau nire ama naiz.','Nire ama zara.']},
+ {m:'Eta hau? Zure anaia?',es:'¿Y este? ¿Tu hermano?',a:'Bai, nire anaia da. Hamar urte ditu.',aes:'Sí, es mi hermano. Tiene diez años.',wrong:['Bai, nire anaia naiz.','Bai, hamar urte dut.']},
+ {m:'Ahizparik daukazu?',es:'¿Tienes hermanas?',a:'Bai, ahizpa bat daukat.',aes:'Sí, tengo una hermana.',wrong:['Bai, ahizpa bat dauzkat.','Bai, ahizpa naiz.']},
+ {m:'Eta zure aiton-amonak?',es:'¿Y tus abuelos?',a:'Baserrian bizi dira.',aes:'Viven en el caserío.',wrong:['Baserrian bizi naiz.','Baserria dira.']},
+ {m:'Familia polita daukazu!',es:'¡Tienes una familia bonita!',a:'Eskerrik asko! Eta zure familia?',aes:'¡Muchas gracias! ¿Y tu familia?',wrong:['Ez horregatik!','Familia polita naiz!']},
+];
 function convo(n,L=CONV){const h=[];for(let i=0;i<n;i++){h.push({who:'Mikel',eu:L[i].m,es:L[i].es});h.push({who:'Ane',eu:L[i].a,es:L[i].aes});}
   const c=L[n];h.push({who:'Mikel',eu:c.m,es:c.es});return D(h,[c.a,...c.wrong],c.a,c.aes);}
 
 /* IMPORTANTE para ampliar la app:
    - NO cambiar los id de unidades (u1, u2...) ni de lecciones (l1, l2...): el progreso de cada persona se guarda con ellos.
-   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l53, u13).
+   - Las lecciones nuevas llevan SIEMPRE un id nuevo que no se haya usado nunca (siguiente libre: l63, u15).
      El orden del camino lo marca su posición en la lista, no el número del id.
    - Una lección ya hecha siempre queda abierta, así que se pueden insertar lecciones entre otras sin bloquear a nadie.
    - No cambiar la clave de guardado KEY ('kaixo-euskara-v1'). */
@@ -626,6 +648,103 @@ const UNITS=[
     D([{who:'Mikel',eu:'Zenbat urte dituzu?',es:'¿Cuántos años tienes?'}],['Hemeretzi urte ditut.','Hemeretzi urte naiz.','Hemeretzi urte dituzu.'],'Hemeretzi urte ditut.','Tengo diecinueve años.'),
     L('Hogeita hamar urte ditut',['hogei','dituzu'],'Tengo treinta años'),
     T('¿Cuántos años tienes?',['zenbat urte dituzu']),
+  ]},
+]},
+{ id:'u14', n:0, title:'La familia', sub:'Padres, hermanos, abuelos, tíos y primos', color:'#d9667a', dark:'#b04b5e',
+  tips:`<h3>La familia (familia)</h3>
+  <table><tbody>
+  <tr><td>ama · aita</td><td>madre · padre</td></tr><tr><td>gurasoak</td><td>los padres</td></tr>
+  <tr><td>amona · aitona</td><td>abuela · abuelo</td></tr><tr><td>aiton-amonak</td><td>los abuelos</td></tr>
+  <tr><td>izeba · osaba</td><td>tía · tío</td></tr><tr><td>lehengusina · lehengusua</td><td>prima · primo</td></tr>
+  <tr><td>alaba · semea</td><td>hija · hijo</td></tr>
+  </tbody></table>
+  <h3>Hermanos y hermanas: ¡depende de quién hable!</h3>
+  <p>En euskera, la palabra para hermana o hermano cambia según seas chica o chico:</p>
+  <table><tbody>
+  <tr><td>ahizpa</td><td>hermana de una chica</td></tr><tr><td>arreba</td><td>hermana de un chico</td></tr>
+  <tr><td>anaia</td><td>hermano (sobre todo de un chico, pero se usa en general)</td></tr><tr><td>neba</td><td>hermano de una chica (más propio del este)</td></tr>
+  </tbody></table>
+  <h3>Tener: daukat / dauzkat</h3>
+  <p><i>Anaia bat <b>daukat</b></i> = tengo un hermano. Si son varios: <i>Bi ahizpa <b>dauzkat</b></i> = tengo dos hermanas. Y para decir que no: <i>Ez daukat anaia<b>rik</b></i> = no tengo hermanos.</p>
+  <h3>Presentar a alguien</h3>
+  <p><i><b>Hau</b> nire ama da</i> = esta es mi madre. Y para alguien que «tiene» algo, se añade <b>-k</b>: <i>Nire anaia<b>k</b> hamar urte ditu</i> = mi hermano tiene diez años.</p>`,
+  lessons:[
+  { id:'l58', title:'Mi familia', ex:[
+    I('Familia','La familia'),
+    I('Ama','La madre'),
+    I('Aita','El padre'),
+    P('La madre','Ama',['Aita']),
+    I('Gurasoak','Los padres','Madre y padre juntos.'),
+    I('Hau nire ama da','Esta es mi madre','<b>hau</b> = este / esta.'),
+    I('Hau nire aita da','Este es mi padre'),
+    C('¿Qué significa «Gurasoak»?','Gurasoak',['Los padres','Los abuelos','Los hermanos'],'Los padres'),
+    M([['Familia','La familia'],['Ama','La madre'],['Aita','El padre'],['Gurasoak','Los padres'],['Hau','Este / esta']]),
+    B('es2eu','Este es mi padre',['Hau nire aita da'],['ama','naiz','zure']),
+    D([{who:'Mikel',eu:'Kaixo! Nor da hau?',es:'¡Hola! ¿Quién es esta?'}],['Hau nire ama da.','Hau nire ama naiz.','Nire ama zara.'],'Hau nire ama da.','Esta es mi madre.'),
+    L('Hau nire familia da',['ama','naiz'],'Esta es mi familia'),
+    T('Mi madre',['nire ama']),
+  ]},
+  { id:'l59', title:'Hermanos y hermanas', ex:[
+    I('Anaia','El hermano'),
+    I('Ahizpa','La hermana (de una chica)','En euskera depende de quién hable: si eres chica, tu hermana es tu <b>ahizpa</b>.'),
+    I('Arreba','La hermana (de un chico)','Si eres chico, tu hermana es tu <b>arreba</b>.'),
+    C('Ane es una chica. ¿Cómo llama a su hermana?','',['Ahizpa','Arreba','Anaia'],'Ahizpa'),
+    I('Anaia bat daukat','Tengo un hermano','<b>daukat</b> = tengo. Y <b>bat</b> va detrás.'),
+    I('Bi ahizpa dauzkat','Tengo dos hermanas','Si son varios: <b>dauzkat</b>.'),
+    F('Tengo tres hermanos','Hiru anaia','',['dauzkat','daukat','dira'],'dauzkat'),
+    I('Ez daukat anaiarik','No tengo hermanos','Con <b>ez</b>, anaia pasa a <b>anaiarik</b>.'),
+    M([['Anaia','El hermano'],['Ahizpa','Hermana (de chica)'],['Arreba','Hermana (de chico)'],['Daukat','Tengo (uno)'],['Dauzkat','Tengo (varios)']]),
+    B('es2eu','Tengo un hermano',['Anaia bat daukat'],['dauzkat','bi','ahizpa']),
+    D([{who:'Mikel',eu:'Anaiarik daukazu?',es:'¿Tienes hermanos?'}],['Bai, anaia bat daukat.','Bai, anaia bat dauzkat.','Bai, anaia naiz.'],'Bai, anaia bat daukat.','Sí, tengo un hermano.'),
+    B('eu2es','Nire anaiak hamar urte ditu',['Mi hermano tiene diez años'],['hermana','tengo','cinco']),
+    L('Bi ahizpa dauzkat',['anaia','daukat'],'Tengo dos hermanas'),
+    T('El hermano',['anaia']),
+  ]},
+  { id:'l60', title:'Los abuelos', ex:[
+    I('Amona','La abuela'),
+    I('Aitona','El abuelo'),
+    P('El abuelo','Aitona',['Amona']),
+    I('Aiton-amonak','Los abuelos','Abuelo + abuela, juntos y en plural.'),
+    I('Nire amona oso jatorra da','Mi abuela es muy maja','<b>jatorra</b> = majo, buena gente.'),
+    I('Nire aitona baserrian bizi da','Mi abuelo vive en el caserío','<b>bizi da</b> = vive. El <b>baserri</b> es la casa de campo vasca.'),
+    C('¿Qué significa «Aiton-amonak»?','Aiton-amonak',['Los abuelos','Los padres','Los tíos'],'Los abuelos'),
+    I('Nire amonak laurogei urte ditu','Mi abuela tiene ochenta años','<b>laurogei</b> = 80, literalmente «cuatro veintes»: ¡se cuenta de veinte en veinte!'),
+    M([['Amona','La abuela'],['Aitona','El abuelo'],['Jatorra','Majo/a'],['Bizi da','Vive'],['Laurogei','Ochenta']]),
+    F('Mi abuelo es muy majo','Nire aitona oso jatorra','',['da','naiz','dira'],'da'),
+    B('es2eu','Mi abuela vive en el caserío',['Nire amona baserrian bizi da'],['aitona','naiz','baserria']),
+    D([{who:'Mikel',eu:'Non bizi dira zure aiton-amonak?',es:'¿Dónde viven tus abuelos?'}],['Baserrian bizi dira.','Baserrian bizi naiz.','Baserria dira.'],'Baserrian bizi dira.','Viven en el caserío.'),
+    L('Nire aitona oso jatorra da',['amona','dira'],'Mi abuelo es muy majo'),
+    T('La abuela',['amona']),
+  ]},
+  { id:'l61', title:'Tíos, primos e hijos', ex:[
+    I('Izeba','La tía'),
+    I('Osaba','El tío'),
+    P('La tía','Izeba',['Osaba']),
+    I('Lehengusua','El primo'),
+    I('Lehengusina','La prima','Con <b>-sina</b> al final es femenino: lehengusu<b>a</b> → lehengu<b>sina</b>.'),
+    C('¿Qué significa «Lehengusina»?','Lehengusina',['La prima','El primo','La tía'],'La prima'),
+    I('Semea','El hijo'),
+    I('Alaba','La hija'),
+    M([['Izeba','La tía'],['Osaba','El tío'],['Lehengusua','El primo'],['Semea','El hijo'],['Alaba','La hija']]),
+    I('Nire izebak bi alaba dauzka','Mi tía tiene dos hijas','<b>dauzka</b> = tiene (varios). Quien tiene lleva <b>-k</b>: izeba<b>k</b>.'),
+    B('es2eu','Tengo un primo',['Lehengusu bat daukat'],['lehengusina','dauzkat','bi']),
+    B('eu2es','Nire osaba arrantzalea da',['Mi tío es pescador'],['tía','primo','soy']),
+    L('Nire lehengusina Bilbon bizi da',['osaba','dira'],'Mi prima vive en Bilbao'),
+    T('El tío',['osaba']),
+  ]},
+  { id:'l62', title:'Fotos de familia', final:true, ex:[
+    I('Argazkia','La foto'),
+    I('Nor da hau?','¿Quién es este / esta?','<b>nor</b> = quién · <b>hau</b> = este / esta.'),
+    convo(0,CONV11),
+    convo(1,CONV11),
+    B('es2eu','¿Quién es esta?',['Nor da hau?'],['nor','zara','zer']),
+    convo(2,CONV11),
+    convo(3,CONV11),
+    I('Familia polita daukazu!','¡Tienes una familia bonita!','<b>polita</b> = bonito / bonita.'),
+    convo(4,CONV11),
+    M([['Argazkia','La foto'],['Nor?','¿Quién?'],['Hau','Este / esta'],['Polita','Bonito/a'],['Bizi dira','Viven']]),
+    L('Hau nire anaia da eta hau nire ahizpa',['ama','naiz'],'Este es mi hermano y esta, mi hermana'),
+    T('¿Quién es este?',['nor da hau']),
   ]},
 ]},
 { id:'u5', n:5, title:'Los días', sub:'La semana, hoy, ayer, mañana y quedar', color:'#d9841c', dark:'#a5620f',
@@ -1428,6 +1547,100 @@ const UNITS=[
     T('A las dos',['ordu bietan','bietan']),
   ]},
 ]},
+{ id:'u13', n:13, title:'Los colores', sub:'Koloreak: colores, la manzana roja y los colores de Euskadi', color:'#8e3fa8', dark:'#6c2f80',
+  tips:`<h3>Los colores (koloreak)</h3>
+  <table><tbody>
+  <tr><td>gorria</td><td>rojo</td></tr><tr><td>urdina</td><td>azul</td></tr><tr><td>berdea</td><td>verde</td></tr><tr><td>horia</td><td>amarillo (la h no suena)</td></tr>
+  <tr><td>zuria</td><td>blanco</td></tr><tr><td>beltza</td><td>negro</td></tr><tr><td>laranja</td><td>naranja (¡como la fruta!)</td></tr><tr><td>arrosa</td><td>rosa</td></tr>
+  <tr><td>morea</td><td>morado</td></tr><tr><td>marroia</td><td>marrón</td></tr><tr><td>grisa</td><td>gris</td></tr>
+  </tbody></table>
+  <h3>El color va detrás</h3>
+  <p>Como en español, el color va detrás del nombre, y la <b>-a</b> (el, la) se pone al final de todo:</p>
+  <table><tbody>
+  <tr><td>sagar gorria</td><td>la manzana roja</td></tr><tr><td>sagar gorri bat</td><td>una manzana roja</td></tr><tr><td>bi sagar gorri</td><td>dos manzanas rojas</td></tr><tr><td>sagar gorriak</td><td>las manzanas rojas</td></tr>
+  </tbody></table>
+  <h3>Preguntar el color</h3>
+  <p><i>Zer kolore da?</i> = ¿De qué color es? → <i>Horia da</i> = Es amarillo. En plural: <i>Mendiak berdeak <b>dira</b></i> = los montes son verdes.</p>
+  <h3>Los colores de Euskadi</h3>
+  <p>El mar Cantábrico (<i>itsasoa</i>), los montes verdes, los caseríos blancos con tejado rojo, la txapela negra… y la ikurriña, que tiene tres colores: <i>gorria, berdea eta zuria</i>.</p>`,
+  lessons:[
+  { id:'l53', title:'Rojo, azul y verde', ex:[
+    I('Kolorea','El color'),
+    I('Gorria','Rojo','Como la <b>txapela gorria</b> de las fiestas.'),
+    I('Urdina','Azul'),
+    P('Rojo','Gorria',['Urdina']),
+    I('Berdea','Verde'),
+    I('Horia','Amarillo','La <b>h</b> no suena: «oria».'),
+    P('Amarillo','Horia',['Berdea','Gorria']),
+    C('¿Qué significa «Urdina»?','Urdina',['Azul','Verde','Negro'],'Azul'),
+    M([['Gorria','Rojo'],['Urdina','Azul'],['Berdea','Verde'],['Horia','Amarillo'],['Zuria','Blanco']]),
+    I('Zer kolore da?','¿De qué color es?'),
+    D([{who:'Mikel',eu:'Eguzkia zer kolore da?',es:'¿De qué color es el sol?'}],['Horia da.','Horia naiz.','Urdina da.'],'Horia da.','Es amarillo.'),
+    B('es2eu','Rojo, azul y verde',['Gorria, urdina eta berdea'],['horia','zuria','da']),
+    L('Gorria eta urdina',['berdea','horia'],'Rojo y azul'),
+    T('Verde',['berdea']),
+  ]},
+  { id:'l54', title:'Más colores', ex:[
+    I('Laranja','Naranja (el color)','¡Igual que la fruta! <b>Laranja laranja da</b>: la naranja es naranja.'),
+    I('Arrosa','Rosa'),
+    I('Morea','Morado'),
+    P('Morado','Morea',['Arrosa']),
+    I('Marroia','Marrón'),
+    I('Grisa','Gris'),
+    P('Marrón','Marroia',['Grisa','Morea']),
+    M([['Laranja','Naranja'],['Arrosa','Rosa'],['Morea','Morado'],['Marroia','Marrón'],['Grisa','Gris']]),
+    C('¿Cómo se dice «gris»?','',['Grisa','Morea','Beltza'],'Grisa'),
+    I('Ostadarra','El arcoíris','¡Búscalo en el paisaje de esta unidad!'),
+    B('eu2es','Laranja laranja da',['La naranja es naranja'],['rosa','roja','soy']),
+    F('El cielo es gris','Zerua grisa','',['da','naiz','dira'],'da'),
+    L('Arrosa, morea eta grisa',['marroia','laranja'],'Rosa, morado y gris'),
+    T('Rosa',['arrosa']),
+  ]},
+  { id:'l55', title:'La manzana roja', ex:[
+    I('Sagar gorria','La manzana roja','El color va <b>detrás</b> y la <b>-a</b> al final de todo: sagar + gorri<b>a</b>.'),
+    I('Txakur beltza','El perro negro'),
+    C('¿Cómo se dice «el gato blanco»?','',['Katu zuria','Katua zuria','Zuri katua'],'Katu zuria'),
+    I('Sagar gorri bat','Una manzana roja','Con <b>bat</b>: sagar + gorri + bat. ¡Como «katu zuri bat»!'),
+    I('Bi sagar gorri','Dos manzanas rojas','Tras el número, sin <b>-a</b> ni plural.'),
+    I('Sagar gorriak','Las manzanas rojas','Plural: <b>-ak</b> al final de todo.'),
+    F('Tengo tres ovejas blancas','Hiru ardi zuri','',['dauzkat','daukat','dira'],'dauzkat'),
+    M([['Sagar gorria','La manzana roja'],['Sagar gorriak','Las manzanas rojas'],['Sagar gorri bat','Una manzana roja'],['Bi sagar gorri','Dos manzanas rojas'],['Txakur beltza','El perro negro']]),
+    B('es2eu','Tengo un perro marrón',['Txakur marroi bat daukat'],['marroia','dauzkat','katu']),
+    B('eu2es','Bi katu beltz dauzkat',['Tengo dos gatos negros'],['blancos','perros','tres']),
+    D([{who:'Mikel',eu:'Zer nahi duzu?',es:'¿Qué quieres?'}],['Sagar gorri bat, mesedez.','Sagar gorria bat, mesedez.','Gorri sagar bat, mesedez.'],'Sagar gorri bat, mesedez.','Una manzana roja, por favor.'),
+    L('Hiru ardi zuri eta ardi beltz bat',['gorria','bi'],'Tres ovejas blancas y una oveja negra'),
+    T('La manzana roja',['sagar gorria']),
+  ]},
+  { id:'l56', title:'Los colores de Euskadi', ex:[
+    I('Itsasoa urdina da','El mar es azul','<b>itsasoa</b> = el mar, como el Cantábrico.'),
+    I('Mendiak berdeak dira','Los montes son verdes','En plural el color también lleva <b>-ak</b>, y el verbo es <b>dira</b> (son).'),
+    C('¿Qué significa «Belarra berdea da»?','Belarra berdea da',['La hierba es verde','El monte es verde','El mar es verde'],'La hierba es verde'),
+    I('Baserria zuria eta gorria da','El caserío es blanco y rojo','Paredes blancas y tejado rojo, como los del camino.'),
+    I('Ikurriñak hiru kolore ditu','La ikurriña tiene tres colores','La bandera vasca: <b>gorria, berdea eta zuria</b>.'),
+    I('Ardo beltza gorria da!','¡El vino «negro» es rojo!','¿Te acuerdas? Al vino tinto se le llama <b>ardo beltza</b>, aunque sea rojo.'),
+    M([['Itsasoa','El mar'],['Mendiak','Los montes'],['Belarra','La hierba'],['Zerua','El cielo'],['Ikurriña','La bandera vasca']]),
+    B('es2eu','El mar es azul',['Itsasoa urdina da'],['berdea','dira','zerua']),
+    F('Los montes son verdes','Mendiak berdeak','',['dira','da','naiz'],'dira'),
+    B('eu2es','Txapela beltza da',['La txapela es negra'],['roja','blanca','son']),
+    D([{who:'Mikel',eu:'Ikurriñak zenbat kolore ditu?',es:'¿Cuántos colores tiene la ikurriña?'}],['Hiru: gorria, berdea eta zuria.','Bi: gorria eta urdina.','Hiru kolore naiz.'],'Hiru: gorria, berdea eta zuria.','Tres: rojo, verde y blanco.'),
+    L('Mendiak berdeak dira eta itsasoa urdina da',['zerua','gorria'],'Los montes son verdes y el mar es azul'),
+    T('El mar',['itsasoa']),
+  ]},
+  { id:'l57', title:'Mi color favorito', final:true, ex:[
+    I('Zein da zure kolore gogokoena?','¿Cuál es tu color favorito?','Como con los animales y las estaciones.'),
+    I('Polita','Bonito / bonita'),
+    I('Bezala','Como (al comparar)','<b>itsasoa bezala</b> = como el mar.'),
+    convo(0,CONV10),
+    convo(1,CONV10),
+    B('es2eu','Mi color favorito es el rojo',['Nire kolore gogokoena gorria da'],['zure','naiz','gorriak']),
+    convo(2,CONV10),
+    convo(3,CONV10),
+    convo(4,CONV10),
+    M([['Polita','Bonito'],['Bezala','Como'],['Gogokoena','Favorito'],['Kolorea','El color'],['Zergatik?','¿Por qué?']]),
+    L('Nire kolore gogokoena urdina da',['berdea','zure'],'Mi color favorito es el azul'),
+    T('¿De qué color es?',['zer kolore da']),
+  ]},
+]},
 ];
 const ALL=UNITS.flatMap(u=>u.lessons.map(l=>({...l,unit:u})));
 
@@ -1563,7 +1776,7 @@ function renderHome(){
   const offs=[0,56,84,56,0,-56,-84,-56];
   let gi=0;
   UNITS.forEach(u=>{
-    h+=`<section class="unit" style="--u:${u.color};--ud:${u.dark}"><header class="unit-head"><div><p class="eyebrow">Unidad ${u.n}</p><h2>${u.title}</h2><p class="sub">${u.sub}</p></div>
+    h+=`<section class="unit" style="--u:${u.color};--ud:${u.dark}"><header class="unit-head"><div><p class="eyebrow">Unidad ${UNITS.indexOf(u)+1}</p><h2>${u.title}</h2><p class="sub">${u.sub}</p></div>
       <button class="tips-btn" data-tips="${u.id}">${ICON.book}Consejos</button></header><div class="path" data-u="${u.id}">`;
     u.lessons.forEach((l,li)=>{
       const idx=ALL.findIndex(x=>x.id===l.id);
@@ -1660,6 +1873,9 @@ function drawTrails(){document.querySelectorAll('.path').forEach((pth,pi)=>{pth.
     <rect x="31" y="-24" width="22" height="24" rx="6" fill="#a8794f" stroke="#6e4c33" stroke-width="1.8"/><path d="M31 -17h22M31 -7h22" stroke="#6e4c33" stroke-width="1.6"/>
     <ellipse cx="42" cy="-24" rx="11" ry="3" fill="#c49a6c" stroke="#6e4c33" stroke-width="1.4"/>
     <path d="M35 -35h5l-.6 9h-3.8z" fill="#7a1f2e" stroke="#4a3a33" stroke-width=".8"/><path d="M44 -34h5l-.6 8h-3.8z" fill="#e8b93c" stroke="#4a3a33" stroke-width=".8"/><path d="M44 -34h5v1.6h-5z" fill="#fbfaf6"/></g>`;
+  /* arcoíris (ostadarra) con dos nubes */
+  const ostadarra=(x,y)=>`<g transform="translate(${x} ${y}) scale(${W<400?.8:1})">${['#d52b1e','#e2701c','#e8b93c','#00923f','#1f6f8b','#7a4fa3'].map((c,k)=>{const r=52-k*5.2;return `<path d="M${-r} 0A${r} ${r} 0 0 1 ${r} 0" fill="none" stroke="${c}" stroke-width="5.4" opacity=".85"/>`;}).join('')}
+    ${[-46,46].map(cx=>`<g fill="var(--wall)" stroke="var(--line)" stroke-width="1.6"><circle cx="${cx-10}" cy="-2" r="9"/><circle cx="${cx+10}" cy="-2" r="9"/><circle cx="${cx}" cy="-8" r="12"/></g><rect x="${cx-19}" y="-4" width="38" height="8" fill="var(--wall)"/>`).join('')}</g>`;
   /* piedra de levantar, con su forma de cubo redondeado */
   const harri=(x,y)=>`<g transform="translate(${x} ${y})"><rect x="-17" y="-26" width="34" height="26" rx="9" fill="#9aa19c" stroke="#6f7671" stroke-width="2"/><path d="M-9 -18H9" stroke="#6f7671" stroke-width="2" stroke-linecap="round" opacity=".6"/></g>`;
   const clamp=(v,m)=>Math.min(W-m,Math.max(m,v));
@@ -1667,7 +1883,9 @@ function drawTrails(){document.querySelectorAll('.path').forEach((pth,pi)=>{pth.
   const isHello=pth.dataset.u==='u1';
   const isNum=pth.dataset.u==='u4';
   const isBar=pth.dataset.u==='u11';
+  const isColor=pth.dataset.u==='u13';
   let deco='';pts.forEach(([x,y],i)=>{const side=x>W/2?-1:1;const k=(i+pi*2)%5;const big=W>290;
+    if(isColor&&big&&(i===1||i===3)){const cx=x+side*(W<400?120:140);deco+=ostadarra(Math.min(W-(W<400?56:66),Math.max(W<400?56:66,cx)),y+10);return;}
     if(isBar&&big&&(i===1||i===3)){const cx=x+side*(W<400?115:130);deco+=taberna(Math.min(W-(W<400?50:58),Math.max(42,cx)),y+28);return;}
     if(isNum&&big&&(i===1||i===4)){const cx=x+side*(W<400?115:130);deco+=eliza(Math.min(W-(W<400?62:72),Math.max(24,cx)),y+30);return;}
     if(isHello&&i===0){deco+=hizketan(clamp(x+side*(W<400?118:135),W<400?54:62),y+28);return;}
@@ -1712,7 +1930,7 @@ const SONG_END=[{eu:'A|gur, |a|gur, |ge|ro |ar|te!',es:'¡Adiós, adiós, hasta 
 const VERSE_CONTOUR=[[60,62,64,65,67,65,64,62,60],[64,65,67,69,67,65,64,62,64],[65,67,69,71,72,71,69,67,65],[67,65,64,62,64,62,60,59,60]];
 const VERSE_CHORDS=[['C','F'],['C','G'],['F','C'],['G','C']];
 const DUR={6:[1,1,1,1,2,2],7:[1,1,1,1,1,1,2],8:[1,1,1,1,1,1,1,1],9:[.5,.5,1,1,1,1,1,1,1]};
-const ROOT={C:48,F:53,G:55};
+const ROOT={C:48,D:50,F:53,G:55};
 function buildSong(){const lines=[];
   const add=(label,arr,isVerse)=>arr.forEach((l,li)=>{const syl=l.eu.split('|');let m=l.m;
     if(!m){const c=VERSE_CONTOUR[li],n=syl.length,p=c.slice(0,n-1).concat([c[c.length-1]]);m=p.map((x,i)=>[x,DUR[n][i]]);}
@@ -1747,13 +1965,35 @@ function buildAldapeko(){const A=57,C=48,E=52,F=53,G=55;
       ['Zu|bi|bu|ru |ze|la|ie|ko,','Del prado de Zubiburu,'],['oi|ha|na|ren |zo|lan,','en el fondo del bosque,'],['zo|la|ren |zo|lan,','en lo más hondo,'],
       ['li|li |bat |ba|da |bei|la|ri.','hay una flor vigilando.'],['Txi|ru|li|ru|li, |txi|ru|li|ru|li,','Txiruliruli, txiruliruli,'],['nork |bil|du|ko |o|te |du |li|li |xar|mant |ho|ri?','¿quién cogerá esa flor tan bonita?']],M4b)];
   return finalizeSong(lines);}
+/* «Euskaraz, bai!»: canción original de Kaixo (letra y melodía propias). Sol mayor. */
+function buildEuskaraz(){
+  const CH=[
+    {eu:'Eus|ka|raz, |eus|ka|raz, |bai!',es:'¡En euskera, en euskera, sí!',m:[[67,.5],[71,.5],[74,1],[67,.5],[71,.5],[74,1],[79,3]],ch:['G','D']},
+    {eu:'Ka|le|an |e|ta |e|txe|an,',es:'En la calle y en casa,',m:[[76,.5],[76,.5],[74,1],[72,.5],[71,.5],[72,1],[74,1],[71,2]],ch:['C','G']},
+    {eu:'la|gu|ne|kin |e|ta |fa|mi|li|an,',es:'con los amigos y en familia,',m:[[72,.5],[72,.5],[72,.5],[74,.5],[76,.5],[74,.5],[72,.5],[71,.5],[69,1],[67,2]],ch:['C','D']},
+    {eu:'eus|ka|raz |bi|zi |ga|ra |gu!',es:'¡en euskera vivimos nosotros!',m:[[69,.5],[71,.5],[72,1],[74,.5],[76,.5],[74,1],[71,1],[67,2]],ch:['D','G']}];
+  const V=[
+    [['Goi|ze|an |es|na|tzen |naiz,','Por la mañana me despierto,'],['«E|gun |on!» |e|sa|ten |dut,','digo «¡buenos días!»,'],['ka|fe |bat |e|ta |o|gi|a,','un café y pan,'],['e|ta |ka|le|ra |no|a!','¡y me voy a la calle!']],
+    [['Os|ti|ra|le|an |koa|dri|la,','El viernes, la cuadrilla,'],['pin|txo|ak |e|ta |kan|tu|ak,','pintxos y canciones,'],['«To|pa!» |e|sa|ten |du|gu,','decimos «¡salud!»,'],['de|nok |ba|te|ra, |po|zik!','¡todos juntos, contentos!']],
+    [['Ez |da|kit |de|na |o|rain|dik,','Todavía no lo sé todo,'],['bai|na |e|gu|ne|ro |i|kas|ten |dut:','pero aprendo cada día:'],['hitz |bat, |bi, |hi|ru, |lau…','una palabra, dos, tres, cuatro…'],['eus|ka|ra |ni|re|a |da!','¡el euskera es mío!']]];
+  const CON=[[67,69,71,72,74,72,71,69,67,67],[71,72,74,76,74,72,71,69,71,71],[72,74,76,74,72,71,69,71,72,72],[74,72,71,69,71,69,67,66,67,67]];
+  const DU={6:[1,1,1,1,2,2],7:[1,1,1,1,1,1,2],8:[1,1,1,1,1,1,1,1],9:[.5,.5,1,1,1,1,1,1,1],10:[.5,.5,.5,.5,1,1,1,1,1,1]};
+  const VCH=[['G','C'],['G','D'],['C','G'],['D','G']];
+  const lines=[];
+  const chorus=()=>CH.forEach((l,i)=>lines.push({label:i===0?'Estribillo':null,syl:l.eu.split('|'),es:l.es,m:l.m,ch:l.ch}));
+  const verse=(n,v)=>v.forEach(([eu,es],i)=>{const syl=eu.split('|'),k=syl.length,c=CON[i];const p=c.slice(0,k-1).concat([c[c.length-1]]);
+    lines.push({label:i===0?'Estrofa '+n:null,syl,es,m:p.map((x,j)=>[x,DU[k][j]]),ch:VCH[i]});});
+  chorus();verse(1,V[0]);chorus();verse(2,V[1]);chorus();verse(3,V[2]);chorus();
+  lines.push({label:'Final',syl:'Eus|ka|raz, |bai! |Ge|ro |ar|te!'.split('|'),es:'¡En euskera, sí! ¡Hasta luego!',m:[[67,.5],[71,.5],[74,1],[79,2],[76,.5],[74,.5],[71,1],[67,2]],ch:['D','G']});
+  return finalizeSong(lines);}
 const SONGS={
   latxa:{title:'Latxa eta lagunak',sub:'Latxa y sus amigos · canción original de Kaixo',card:'Canta con Latxa una canción con palabras de las lecciones.',eyebrow:'Canción de Kaixo',data:buildSong(),bpm:[100,76]},
+  euskaraz:{title:'Euskaraz, bai!',sub:'¡En euskera, sí! · canción original de Kaixo',card:'Para celebrar que vives en euskera: en casa, en la calle y con la cuadrilla.',eyebrow:'Canción de Kaixo',data:buildEuskaraz(),bpm:[108,80]},
   aldapeko:{title:'Aldapeko sagarraren',sub:'Canción popular vasca · letra y melodía tradicionales',card:'La canción tradicional del pajarito que canta en la punta del manzano.',eyebrow:'Canción tradicional',data:buildAldapeko(),bpm:[96,70]},
 };
 let SONGDATA=SONGS.latxa.data;
 let SG=null; /* estado del reproductor */
-function songCard(){return `<section class="songs"><p class="songs-title">${ICON.music} Abestiak · Canciones</p>${Object.entries(SONGS).map(([id,S])=>`<div class="song-card"><div class="song-ic">${ICON.music}</div><div class="song-txt"><p class="eyebrow">${S.eyebrow}</p><h2>${S.title}</h2><p>${S.card}</p></div><button class="btn small" data-song="${id}">Escuchar</button></div>`).join('')}</section>`;}
+function songCard(){return `<section class="songs"><p class="songs-title">${ICON.music} Abestiak · Canciones</p><div class="songs-grid">${Object.entries(SONGS).map(([id,S])=>`<button class="song-tile" data-song="${id}" aria-label="Escuchar la canción ${esc(S.title)}"><span class="song-ic">${ICON.music}</span><span class="song-name">${esc(S.title)}</span><span class="song-kind">${S.eyebrow==='Canción tradicional'?'Tradicional':'De Kaixo'}</span></button>`).join('')}</div></section>`;}
 function openSong(id){if(typeof id!=='string')id='latxa';const S=SONGS[id];SONGDATA=S.data;const el=$('#song');SG={ctx:null,playing:false,slow:false,showEs:true,from:0,t0:0,raf:0,cur:-1,bpm:S.bpm};
   el.innerHTML=`<div class="ls-top"><button class="close" id="songClose" aria-label="Cerrar la canción">${ICON.close}</button><div class="song-head"><h2>${esc(S.title)}</h2><p>${esc(S.sub)}</p></div></div>
    <div class="ls-body" id="songBody"><div class="ls-inner song-lyrics" id="lyrics">${SONGDATA.lines.map((L,i)=>`${L.label?`<p class="sec-label">${L.label}</p>`:''}<button class="sl" data-i="${i}"><span class="eu">${L.syl.map((x,j)=>`<span class="sy" data-j="${j}">${esc(x)}</span>`).join('')}</span><span class="es">${esc(L.es)}</span></button>`).join('')}</div></div>
@@ -1892,7 +2132,7 @@ const GL_EU={
  'kaixo':'hola','agur':'adiós','egun':'día','on':'bueno/a','gabon':'buenas noches','eskerrik':'gracias','asko':'mucho/a','horregatik':'por eso','ez':'no','bai':'sí','mesedez':'por favor',
  'zer':'qué','moduz':'tal','ondo':'bien','oso':'muy','eta':'y','zu':'tú','ni':'yo','naiz':'soy','zara':'eres','da':'es','nor':'quién','nire':'mi','zure':'tu','izena':'el nombre','zein':'cuál',
  'nongoa':'de dónde','bilbokoa':'de Bilbao','donostiakoa':'de San Sebastián','ikaslea':'estudiante','euskara':'euskera','ikasten':'aprendiendo / estudiando','ari':'estar …-ando (ari naiz = estoy)',
- 'bat':'uno / un','bi':'dos','hiru':'tres','lau':'cuatro','bost':'cinco','zenbat':'cuánto/s','euro':'euro(s)','kafe':'café','arratsaldeko':'de la tarde','seiak':'las seis','dira':'son','kalimotxoa':'el kalimotxo','ardo':'vino','beltza':'negro (ardo beltza = vino tinto)','kola':'cola','marmitakoa':'el marmitako','hegaluzez':'con bonito','egiten':'haciendo (egiten da = se hace)','pilotalekua':'el frontón','handia':'grande','partida':'el partido','galdu':'perdido (galdu dut = he perdido)','aizkolariak':'el aizkolari (el que corta)','enborra':'el tronco','mozten':'cortando (mozten du = corta)','aita':'el padre','ama':'la madre','nekazaria':'agricultor/a','sukaldaria':'cocinero/a','jatetxean':'en el restaurante','astelehenetik':'desde el lunes','ostiralera':'hasta el viernes','lan':'trabajo (lan egiten dut = trabajo)','ogia':'el pan','gazta':'el queso','esnea':'la leche','ura':'el agua','laranja':'naranja','platano':'plátano','gose':'hambre (gose naiz = tengo hambre)','jaten':'comiendo (jaten dut = como)','edaten':'bebiendo (edaten dut = bebo)','urte':'año(s)','dituzu':'tienes','ditut':'tengo',
+ 'bat':'uno / un','bi':'dos','hiru':'tres','lau':'cuatro','bost':'cinco','zenbat':'cuánto/s','euro':'euro(s)','kafe':'café','anaiak':'el hermano (el que tiene: -k)','ditu':'tiene (años)','urte':'año(s)','osaba':'el tío','hamar':'diez','arrantzalea':'pescador/a','katu':'gato','beltz':'negro','dauzkat':'tengo (varios)','txapela':'la txapela','laranja':'naranja (fruta y color)','arratsaldeko':'de la tarde','seiak':'las seis','dira':'son','kalimotxoa':'el kalimotxo','ardo':'vino','beltza':'negro (ardo beltza = vino tinto)','kola':'cola','marmitakoa':'el marmitako','hegaluzez':'con bonito','egiten':'haciendo (egiten da = se hace)','pilotalekua':'el frontón','handia':'grande','partida':'el partido','galdu':'perdido (galdu dut = he perdido)','aizkolariak':'el aizkolari (el que corta)','enborra':'el tronco','mozten':'cortando (mozten du = corta)','aita':'el padre','ama':'la madre','nekazaria':'agricultor/a','sukaldaria':'cocinero/a','jatetxean':'en el restaurante','astelehenetik':'desde el lunes','ostiralera':'hasta el viernes','lan':'trabajo (lan egiten dut = trabajo)','ogia':'el pan','gazta':'el queso','esnea':'la leche','ura':'el agua','laranja':'naranja','platano':'plátano','gose':'hambre (gose naiz = tengo hambre)','jaten':'comiendo (jaten dut = como)','edaten':'bebiendo (edaten dut = bebo)','urte':'año(s)','dituzu':'tienes','ditut':'tengo',
  'gaur':'hoy','atzo':'ayer','bihar':'mañana','asteburuan':'el fin de semana (cuándo)','egiten':'haciendo (egiten du = hace)','du':'(auxiliar: lo hace él/ella)','dut':'(auxiliar: lo hago yo)',
  'bero':'calor','hotz':'frío','udan':'en verano','negua':'el invierno','udazkena':'el otoño','daukat':'tengo','dauzkat':'tengo (varios)','katu':'gato','txakur':'perro','ardi':'oveja','zuri':'blanco/a'
 };
@@ -1904,7 +2144,7 @@ const GL_ES={
  'lunes':'astelehena','martes':'asteartea','viernes':'ostirala','sabado':'larunbata','domingo':'igandea','el':'-a (va al final)','la':'-a (va al final)','en':'-n / -an (va al final)','trabajo':'lan egiten dut (yo trabajo) · lana (el trabajo)',
  'hace':'egiten du','sol':'eguzkia','frio':'hotz','esta':'ari du (está …-ando)','lloviendo':'euria ari du','llovera':'euria egingo du','verano':'uda','invierno':'negu','primavera':'udaberri',
  'perro':'txakur','gato':'katu','gatos':'katu (sin plural tras número)','oveja':'ardi','ovejas':'ardi','caballos':'zaldi','pequeno':'txiki','hay':'dago (uno) · daude (varios)','caserio':'baserri','al':'-ra (al caserío = baserrira)','voy':'noa',
- 'acuerdo':'(de acuerdo = ados)','sabado':'larunbata (el sábado = larunbatean)','salgo':'ateratzen naiz','amigos':'lagunak (con los amigos = lagunekin)','los':'-ak (plural, al final)','vamos':'goaz','bar':'taberna','pintxo':'pintxo','tortilla':'tortilla','kalimotxo':'kalimotxo','marmitako':'marmitakoa','rico':'goxo(a)','cebolla':'tipula (con cebolla = tipularekin)','con':'-ekin / -rekin (al final)','claro':'noski','sin':'-rik gabe','salud':'topa!','son':'dira','tres':'hiru (las tres = hirurak)','nueve':'bederatzi (las nueve = bederatziak)','once':'hamaika (las once = hamaikak)','media':'erdi (y media = eta erdi)','ocho':'zortzi (las ocho = zortziak)','perdon':'barkatu','hora':'ordu (¿qué hora es? = zer ordu da?)','tarde':'arratsalde (de la tarde = arratsaldeko) · berandu (con retraso)','minutos':'minutu (sin plural tras número)','bacalao':'bakailao(a)','patatas':'patatak','juego':'jokatzen dut','nado':'igeri egiten dut','he':'dut (he ganado = irabazi dut)','baloncesto':'saskibaloi(a) (al baloncesto = saskibaloian)','pelota':'pilota (a pelota = pilotan)','mano':'esku (a mano = eskuz)','piedra':'harri(a)','muy':'oso','grande':'handi(a)','quien':'nork (quien hace algo)','ganado':'irabazi (ha ganado = irabazi du)','ha':'du (ha ganado = irabazi du)','partido':'partida','frontón':'pilotalekua','fronton':'pilotalekua','enfermera':'erizain(a)','madre':'ama','ingeniera':'ingeniari(a)','escuela':'eskola (en la escuela = eskolan)','empiezo':'hasten naiz','a':'(a las ocho = zortzietan: -etan al final)','las':'(a las ocho = zortzietan: -etan al final)','ocho':'zortzi (a las ocho = zortzietan)','mucho':'asko (va detrás)','donde':'non','trabajas':'lan egiten duzu','profesor':'irakasle(a)','contento':'pozik','estoy':'nago (estoy contento = pozik nago)','pan':'ogi(a)','queso':'gazta','leche':'esne(a)','agua':'ur(a)','como':'jaten dut','gusta':'gustatzen zait','me':'(me gusta = gustatzen zait)','cafe':'kafe(a)','mucha':'oso (oso gose = mucha hambre)','hambre':'gose','cuenta':'kontua','manzana':'sagar(ra)','tambien':'ere bai'
+ 'acuerdo':'(de acuerdo = ados)','sabado':'larunbata (el sábado = larunbatean)','salgo':'ateratzen naiz','amigos':'lagunak (con los amigos = lagunekin)','los':'-ak (plural, al final)','vamos':'goaz','bar':'taberna','pintxo':'pintxo','tortilla':'tortilla','kalimotxo':'kalimotxo','marmitako':'marmitakoa','rico':'goxo(a)','cebolla':'tipula (con cebolla = tipularekin)','con':'-ekin / -rekin (al final)','claro':'noski','sin':'-rik gabe','salud':'topa!','este':'hau','esta':'hau','padre':'aita','tio':'osaba','abuela':'amona','vive':'bizi da','caserio':'baserri (en el caserío = baserrian)','primo':'lehengusu(a)','hermano':'anaia','quien':'nor (¿quién es?) · nork (quien hace algo)','rojo':'gorri(a)','roja':'gorri(a)','rosa':'arrosa','azul':'urdin(a)','verde':'berde(a)','tengo':'daukat (uno) · dauzkat (varios) · ditut (años)','perro':'txakur(ra)','marron':'marroi(a)','mar':'itsaso(a)','color':'kolore(a)','favorito':'gogokoena','son':'dira','tres':'hiru (las tres = hirurak)','nueve':'bederatzi (las nueve = bederatziak)','once':'hamaika (las once = hamaikak)','media':'erdi (y media = eta erdi)','ocho':'zortzi (las ocho = zortziak)','perdon':'barkatu','hora':'ordu (¿qué hora es? = zer ordu da?)','tarde':'arratsalde (de la tarde = arratsaldeko) · berandu (con retraso)','minutos':'minutu (sin plural tras número)','bacalao':'bakailao(a)','patatas':'patatak','juego':'jokatzen dut','nado':'igeri egiten dut','he':'dut (he ganado = irabazi dut)','baloncesto':'saskibaloi(a) (al baloncesto = saskibaloian)','pelota':'pilota (a pelota = pilotan)','mano':'esku (a mano = eskuz)','piedra':'harri(a)','muy':'oso','grande':'handi(a)','quien':'nork (quien hace algo)','ganado':'irabazi (ha ganado = irabazi du)','ha':'du (ha ganado = irabazi du)','partido':'partida','frontón':'pilotalekua','fronton':'pilotalekua','enfermera':'erizain(a)','madre':'ama','ingeniera':'ingeniari(a)','escuela':'eskola (en la escuela = eskolan)','empiezo':'hasten naiz','a':'(a las ocho = zortzietan: -etan al final)','las':'(a las ocho = zortzietan: -etan al final)','ocho':'zortzi (a las ocho = zortzietan)','mucho':'asko (va detrás)','donde':'non','trabajas':'lan egiten duzu','profesor':'irakasle(a)','contento':'pozik','estoy':'nago (estoy contento = pozik nago)','pan':'ogi(a)','queso':'gazta','leche':'esne(a)','agua':'ur(a)','como':'jaten dut','gusta':'gustatzen zait','me':'(me gusta = gustatzen zait)','cafe':'kafe(a)','mucha':'oso (oso gose = mucha hambre)','hambre':'gose','cuenta':'kontua','manzana':'sagar(ra)','tambien':'ere bai'
 };
 function hintify(text,lang){const G=lang==='eu'?GL_EU:GL_ES;
   return String(text).split(/(\s+)/).map(tok=>{const m=tok.match(/^([¿¡«"]*)(.*?)([?!.,»"]*)$/);if(!m||!m[2])return esc(tok);
