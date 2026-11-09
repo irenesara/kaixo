@@ -1,5 +1,7 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<script>/* Contador anónimo de visitas (GoatCounter): solo en la web publicada */
+if(location.hostname==="irenesara.github.io"){var gc=document.createElement("script");gc.async=true;gc.src="https://gc.zgo.at/count.js";gc.setAttribute("data-goatcounter","https://irenesara.goatcounter.com/count");document.head.appendChild(gc);}</script>
 <title>Kaixo Euskara</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1792,7 +1794,7 @@ function renderHome(){
     });
     h+=`</div></section>`;
   });
-  h+=`<div class="foot-note"><p>Prototipo · ${UNITS.length} unidades · ${ALL.length} lecciones · unas ${ALL.reduce((a,l)=>a+l.ex.length,0)} actividades</p>
+  h+=`<div class="foot-note"><p>${UNITS.length} unidades · ${ALL.length} lecciones · unas ${ALL.reduce((a,l)=>a+l.ex.length,0)} actividades</p><p style="font-size:12px">En la web se cuentan las visitas de forma anónima (GoatCounter), sin cookies ni datos personales.</p>
      <button class="link-btn" id="resetBtn">Borrar mi progreso</button></div>`;
   $('#home').innerHTML=h;
   document.querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{
